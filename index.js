@@ -1,12 +1,16 @@
-require('dotenv').config()
+var createServer = require('./server')
 
-var requestToken = require('./requests/requestToken')
-var searchSongs = require('./requests/searchSongs')
+createServer()
 
-token = requestToken(function (token) {
- console.log(token)
-
- searchSongs("hello", token, function(songs) {
-   console.log(songs)
- })
-})
+// require('dotenv').config()
+//
+// var requestToken = require('./requests/requestToken')
+// var searchSongs = require('./requests/searchSongs')
+//
+// token = requestToken(function (token) {
+//  console.log(token)
+//
+//  searchSongs("hello", token, function(songs) {
+//    console.log(songs)
+//  })
+// })
