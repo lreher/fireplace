@@ -12,6 +12,7 @@
     "browserify": "^16.5.0",
     "dotenv": "^8.2.0",
     "node-router": "^0.1.6",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "sea-lion": "^2.0.2"
   }
 }

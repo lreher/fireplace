@@ -1,13 +1,11 @@
-var Router = require('node-router')
+var SeaLion = require('sea-lion')
 
 module.exports = function() {
-  var router = Router()
-
-  router.push('GET', '.', routeHandler)
+  var router = new SeaLion({
+    '/': function(request, response, token) {
+      console.log(request)
+    }
+  })
 
   return router
-}
-
-function routeHandler(req, res, next) {
-  res.send("hi")
 }
