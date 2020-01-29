@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "superagent": "^5.2.1",
     "watchify": "^3.11.1"
   }
 }
