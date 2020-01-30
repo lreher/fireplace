@@ -7,7 +7,7 @@ var secretKey = process.env.CLIENT_SECRET
 module.exports = function(callback) {
   var authorizationText = (clientID + ':' + secretKey)
   var base64Auth = Buffer.from(authorizationText).toString('base64')
-
+  console.log('hiiii')
   request.post({
     url: 'https://accounts.spotify.com/api/token',
     json: true,

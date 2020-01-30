@@ -15,7 +15,7 @@
 module.exports = function(data) {
   console.log("Making a request with " + JSON.stringify(data))
 
-  var url = 'http://localhost:8080/'
+  var url = 'http://localhost:8080/' + JSON.stringify(data)
   var http_req = new XMLHttpRequest();
 
   http_req.onreadystatechange = function() {

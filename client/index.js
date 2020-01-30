@@ -6,5 +6,5 @@ var searchButton = document.getElementById('searchButton')
 searchButton.addEventListener('click', function() {
   console.log(searchBar.value)
 
-  apiCall({test: "test"})
+  apiCall(searchBar.value)
 })
