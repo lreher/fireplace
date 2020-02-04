@@ -1,20 +1,20 @@
-var request = require('request')
+var axios = require('axios')
 
 module.exports = function(query, token, callback) {
   queryString = "?q=" + query.replace(/\s/g , "+") + "&type=track"
-
-  request.get({
+  console.log(token)
+  console.log(queryString)
+  axios({
+    method: 'GET',
     url: 'https://api.spotify.com/v1/search' + queryString,
     json: true,
     headers: {
       'Authorization': 'Bearer ' + token
     }
-  },
-  function(error, response, body) {
-    if (!error) {
-      callback(body.tracks.items)
-    } else {
-      console.log('haha')
-    }
   })
+  .then(result => {
+    console.log(result)
+    callback(null, result.data.tracks.items)
+  })
+  .catch(callback)
 }

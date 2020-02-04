@@ -12,29 +12,43 @@ module.exports = function(request, response) {
   if (url === '/') {
     servePath = path.resolve(__dirname, "../client/static/index.html")
 
-    fs.readFile(servePath, function(error, content) {
-      response.writeHead(200, { 'Content-Type': 'text/html' })
-      response.end(content, 'utf-8')
-    })
-  } else if (url === '/index.js') {
+    response.writeHead(200, { 'Content-Type': 'text/html' })
+    fs.createReadStream(servePath, 'utf-8').pipe(response)
+  }
+  else if (url === '/index.js') {
     // God I hope we dOnt UsE  C    S      S
     servePath = path.resolve(__dirname, "../client/static/index.js")
 
-    fs.readFile(servePath, function(error, content) {
-      response.writeHead(200, { 'Content-Type': 'text/json' })
-      response.end(content, 'utf-8')
-    })
-  } else {
+    response.writeHead(200, { 'Content-Type': 'text/json' })
+    fs.createReadStream(servePath, 'utf-8').pipe(response)
+  }
+  else {
     // Clearly we shouln't take anything else into consideration
     song = url.replace(/(\/*%22)/g, '').replace(/(%20)/g, ' ')
-    console.log(song)
-    
-    controller.requestToken(function(token) {
+
+    // Get Access Token on App Start
+    controller.requestToken(function(error, token) {
+      if (error) {
+        response.writeHead(500);
+        response.end("Failed Authorization with Spotify! Damn Gatekeepers.");
+        return;
+      }
       console.log(token)
+
+      controller.getSongs(song, token, function(error, songs) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to Search Songs From Spotify!");
+          return;
+        }
+        //console.log(songs)
+
+        response.writeHead(200)
+        response.end(JSON.stringify(songs))
+      })
     })
   }
-
-
+}
 
 
   // COMPLETELLY USELESS
@@ -57,4 +71,3 @@ module.exports = function(request, response) {
   // })
   //
   // return router
-}
