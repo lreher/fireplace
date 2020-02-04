@@ -13,10 +13,10 @@
 // }
 //
 
-module.exports = function(data) {
-  console.log("Making a request with " + JSON.stringify(data))
+module.exports = function(searchQuery) {
+  console.log("Making a request with " + searchQuery)
 
-  var url = 'http://localhost:8080/' + JSON.stringify(data)
+  var url = 'http://localhost:8080/search'
   var http_req = new XMLHttpRequest();
 
   http_req.onreadystatechange = function() {
@@ -25,7 +25,7 @@ module.exports = function(data) {
 
   http_req.open("POST", url, true)
   http_req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  http_req.send(JSON.stringify(data))
+  http_req.send(JSON.stringify(searchQuery))
 }
 
 },{}],2:[function(require,module,exports){

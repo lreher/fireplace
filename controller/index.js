@@ -1,34 +1,44 @@
-var requestToken = require('../requests/requestToken')
-var requestSongs = require('../requests/requestSongs')
+var requestToken = require('../services/requestToken')
+var requestSongs = require('../services/requestSongs')
 
-function getSongs(query, token, callback) {
-  requestSongs(query, token, function(error, songResponse) {
-    if(error) {
-      callback(error, null)
+function getSongs(query, callback) {
+
+  // Get Access Token on App Start
+  requestToken(function(error, token) {
+    if (error) {
+      response.writeHead(500);
+      response.end("Failed Authorization with Spotify! Damn Gatekeepers.");
+      return;
     }
+    console.log(token)
 
-    var songs = []
-
-    for (var songIndex = 0; songIndex < songResponse.length; songIndex++) {
-      var artists = []
-
-      for (var artistIndex = 0; artistIndex < songResponse[songIndex].artists.length; artistIndex++) {
-        artists.push(songResponse[songIndex].artists[artistIndex].name)
+    requestSongs(query, token, function(error, songResponse) {
+      if(error) {
+        callback(error, null)
       }
 
-      songs.push({
-        name: songResponse[songIndex].name,
-        album: songResponse[songIndex].album.name,
-        artists: artists,
-        duration: songResponse[songIndex].duration_ms
-      })
-    }
+      var songs = []
 
-    callback(null, songs)
+      for (var songIndex = 0; songIndex < songResponse.length; songIndex++) {
+        var artists = []
+
+        for (var artistIndex = 0; artistIndex < songResponse[songIndex].artists.length; artistIndex++) {
+          artists.push(songResponse[songIndex].artists[artistIndex].name)
+        }
+
+        songs.push({
+          name: songResponse[songIndex].name,
+          album: songResponse[songIndex].album.name,
+          artists: artists,
+          duration: songResponse[songIndex].duration_ms
+        })
+      }
+
+      callback(null, songs)
+    })
   })
 }
 
 module.exports = {
-  requestToken: requestToken,
   getSongs: getSongs
 }

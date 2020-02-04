@@ -12,10 +12,10 @@
 // }
 //
 
-module.exports = function(data) {
+module.exports = function(searchQuery) {
   console.log("Making a request with " + JSON.stringify(data))
 
-  var url = 'http://localhost:8080/' + JSON.stringify(data)
+  var url = 'http://localhost:8080/' + encodeURIComponent(searchQuery)
   var http_req = new XMLHttpRequest();
 
   http_req.onreadystatechange = function() {

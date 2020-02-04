@@ -4,8 +4,13 @@ var queryString = require('querystring')
 // Safety first!
 var clientID = process.env.CLIENT_ID
 var secretKey = process.env.CLIENT_SECRET
+var lastToken;
 
-module.exports = function(callback) {
+function requestToken(callback) {
+  if(lastToken){
+    return callback(null, lastToken);
+  }
+
   var authorizationText = (clientID + ':' + secretKey)
   var base64Auth = Buffer.from(authorizationText).toString('base64')
 
@@ -23,7 +28,12 @@ module.exports = function(callback) {
     data: queryString.stringify(data)
   })
   .then(result => {
+    lastToken = result.data.access_token
     callback(null, result.data.access_token)
   })
   .catch(callback)
 }
+
+requestToken(console.log);
+
+module.exports = requestToken

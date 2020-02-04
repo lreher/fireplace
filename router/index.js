@@ -22,20 +22,14 @@ module.exports = function(request, response) {
     response.writeHead(200, { 'Content-Type': 'text/json' })
     fs.createReadStream(servePath, 'utf-8').pipe(response)
   }
-  else {
+  else if (url === '/search') {
     // Clearly we shouln't take anything else into consideration
-    song = url.replace(/(\/*%22)/g, '').replace(/(%20)/g, ' ')
-
-    // Get Access Token on App Start
-    controller.requestToken(function(error, token) {
-      if (error) {
-        response.writeHead(500);
-        response.end("Failed Authorization with Spotify! Damn Gatekeepers.");
-        return;
-      }
-      console.log(token)
-
-      controller.getSongs(song, token, function(error, songs) {
+    //song = url.replace(/(\/*%22)/g, '').replace(/(%20)/g, ' ')
+    var song = ''
+    request.on('data', function(chunk) {
+      song += chunk.toString()
+    }).on('end', function() {
+      controller.getSongs(song, function(error, songs) {
         if (error) {
           response.writeHead(500);
           response.end("Failed to Search Songs From Spotify!");
