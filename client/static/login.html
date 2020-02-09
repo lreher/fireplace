@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Fireplace</title>
+    <h2>FirePlace</h2>
+  </head>
+  <body>
+    Log In
+    <input type="submit" id="searchButton" value="Search">
+    <script>
+
+    searchButton.addEventListener('click', function() {
+      var url = 'http://localhost:8080/login'
+      var http_req = new XMLHttpRequest();
+      console.log("CLICKK")
+
+      http_req.onreadystatechange = function() {
+        console.log(http_req.responseText)
+      }
+
+      http_req.open("POST", url, true)
+      http_req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      http_req.send()
+    })
+
+    </script>
+  </body>
+</html>

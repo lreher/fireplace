@@ -4,6 +4,7 @@ var queryString = require('querystring')
 // Safety first!
 var clientID = process.env.CLIENT_ID
 var secretKey = process.env.CLIENT_SECRET
+
 var lastToken;
 
 function requestToken(callback) {

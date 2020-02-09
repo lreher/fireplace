@@ -1,21 +1,7 @@
-// var superagent = require('superagent')
-//
-// module.exports = function(data) {
-//   superagent
-//     .post('http://localhost:8080/')
-//     .send(data)
-//     .set('accept', 'json')
-//     .end(function(err, res) {
-//       console.log('test')
-//       console.log(res)
-//     })
-// }
-//
-
-module.exports = function(searchQuery) {
+module.exports = function(data) {
   console.log("Making a request with " + JSON.stringify(data))
 
-  var url = 'http://localhost:8080/' + encodeURIComponent(searchQuery)
+  var url = 'http://localhost:8080/search'
   var http_req = new XMLHttpRequest();
 
   http_req.onreadystatechange = function() {
