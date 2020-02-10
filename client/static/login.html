@@ -6,24 +6,15 @@
     <h2>FirePlace</h2>
   </head>
   <body>
-    Log In
-    <input type="submit" id="searchButton" value="Search">
-    <script>
+    <h3>Log In</h3>
+    <form action="https://accounts.spotify.com/authorize" method="GET">
+      <input type="hidden" name="client_id" value="bb0223ab795042bea7ba790b47c20a5c">
+      <input type="hidden" name="response_type" value="code">
+      <input type="hidden" name="scope" value="streaming user-read-email user-modify-playback-state user-read-private">
+      <input type="hidden" name="redirect_uri" value="http://localhost:8080/callback">
 
-    searchButton.addEventListener('click', function() {
-      var url = 'http://localhost:8080/login'
-      var http_req = new XMLHttpRequest();
-      console.log("CLICKK")
 
-      http_req.onreadystatechange = function() {
-        console.log(http_req.responseText)
-      }
-
-      http_req.open("POST", url, true)
-      http_req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      http_req.send()
-    })
-
-    </script>
+      <button type="submit" id="searchButton" value="Search">
+    </form>
   </body>
 </html>

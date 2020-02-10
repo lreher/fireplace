@@ -4,6 +4,8 @@ var path = require('path')
 var controller = require('../controller')
 
 var loggedIn = false
+var accessToken;
+var spotifyRedirect;
 
 module.exports = function(request, response) {
   var url = request.url
@@ -33,19 +35,33 @@ module.exports = function(request, response) {
 
       break;
 
-    case '/login':
-      controller.login(function (error, response) {
+    case (url.match(/callback/) || {}).input:
+      code = url.replace("/callback?code=", "")
+
+      controller.authorize(code, function(error, authorization) {
         if (error) {
           response.writeHead(500);
-          response.end("Failed to login to Spotify!");
+          response.end("Failed to Authenticate to Spotify!");
           return;
         }
 
-        console.log(response)
+        accessToken = authorization.data.access_token
+
+        servePath = path.resolve(__dirname, "../client/static/player.html")
+
+        response.writeHead(200, { 'Content-Type': 'text/html' })
+        fs.createReadStream(servePath, 'utf-8').pipe(response)
       })
 
-      login = true
       break;
+
+    case '/player':
+      if (spotifyRedirect === null) {
+        return;
+      }
+
+      response.writeHead(200, { 'Content-Type': 'text/html' })
+      response.end(spotifyRedirect)
 
     case '/search':
       var song = ''

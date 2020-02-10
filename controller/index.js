@@ -1,9 +1,8 @@
 var requestToken = require('../services/requestToken')
 var requestSongs = require('../services/requestSongs')
-var requestLogin = require('../services/requestLogin')
 
-function login(callback) {
- requestLogin(function(error, response) {
+function authorize(code, callback) {
+ requestToken(code, function(error, response) {
    if (error) {
      callback(error, null)
    }
@@ -51,6 +50,6 @@ function getSongs(query, callback) {
 }
 
 module.exports = {
-  login: login,
+  authorize: authorize,
   getSongs: getSongs
 }

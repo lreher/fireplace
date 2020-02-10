@@ -5,18 +5,20 @@ var queryString = require('querystring')
 var clientID = process.env.CLIENT_ID
 var secretKey = process.env.CLIENT_SECRET
 
-var lastToken;
+var refreshToken;
 
-function requestToken(callback) {
-  if(lastToken){
-    return callback(null, lastToken);
+function requestToken(code, callback) {
+  if(refreshToken){
+    return callback(null, refreshToken);
   }
 
   var authorizationText = (clientID + ':' + secretKey)
   var base64Auth = Buffer.from(authorizationText).toString('base64')
 
   var data = {
-    grant_type: 'client_credentials'
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: 'http://localhost:8080/callback'
   }
 
   axios({
@@ -29,12 +31,11 @@ function requestToken(callback) {
     data: queryString.stringify(data)
   })
   .then(result => {
-    lastToken = result.data.access_token
-    callback(null, result.data.access_token)
+    callback(null, result)
   })
   .catch(callback)
 }
 
-requestToken(console.log);
+//requestToken(console.log);
 
 module.exports = requestToken
