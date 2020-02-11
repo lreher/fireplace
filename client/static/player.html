@@ -17,15 +17,17 @@
         var http_req = new XMLHttpRequest();
 
         http_req.onreadystatechange = function() {
-          
+          setupPlayer(http_req.responseText)
         }
 
         http_req.open("POST", url, true)
         http_req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        http_req.send(JSON.stringify(data))
+        http_req.send()
       }
 
       function setupPlayer(token) {
+        console.log(token)
+        
         const player = new Spotify.Player({
           name: 'Web Playback SDK Quick Start Player',
           getOAuthToken: cb => { cb(token); }

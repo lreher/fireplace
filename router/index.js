@@ -55,33 +55,31 @@ module.exports = function(request, response) {
 
       break;
 
-    case '/player':
-      if (spotifyRedirect === null) {
-        return;
-      }
-
-      response.writeHead(200, { 'Content-Type': 'text/html' })
-      response.end(spotifyRedirect)
-
-    case '/search':
-      var song = ''
-
-      request.on('data', function(chunk) {
-        song += chunk.toString()
-      }).on('end', function() {
-        controller.getSongs(song, function(error, songs) {
-          if (error) {
-            response.writeHead(500);
-            response.end("Failed to Search Songs From Spotify!");
-            return;
-          }
-
-          response.writeHead(200)
-          response.end(JSON.stringify(songs))
-        })
-      })
+    case '/token':
+      response.writeHead(200)
+      response.end(accessToken)
 
       break;
+
+    // case '/search':
+    //   var song = ''
+    //
+    //   request.on('data', function(chunk) {
+    //     song += chunk.toString()
+    //   }).on('end', function() {
+    //     controller.getSongs(song, function(error, songs) {
+    //       if (error) {
+    //         response.writeHead(500);
+    //         response.end("Failed to Search Songs From Spotify!");
+    //         return;
+    //       }
+    //
+    //       response.writeHead(200)
+    //       response.end(JSON.stringify(songs))
+    //     })
+    //   })
+    //
+    //   break;
 
     default:
       response.writeHead(400)
