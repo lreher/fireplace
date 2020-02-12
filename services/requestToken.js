@@ -5,13 +5,7 @@ var queryString = require('querystring')
 var clientID = process.env.CLIENT_ID
 var secretKey = process.env.CLIENT_SECRET
 
-var refreshToken;
-
 function requestToken(code, callback) {
-  if(refreshToken){
-    return callback(null, refreshToken);
-  }
-
   var authorizationText = (clientID + ':' + secretKey)
   var base64Auth = Buffer.from(authorizationText).toString('base64')
 
@@ -35,7 +29,5 @@ function requestToken(code, callback) {
   })
   .catch(callback)
 }
-
-//requestToken(console.log);
 
 module.exports = requestToken

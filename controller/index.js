@@ -1,5 +1,7 @@
 var requestToken = require('../services/requestToken')
-var requestSongs = require('../services/requestSongs')
+var spotifyRequest = require('../services/spotifyRequest')
+
+var accessToken;
 
 function authorize(code, callback) {
  requestToken(code, function(error, response) {
@@ -7,49 +9,68 @@ function authorize(code, callback) {
      callback(error, null)
    }
 
+   accessToken = response.data.access_token
    callback(null, response)
  })
 }
 
-function getSongs(query, callback) {
-
-  // Get Access Token on App Start
-  requestToken(function(error, token) {
-    if (error) {
-      response.writeHead(500);
-      response.end("Failed Authorization with Spotify! Damn Gatekeepers.");
-      return;
+function getDevices(callback) {
+  spotifyRequest("GET", "/me/player/devices", accessToken, function(error, response) {
+    if(error) {
+      callback(error, null)
     }
-    console.log(token)
 
-    requestSongs(query, token, function(error, songResponse) {
-      if(error) {
-        callback(error, null)
+    callback(null, response)
+  })
+}
+
+function playSong(callback) {
+  spotifyRequest('PUT', 'me/player/play', accessToken, function(error, response) {
+    if (error) {
+      callback(error, null)
+    }
+
+    callback(null, response)
+  })
+}
+
+function getSongs(callback) {
+  var query = encodeURIComponent("test song")
+
+  spotifyRequest("GET", '/search?q=' + query + '&type=track', accessToken, function(error, response) {
+    if(error) {
+      callback(error, null)
+    }
+
+    var responseItems = response.tracks.items
+    var tracks = []
+
+    for(var i = 0; i < responseItems.length; i++) {
+      var track = responseItems[i];
+
+      var artists = []
+
+      for(var j = 0; j < track.artists.length; j++) {
+        artists.push(track.artists[j].name)
       }
 
-      var songs = []
+      tracks.push({
+        id: track.id,
+        name: track.name,
+        duration_ms: track.duration_ms,
+        album: track.album.name,
+        artists: artists
+      })
+    }
 
-      for (var songIndex = 0; songIndex < songResponse.length; songIndex++) {
-        var artists = []
-
-        for (var artistIndex = 0; artistIndex < songResponse[songIndex].artists.length; artistIndex++) {
-          artists.push(songResponse[songIndex].artists[artistIndex].name)
-        }
-
-        songs.push({
-          name: songResponse[songIndex].name,
-          album: songResponse[songIndex].album.name,
-          artists: artists,
-          duration: songResponse[songIndex].duration_ms
-        })
-      }
-
-      callback(null, songs)
-    })
+    callback(null, tracks)
   })
 }
 
 module.exports = {
   authorize: authorize,
-  getSongs: getSongs
+  getDevices: getDevices,
+  getSongs: getSongs,
+  playSong: playSong
+
 }

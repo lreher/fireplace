@@ -17,9 +17,9 @@ module.exports = function(request, response) {
   switch(url) {
     case '/':
       if (loggedIn) {
-        servePath = path.resolve(__dirname, "../client/static/index.html")
+        servePath = path.resolve(__dirname, "../client/html/index.html")
       } else {
-        servePath = path.resolve(__dirname, "../client/static/login.html")
+        servePath = path.resolve(__dirname, "../client/html/login.html")
       }
 
       response.writeHead(200, { 'Content-Type': 'text/html' })
@@ -27,13 +27,23 @@ module.exports = function(request, response) {
 
       break;
 
+    // TODO handle wildcard js
     case '/index.js':
-      servePath = path.resolve(__dirname, "../client/static/index.js")
+      servePath = path.resolve(__dirname, "../client/js/index.js")
 
       response.writeHead(200, { 'Content-Type': 'text/json' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
 
       break;
+
+    case '/player.js':
+      servePath = path.resolve(__dirname, "../client/js/player.js")
+
+      response.writeHead(200, { 'Content-Type': 'text/json' })
+      fs.createReadStream(servePath, 'utf-8').pipe(response)
+
+      break;
+
 
     case (url.match(/callback/) || {}).input:
       code = url.replace("/callback?code=", "")
@@ -41,45 +51,56 @@ module.exports = function(request, response) {
       controller.authorize(code, function(error, authorization) {
         if (error) {
           response.writeHead(500);
-          response.end("Failed to Authenticate to Spotify!");
+          response.end("Failed to Authenticate to Spotify");
           return;
         }
 
-        accessToken = authorization.data.access_token
-
-        servePath = path.resolve(__dirname, "../client/static/player.html")
-
-        response.writeHead(200, { 'Content-Type': 'text/html' })
-        fs.createReadStream(servePath, 'utf-8').pipe(response)
+        response.writeHead(302, { 'Location': 'player' })
+        response.end();
       })
 
       break;
 
-    case '/token':
-      response.writeHead(200)
-      response.end(accessToken)
+    case "/player":
+      servePath = path.resolve(__dirname, "../client/html/player.html")
+
+      response.writeHead(200, { 'Content-Type': 'text/html' })
+      fs.createReadStream(servePath, 'utf-8').pipe(response)
 
       break;
 
-    // case '/search':
-    //   var song = ''
-    //
-    //   request.on('data', function(chunk) {
-    //     song += chunk.toString()
-    //   }).on('end', function() {
-    //     controller.getSongs(song, function(error, songs) {
-    //       if (error) {
-    //         response.writeHead(500);
-    //         response.end("Failed to Search Songs From Spotify!");
-    //         return;
-    //       }
-    //
-    //       response.writeHead(200)
-    //       response.end(JSON.stringify(songs))
-    //     })
-    //   })
-    //
-    //   break;
+    case "/devices":
+      controller.getDevices(function(error, devices) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to Get Devices.");
+          return;
+        }
+
+        response.writeHead(200);
+        response.end(JSON.stringify(devices));
+      })
+
+      break;
+
+    case "/songs":
+      controller.getSongs(function(error, songs) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to Get Songs.");
+          return;
+        }
+
+        response.writeHead(200);
+        response.end(JSON.stringify(songs));
+      })
+
+      break;
+
+    case "/play":
+      
+    end
+
 
     default:
       response.writeHead(400)
