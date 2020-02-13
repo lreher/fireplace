@@ -3,9 +3,7 @@ var fs = require('fs')
 var path = require('path')
 var controller = require('../controller')
 
-var loggedIn = false
-var accessToken;
-var spotifyRedirect;
+var queue = []
 
 module.exports = function(request, response) {
   var url = request.url
@@ -31,21 +29,20 @@ module.exports = function(request, response) {
 
       break;
 
-    // TODO handle wildcard js
-    case '/client.js':
-      servePath = path.resolve(__dirname, "../client/js/client.js")
+    // Serve JS
+    case (url.match(/[a-z].js/) || {}).input:
+      servePath = path.resolve(__dirname, "../client/js" + url)
 
       response.writeHead(200, { 'Content-Type': 'text/json' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
-
       break;
 
-    case '/player.js':
-      servePath = path.resolve(__dirname, "../client/js/player.js")
+    // Serve CSS
+    case (url.match(/[a-z].js/) || {}).input:
+      servePath = path.resolve(__dirname, "../client/css" + url)
 
       response.writeHead(200, { 'Content-Type': 'text/json' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
-
       break;
 
     case (url.match(/callback/) || {}).input:
@@ -86,16 +83,16 @@ module.exports = function(request, response) {
 
       break;
 
-    case "/songs":
+    case "/search":
       var requestData = ""
 
       request.on('data', function(chunk) {
         requestData += chunk.toString()
       })
       .on('end', function() {
-        song = requestData.replace('song=', '').replace(/\+/g, ' ')
+        var searchQuery = JSON.parse(requestData)
 
-        controller.getSongs(song, function(error, songs) {
+        controller.searchSongs(searchQuery.song, searchQuery.album, searchQuery.artist, function(error, songs) {
           if (error) {
             response.writeHead(500);
             response.end("Failed to Get Songs.");
@@ -105,6 +102,21 @@ module.exports = function(request, response) {
           response.writeHead(200);
           response.end(JSON.stringify(songs));
         })
+      })
+
+      break;
+
+    case "/add":
+      var requestData = ""
+
+      request.on('data', function(chunk) {
+        requestData += chunk.toString()
+      })
+      .on('end', function() {
+        queue.push(JSON.parse(requestData))
+
+        response.writeHead(200);
+        response.end(JSON.stringify(queue));
       })
 
       break;

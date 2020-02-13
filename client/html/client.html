@@ -6,11 +6,25 @@
     <h2>FirePlace</h2>
   </head>
   <body>
-    Search Songs:<br>
-    <form action="songs" method="POST">
-      <input type="text" id="searchBar" name="song"><br>
+    <div id="searchSongs">
+      Search Songs:<br><br>
+
+      Song<br>
+      <input type="text" id="searchBarSong" name="song"><br>
+      Album<br>
+      <input type="text" id="searchBarAlbum" name="album"><br>
+      Artist<br>
+      <input type="text" id="searchBarArtist" name="artist"><br>
+
       <input type="submit" id="searchButton" value="Search">
-    </form>
+    </div>
+
+    <div id="songList" hidden="true">
+    </div>
+
+    <div id="queueList" hidden="true">
+      <h3>Queue List</h3>
+    </div>
 
     <script type="text/javascript" src="client.js"></script>
   </body>

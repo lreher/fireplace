@@ -38,8 +38,22 @@ function playSong(deviceID, songURI) {
   })
 }
 
-function getSongs(song, callback) {
-  var query = encodeURIComponent(song)
+function searchSongs(song, album, artist, callback) {
+  var query = ''
+
+  if (song) {
+    query += 'track:' + encodeURIComponent(song) + '%20'
+  }
+
+  if (album) {
+    query += 'album:' + encodeURIComponent(album) + '%20'
+  }
+
+  if (artist) {
+    query += 'artist:' + encodeURIComponent(artist) + '%20'
+  }
+
+  console.log(query)
 
   spotifyRequest("GET", '/search?q=' + query + '&type=track', null, accessToken, function(error, response) {
     if(error) {
@@ -73,7 +87,7 @@ function getSongs(song, callback) {
 module.exports = {
   authorize: authorize,
   getDevices: getDevices,
-  getSongs: getSongs,
+  searchSongs: searchSongs,
   playSong: playSong
 
 }
