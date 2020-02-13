@@ -1,6 +1,7 @@
 var axios = require('axios')
+var queryString = require('querystring')
 
-module.exports = function(method, endpoint, token, callback) {
+module.exports = function(method, endpoint, body, token, callback) {
 
   axios({
     method: method,
@@ -8,10 +9,13 @@ module.exports = function(method, endpoint, token, callback) {
     json: true,
     headers: {
       'Authorization': 'Bearer ' + token
-    }
+    },
+    data: body
   })
   .then(result => {
     callback(null, result.data)
   })
-  .catch(callback)
+  .catch(error => {
+    callback(error, null)
+  })
 }

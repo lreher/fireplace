@@ -16,11 +16,15 @@ module.exports = function(request, response) {
 
   switch(url) {
     case '/':
-      if (loggedIn) {
-        servePath = path.resolve(__dirname, "../client/html/index.html")
-      } else {
-        servePath = path.resolve(__dirname, "../client/html/login.html")
-      }
+      servePath = path.resolve(__dirname, "../client/html/login.html")
+
+      response.writeHead(200, { 'Content-Type': 'text/html' })
+      fs.createReadStream(servePath, 'utf-8').pipe(response)
+
+      break;
+
+    case '/client':
+      servePath = path.resolve(__dirname, "../client/html/client.html")
 
       response.writeHead(200, { 'Content-Type': 'text/html' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
@@ -28,8 +32,8 @@ module.exports = function(request, response) {
       break;
 
     // TODO handle wildcard js
-    case '/index.js':
-      servePath = path.resolve(__dirname, "../client/js/index.js")
+    case '/client.js':
+      servePath = path.resolve(__dirname, "../client/js/client.js")
 
       response.writeHead(200, { 'Content-Type': 'text/json' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
@@ -43,7 +47,6 @@ module.exports = function(request, response) {
       fs.createReadStream(servePath, 'utf-8').pipe(response)
 
       break;
-
 
     case (url.match(/callback/) || {}).input:
       code = url.replace("/callback?code=", "")
@@ -84,22 +87,41 @@ module.exports = function(request, response) {
       break;
 
     case "/songs":
-      controller.getSongs(function(error, songs) {
-        if (error) {
-          response.writeHead(500);
-          response.end("Failed to Get Songs.");
-          return;
-        }
+      var requestData = ""
 
-        response.writeHead(200);
-        response.end(JSON.stringify(songs));
+      request.on('data', function(chunk) {
+        requestData += chunk.toString()
+      })
+      .on('end', function() {
+        song = requestData.replace('song=', '').replace(/\+/g, ' ')
+
+        controller.getSongs(song, function(error, songs) {
+          if (error) {
+            response.writeHead(500);
+            response.end("Failed to Get Songs.");
+            return;
+          }
+
+          response.writeHead(200);
+          response.end(JSON.stringify(songs));
+        })
       })
 
       break;
 
     case "/play":
-      
-    end
+      var requestData = ""
+
+      request.on('data', function(chunk) {
+        requestData += chunk.toString()
+      })
+      .on('end', function() {
+        playInfo = JSON.parse(requestData)
+
+        controller.playSong(playInfo.deviceID, playInfo.songURI)
+      })
+
+      break;
 
 
     default:

@@ -4,49 +4,33 @@ window.onload = function() {
   var url = 'http://localhost:8080/devices'
   var xhr = new XMLHttpRequest();
 
-  // xhr.onreadystatechange = function() {
-  //   if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-  //
-  //
-  //   }
-  // }
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      devices = JSON.parse(xhr.responseText).devices
+
+      var deviceList = document.getElementById("deviceList")
+
+      for (var i = 0; i < devices.length; i++) {
+        var device = document.createElement("p")
+        var deviceButton = document.createElement("button")
+
+        device.innerHTML = devices[0].name
+        deviceButton.innerHTML = "Select"
+
+        deviceButton.addEventListener('click', function() {
+          deviceID = devices[0].id
+          renderSongs(deviceID)
+        })
+
+        deviceList.appendChild(device)
+        deviceList.appendChild(deviceButton)
+      }
+    }
+  }
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send()
-
-  // move to xhr
-
-  //devices = JSON.parse(fake).devices
-  devices = [
-    {
-      id: 'bdbb3c4c85406dcc40ee577c92c90620200bd81e',
-      is_active: false,
-      is_private_session: false,
-      is_restricted: false,
-      name: 'Samsung Galaxy S7',
-      type: 'Smartphone',
-      volume_percent: 100
-    }
-  ]
-
-  var deviceList = document.getElementById("deviceList")
-
-  for (var i = 0; i < devices.length; i++) {
-    var device = document.createElement("p")
-    var deviceButton = document.createElement("button")
-
-    device.innerHTML = devices[0].name
-    deviceButton.innerHTML = "Select"
-
-    deviceButton.addEventListener('click', function() {
-      deviceID = devices[0].id
-      renderSongs(deviceID)
-    })
-
-    deviceList.appendChild(device)
-    deviceList.appendChild(deviceButton)
-  }
 }
 
 function renderSongs() {
@@ -66,9 +50,10 @@ function renderSongs() {
 
         song.innerHTML = songs[i].name + '<br/>' + songs[i].artists + '<br/>' + songs[i].album
         songButton.innerHTML = "Select"
+        songButton.setAttribute('id', songs[i].uri)
 
-        songButton.addEventListener('click', function() {
-          playSong()
+        songButton.addEventListener('click', function(event) {
+          playSong(event.srcElement.id)
         })
 
         songList.appendChild(song)
@@ -85,6 +70,14 @@ function renderSongs() {
 }
 
 
-function playSong(song) {
-  console.log(song)
+function playSong(songURI) {
+  var url = 'http://localhost:8080/play'
+  var xhr = new XMLHttpRequest();
+
+  xhr.open("POST", url, true)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({
+    songURI: songURI,
+    deviceID: deviceID
+  }))
 }

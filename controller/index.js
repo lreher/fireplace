@@ -15,7 +15,7 @@ function authorize(code, callback) {
 }
 
 function getDevices(callback) {
-  spotifyRequest("GET", "/me/player/devices", accessToken, function(error, response) {
+  spotifyRequest("GET", "/me/player/devices", null, accessToken, function(error, response) {
     if(error) {
       callback(error, null)
     }
@@ -24,20 +24,24 @@ function getDevices(callback) {
   })
 }
 
-function playSong(callback) {
-  spotifyRequest('PUT', 'me/player/play', accessToken, function(error, response) {
+function playSong(deviceID, songURI) {
+  body = {
+    uris: [songURI]
+  }
+
+  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, accessToken, function(error, response) {
     if (error) {
       callback(error, null)
     }
 
-    callback(null, response)
+    console.log(response)
   })
 }
 
-function getSongs(callback) {
-  var query = encodeURIComponent("test song")
+function getSongs(song, callback) {
+  var query = encodeURIComponent(song)
 
-  spotifyRequest("GET", '/search?q=' + query + '&type=track', accessToken, function(error, response) {
+  spotifyRequest("GET", '/search?q=' + query + '&type=track', null, accessToken, function(error, response) {
     if(error) {
       callback(error, null)
     }
@@ -47,7 +51,6 @@ function getSongs(callback) {
 
     for(var i = 0; i < responseItems.length; i++) {
       var track = responseItems[i];
-
       var artists = []
 
       for(var j = 0; j < track.artists.length; j++) {
@@ -55,7 +58,7 @@ function getSongs(callback) {
       }
 
       tracks.push({
-        id: track.id,
+        uri: track.uri,
         name: track.name,
         duration_ms: track.duration_ms,
         album: track.album.name,
