@@ -4,6 +4,7 @@ var path = require('path')
 var controller = require('../controller')
 
 var queue = []
+var deviceID;
 
 module.exports = function(request, response) {
   var url = request.url
@@ -38,10 +39,10 @@ module.exports = function(request, response) {
       break;
 
     // Serve CSS
-    case (url.match(/[a-z].js/) || {}).input:
+    case (url.match(/[a-z].css/) || {}).input:
       servePath = path.resolve(__dirname, "../client/css" + url)
 
-      response.writeHead(200, { 'Content-Type': 'text/json' })
+      response.writeHead(200, { 'Content-Type': 'text/css' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
       break;
 
@@ -83,6 +84,33 @@ module.exports = function(request, response) {
 
       break;
 
+    case "/set_device":
+      var requestData = ""
+
+      request.on('data', function(chunk) {
+        requestData += chunk.toString()
+      })
+      .on('end', function() {
+        deviceID = requestData
+
+        console.log(deviceID)
+        response.writeHead(200);
+        response.end();
+      })
+
+      break;
+
+    case "/current_device":
+      if (!deviceID) {
+        response.writeHead(404);
+        response.end();
+      }
+
+      response.writeHead(200);
+      response.end(deviceID);
+
+      break;
+
     case "/search":
       var requestData = ""
 
@@ -121,6 +149,12 @@ module.exports = function(request, response) {
 
       break;
 
+    case "/songs":
+      response.writeHead(200);
+      response.end(JSON.stringify(queue));
+
+      break;
+
     case "/play":
       var requestData = ""
 
@@ -130,7 +164,13 @@ module.exports = function(request, response) {
       .on('end', function() {
         playInfo = JSON.parse(requestData)
 
-        controller.playSong(playInfo.deviceID, playInfo.songURI)
+        controller.playSong(deviceID, playInfo.songURI, function(error, response) {
+          if (error) {
+            response.writeHead(500);
+            response.end("Failed to Play Song.");
+            return;
+          }
+        })
       })
 
       break;

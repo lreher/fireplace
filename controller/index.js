@@ -24,13 +24,14 @@ function getDevices(callback) {
   })
 }
 
-function playSong(deviceID, songURI) {
+function playSong(deviceID, songURI, callback) {
   body = {
     uris: [songURI]
   }
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, accessToken, function(error, response) {
     if (error) {
+      console.log(error)
       callback(error, null)
     }
 
@@ -44,11 +45,9 @@ function searchSongs(song, album, artist, callback) {
   if (song) {
     query += 'track:' + encodeURIComponent(song) + '%20'
   }
-
   if (album) {
     query += 'album:' + encodeURIComponent(album) + '%20'
   }
-
   if (artist) {
     query += 'artist:' + encodeURIComponent(artist) + '%20'
   }
@@ -89,5 +88,4 @@ module.exports = {
   getDevices: getDevices,
   searchSongs: searchSongs,
   playSong: playSong
-
 }

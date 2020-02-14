@@ -3,29 +3,43 @@
   <head>
     <meta charset="utf-8">
     <title>Fireplace</title>
-    <h2>FirePlace</h2>
+    <h2>fireplace</h2>
   </head>
   <body>
-    <div id="searchSongs">
-      Search Songs:<br><br>
+    <form id="searchSongs">
+      <h3>Search Songs</h3>
 
-      Song<br>
-      <input type="text" id="searchBarSong" name="song"><br>
-      Album<br>
-      <input type="text" id="searchBarAlbum" name="album"><br>
-      Artist<br>
-      <input type="text" id="searchBarArtist" name="artist"><br>
+      <div class="field">
+        <label for="searchBarSong">Song</label>
+        <input type="text" class="searchInput" id="searchBarSong" name="song">
+      </div>
 
-      <input type="submit" id="searchButton" value="Search">
+      <div class="field">
+        <label for="searchBarAlbum">Album</label>
+        <input type="text" class="searchInput" id="searchBarAlbum" name="album">
+      </div>
+
+      <div class="field">
+        <label for="searchBarArtist">Artist</label>
+        <input type="text" class="searchInput" id="searchBarArtist" name="artist">
+      </div>
+
+      <button class="searchInput" id="searchButton" value="Search">Search</button>
+    </form>
+
+    <div id="lists">
+      <div id="songList">
+        <h3>Songs</h3>
+      </div>
+
+      <div id="queueList">
+        <h3>Queue</h3>
+      </div>
     </div>
 
-    <div id="songList" hidden="true">
-    </div>
 
-    <div id="queueList" hidden="true">
-      <h3>Queue List</h3>
-    </div>
 
     <script type="text/javascript" src="client.js"></script>
+    <link rel="stylesheet" href="client.css">
   </body>
 </html>

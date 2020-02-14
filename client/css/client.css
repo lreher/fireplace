@@ -1,0 +1,40 @@
+#searchSongs {
+  text-align: center;
+}
+
+#songList {
+  float:left;
+  width:50%;
+  overflow:hidden;
+  text-align: center;
+}
+
+#queueList {
+  float:right;
+  width:50%;
+  overflow:hidden;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+input {
+  float:center;
+}
+
+.field {
+  margin: auto;
+  width: 150px;
+  background-color: blue;
+}
+
+.field label {
+  display: block;
+  text-align: left;
+}
+
+.field input {
+  width: 100%;
+}
