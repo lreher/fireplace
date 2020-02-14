@@ -27,7 +27,6 @@ input {
 .field {
   margin: auto;
   width: 150px;
-  background-color: blue;
 }
 
 .field label {

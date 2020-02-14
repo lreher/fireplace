@@ -1,16 +1,14 @@
+getQueue();
+
 var searchSongs = document.getElementById('searchSongs')
 
 searchSongs.addEventListener('submit', function(event) {
   event.preventDefault()
 
-  var searchBarSong = document.getElementById("searchBarSong")
-  var searchBarAlbum = document.getElementById("searchBarAlbum")
-  var searchBarArtist = document.getElementById("searchBarArtist")
-
   var searchQuery = {
-    song: searchBarSong.value,
-    album: searchBarAlbum.value,
-    artist: searchBarArtist.value
+    song: document.getElementById("searchBarSong").value,
+    album: document.getElementById("searchBarAlbum").value,
+    artist: document.getElementById("searchBarArtist").value
   }
 
   var url = 'http://localhost:8080/search'
@@ -31,34 +29,45 @@ function renderSearch(songsResponse) {
   var songs = JSON.parse(songsResponse)
 
   var songList = document.getElementById("songList")
-  songList.style.display = 'block'
 
-  // Refresh Search Results
-  while (songList.firstChild) {
-    songList.removeChild(songList.firstChild);
+  function renderSong(song) {
+    var button;
+    var songElement = crel('div', { class: 'song' },
+      crel('p', song.name),
+      crel('p', song.album),
+      crel('p', song.artists),
+      button = crel('button', 'Play')
+    );
+    button.addEventListener('click', () => addSong(song))
+
+    return songElement;
   }
 
-  // Set Title
-  var title = document.createElement('h3')
-  title.innerHTML = "Songs"
-  songList.appendChild(title)
+  crel(songList,
+    crel("h3", "Songs"),
+    songs.map(renderSong)
+  );
+}
 
-  // Render Songs
-  for(var i = 0; i < songs.length; i++) {
-    var song = document.createElement("p")
-    var songButton = document.createElement("button")
+function renderQueue(queueResponse) {
+  var songs = JSON.parse(queueResponse)
 
-    song.innerHTML = songs[i].name + '<br/>' + songs[i].album + '<br/>' + songs[i].artists
-    songButton.innerHTML = "Add"
-    songButton.setAttribute('id', JSON.stringify(songs[i]))
+  var queueList = document.getElementById("queueList")
 
-    songButton.addEventListener('click', function(event) {
-      addSong(event.srcElement.id)
-    })
+  function renderSong(song) {
+    var songElement = crel('div', { class: 'song' },
+      crel('p', song.name),
+      crel('p', song.album),
+      crel('p', song.artists),
+    );
 
-    songList.appendChild(song)
-    songList.appendChild(songButton)
+    return songElement;
   }
+  crel(queueList,
+    crel("h3", "Queue"),
+    songs.map(renderSong)
+  );
+
 }
 
 function addSong(song) {
@@ -73,7 +82,7 @@ function addSong(song) {
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(song)
+  xhr.send(JSON.stringify(song))
 }
 
 function getQueue() {
@@ -90,30 +99,3 @@ function getQueue() {
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send()
 }
-
-function renderQueue(queueResponse) {
-  var songs = JSON.parse(queueResponse)
-
-  var queueList = document.getElementById("queueList")
-
-  // Refresh Search Results
-  while (queueList.firstChild) {
-    queueList.removeChild(queueList.firstChild);
-  }
-
-  // Set Title
-  var title = document.createElement('h3')
-  title.innerHTML = "Queue"
-  queueList.appendChild(title)
-
-  // Render Songs
-  for(var i = 0; i < songs.length; i++) {
-    var song = document.createElement("p")
-
-    song.innerHTML = songs[i].name + '<br/>' + songs[i].album + '<br/>' + songs[i].artists
-
-    queueList.appendChild(song)
-  }
-}
-
-getQueue()
