@@ -28,7 +28,8 @@ searchSongs.addEventListener('submit', function(event) {
 function renderSearch(songsResponse) {
   var songs = JSON.parse(songsResponse)
 
-  var songList = document.getElementById("songList")
+  var songList = document.getElementById("songList");
+  songList.innerHTML = "";
 
   function renderSong(song) {
     var button;
@@ -36,7 +37,7 @@ function renderSearch(songsResponse) {
       crel('p', song.name),
       crel('p', song.album),
       crel('p', song.artists),
-      button = crel('button', 'Play')
+      button = crel('button', { class: "addSongButton" }, 'Add to Queue')
     );
     button.addEventListener('click', () => addSong(song))
 
@@ -44,7 +45,7 @@ function renderSearch(songsResponse) {
   }
 
   crel(songList,
-    crel("h3", "Songs"),
+    crel("h4", "Results"),
     songs.map(renderSong)
   );
 }
@@ -53,6 +54,7 @@ function renderQueue(queueResponse) {
   var songs = JSON.parse(queueResponse)
 
   var queueList = document.getElementById("queueList")
+  queueList.innerHTML = "";
 
   function renderSong(song) {
     var songElement = crel('div', { class: 'song' },
@@ -64,7 +66,7 @@ function renderQueue(queueResponse) {
     return songElement;
   }
   crel(queueList,
-    crel("h3", "Queue"),
+    crel("h4", "Queue"),
     songs.map(renderSong)
   );
 

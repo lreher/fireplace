@@ -3,12 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Fireplace</title>
-    <h2>fireplace</h2>
-  </head>
-  <body>
-    <form id="searchSongs">
-      <h3>Search Songs</h3>
 
+    <div id="title">
+       <h2>fireplace</h2>
+    </div>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato|Quicksand&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="pageTitle">
+      <h3>Search Songs</h3>
+    </div>
+
+    <form id="searchSongs">
       <div class="field">
         <label for="searchBarSong">Song</label>
         <input type="text" class="searchInput" id="searchBarSong" name="song">
@@ -24,7 +32,9 @@
         <input type="text" class="searchInput" id="searchBarArtist" name="artist">
       </div>
 
-      <button class="searchInput" id="searchButton" value="Search">Search</button>
+      <div id="search">
+        <button class="searchInput" id="searchButton" value="Search">Search</button>
+      </div>
     </form>
 
     <div id="lists">
@@ -36,6 +46,6 @@
     <script type="text/javascript" src="crel.js"></script>
     <script type="text/javascript" src="client.js"></script>
 
-    <link rel="stylesheet" href="client.css">
+    <link rel="stylesheet" href="stylesheet.css">
   </body>
 </html>

@@ -1,0 +1,110 @@
+#searchSongs {
+  text-align: center;
+}
+
+#songList {
+  float:left;
+  width:60%;
+  overflow:hidden;
+  text-align: center;
+}
+
+#queueList {
+  float:right;
+  width:40%;
+  overflow:hidden;
+  text-align: center;
+}
+
+#searchButton {
+  margin: 3vw;
+  padding: 2vw 6vw;
+  font-family: 'Lato', sans-serif;
+  font-size: 3vw;
+  border-width: thin;
+  border-color: black;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.addSongButton {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 2.5vw;
+  border-width: thin;
+  border-color: black;
+  border-radius: 10px;
+  background-color: white;
+  margin-top: 1vw;
+  padding: 0.5vw 5vw;
+}
+
+.search {
+  text-align: center;
+}
+
+.pageTitle {
+  margin: 0.5vw;
+  text-align: center;
+}
+
+.login {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 10vw;
+}
+
+h3 {
+  font-family: 'Lato', sans-serif;
+  font-size: 5vw;
+}
+
+h4 {
+  font-family: 'Lato', sans-serif;
+  font-size: 4vw;
+}
+
+label {
+  font-family: 'Lato', sans-serif;
+  font-size: 3vw;
+}
+
+input {
+  font-family: 'Lato', sans-serif;
+  float:left;
+  font-size: 3vw;
+  border-width: thin;
+  border-color: black;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.field label {
+  display: inline-block;
+  text-align: center;
+  padding-bottom: 2vw;
+}
+
+.field input {
+  width: 100%;
+}
+
+.field {
+  margin: auto;
+  width: 25vw;
+  margin: 1vw;
+  display: inline-block;
+}
+
+.song {
+  font-family: 'Quicksand', sans-serif;
+  margin: 3vw;
+  font-size: 2.5vw;
+}
+
+.song p {
+  margin: 0.5vw;
+}

@@ -3,10 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>Fireplace</title>
-    <h2>FirePlace</h2>
+
+    <div id="title">
+       <h2>fireplace</h2>
+    </div>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato|Quicksand&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="spotifyLogin">
+    <div class="login">
       <h3>Login as Player</h3>
       <form action="https://accounts.spotify.com/authorize" method="GET">
         <input type="hidden" name="client_id" value="bb0223ab795042bea7ba790b47c20a5c">
@@ -19,11 +24,13 @@
       </form>
     </div>
 
-    <div id="spotifyLogin">
+    <div class="login">
       <h3>Login as Client</h3>
       <form action="client" method="POST">
         <button type="submit" id="searchButton" value="Client Login">Login</button>
       </form>
     </div>
+
+    <link rel="stylesheet" href="stylesheet.css">
   </body>
 </html>

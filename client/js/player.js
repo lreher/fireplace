@@ -88,7 +88,7 @@ function renderQueue() {
         return songElement;
       }
 
-      crel(songList, { style: "display: block" },
+      crel(playerQueue, { style: "display: block" },
         crel("h3", "Queue"),
         songs.map(renderSong)
       );
