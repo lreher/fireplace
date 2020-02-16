@@ -1,3 +1,14 @@
+var queue;
+var playButton = document.getElementById("playButton");
+
+playButton.addEventListener('click', function() {
+  if (playButton.className === 'play') {
+    playButton.setAttribute('class', 'pause')
+  } else {
+    playButton.setAttribute('class', 'play')
+  }
+})
+
 hasDevice();
 
 function hasDevice() {
@@ -31,7 +42,7 @@ function selectDevice() {
         var button;
         var deviceElement = crel('div', { class: 'device' },
           crel('h4', device.name),
-          button = crel('button', 'Select')
+          button = crel('button', { class: "addDeviceButton" }, 'Select')
         );
 
         button.addEventListener('click', () => setDevice(device.id))
@@ -54,7 +65,6 @@ function setDevice(deviceID) {
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      console.log("maybe")
       renderQueue()
     }
   }
@@ -74,22 +84,19 @@ function renderQueue() {
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       var songs = JSON.parse(xhr.responseText)
+      queue = songs
 
       function renderSong(song) {
-        var button;
         var songElement = crel('div', { class: 'song' },
           crel('p', song.name),
           crel('p', song.album),
-          crel('p', song.artists),
-          button = crel('button', 'Play')
+          crel('p', song.artists)
         );
-        button.addEventListener('click', () => playSong(song.uri))
 
         return songElement;
       }
 
       crel(playerQueue, { style: "display: block" },
-        crel("h3", "Queue"),
         songs.map(renderSong)
       );
     }
@@ -99,6 +106,8 @@ function renderQueue() {
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send()
 }
+
+
 
 function playSong(songURI) {
   var url = 'http://localhost:8080/play'
