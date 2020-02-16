@@ -45,7 +45,6 @@ function renderSearch(songsResponse) {
   }
 
   crel(songList,
-    crel("h4", "Results"),
     songs.map(renderSong)
   );
 }
@@ -65,8 +64,8 @@ function renderQueue(queueResponse) {
 
     return songElement;
   }
+
   crel(queueList,
-    crel("h4", "Queue"),
     songs.map(renderSong)
   );
 

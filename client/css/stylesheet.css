@@ -1,18 +1,39 @@
+#deviceList {
+  text-align: center;
+}
+
 #searchSongs {
   text-align: center;
 }
 
-#songList {
+#results  {
   float:left;
-  width:60%;
-  overflow:hidden;
+  width:65%;
+  text-align: center;
+}
+
+#queue {
+  float:right;
+  width:35%;
+  text-align: center;
+}
+
+#songList {
+  height: 55vh;
+  overflow:scroll;
   text-align: center;
 }
 
 #queueList {
+  height: 55vh;
+  overflow:scroll;
+  text-align: center;
+}
+
+#playerQueue  {
   float:right;
-  width:40%;
-  overflow:hidden;
+  width:35%;
+  overflow:scroll;
   text-align: center;
 }
 
@@ -54,12 +75,12 @@
 h2 {
   text-align: center;
   font-family: 'Lato', sans-serif;
-  font-size: 10vw;
+  font-size: 9vw;
 }
 
 h3 {
   font-family: 'Lato', sans-serif;
-  font-size: 5vw;
+  font-size: 4vw;
 }
 
 h4 {
@@ -80,6 +101,8 @@ input {
   border-color: black;
   border-radius: 10px;
   background-color: white;
+  padding: 5px;
+  text-align: center;
 }
 
 .field label {
