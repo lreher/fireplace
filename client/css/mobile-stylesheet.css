@@ -56,6 +56,19 @@
   text-align: center;
 }
 
+@keyframes fail {
+  25%, 50% {
+     background-color: red;
+  }
+  0%, 25%, 75%, 100% {
+     background-color: white;
+  }
+}
+
+.fail {
+  animation: fail 1s;
+}
+
 #searchButton, #playButton  {
   margin: 3vw;
   padding: 2vw 6vw;

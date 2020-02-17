@@ -1,27 +1,60 @@
 var spotifyRequest = require('../services/spotifyRequest')
 
 queue = [];
+queueUpdated = false;
 
 function addToQueue(song) {
   queue.push(song)
+  queueUpdated = true;
 }
 
 function getQueue(song) {
   return queue;
 }
 
-function playSong(callback) {
+function play(callback) {
+  if (queue.length === 0) {
+    callback("No songs in queue.", null)
+    return;
+  } else if (queueUpdated === false) {
+    resume(callback);
+    return;
+  }
+
   body = {
-    uris: [queue[0]]
+    uris: queue.map(song => song.uri)
   }
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, function(error, response) {
     if (error) {
-      console.log(error)
       callback(error, null)
+      return;
     }
 
-    console.log(response)
+    queueUpdated = false;
+    callback(null,  response.data)
+  })
+}
+
+function resume(callback) {
+  spotifyRequest('PUT', '/me/player/play', {}, function(error, response) {
+    if (error) {
+      callback(error, null)
+      return;
+    }
+
+    callback(null, response.data)
+  })
+}
+
+function stop(callback) {
+  spotifyRequest('PUT', '/me/player/pause', {}, function(error, response) {
+    if (error) {
+      callback(error, null)
+      return;
+    }
+
+    callback(null,  response.data)
   })
 }
 
@@ -37,8 +70,6 @@ function searchSongs(song, album, artist, callback) {
   if (artist) {
     query += 'artist:' + encodeURIComponent(artist) + '%20'
   }
-
-  console.log(query)
 
   spotifyRequest("GET", '/search?q=' + query + '&type=track', null, function(error, response) {
     if(error) {
@@ -73,5 +104,7 @@ module.exports = {
   addToQueue: addToQueue,
   getQueue: getQueue,
   searchSongs: searchSongs,
-  playSong: playSong
+  play: play,
+  resume: resume,
+  stop: stop
 }

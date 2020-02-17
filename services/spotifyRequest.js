@@ -14,6 +14,7 @@ module.exports = function(method, endpoint, body, callback) {
     data: body
   })
   .then(result => {
+    console.log(result)
     callback(null, result.data)
   })
   .catch(error => {

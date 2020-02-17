@@ -1,12 +1,11 @@
 var queue;
 var playButton = document.getElementById("playButton");
+playButton.style.webkitAnimationPlayState = "paused";
+
 
 playButton.addEventListener('click', function() {
   if (playButton.innerHTML === 'Play') {
     play()
-
-    playButton.innerHTML = ""
-    crel(playButton, "Pause")
   } else {
     stop()
 
@@ -116,11 +115,16 @@ function renderQueue() {
   xhr.send()
 }
 
-
-
 function play() {
   var url = 'http://localhost:8080/play'
   var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      playButton.innerHTML = ""
+      crel(playButton, "Stop")
+    }
+  }
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -130,6 +134,13 @@ function play() {
 function stop() {
   var url = 'http://localhost:8080/stop'
   var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      playButton.innerHTML = ""
+      crel(playButton, "Play")
+    }
+  }
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
