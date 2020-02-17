@@ -2,6 +2,7 @@ var requestToken = require('../services/requestToken')
 var spotifyRequest = require('../services/spotifyRequest')
 
 var accessToken;
+var deviceID;
 
 function authorize(code, callback) {
  requestToken(code, function(error, response) {
@@ -22,6 +23,14 @@ function getDevices(callback) {
 
     callback(null, response)
   })
+}
+
+function setDevice(_deviceID) {
+  deviceID = _deviceID;
+}
+
+function getDevice() {
+  return deviceID;
 }
 
 function playSong(deviceID, songURI, callback) {
@@ -86,6 +95,8 @@ function searchSongs(song, album, artist, callback) {
 module.exports = {
   authorize: authorize,
   getDevices: getDevices,
+  setDevice: setDevice,
+  getDevice: getDevice,
   searchSongs: searchSongs,
   playSong: playSong
 }

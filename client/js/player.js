@@ -2,10 +2,16 @@ var queue;
 var playButton = document.getElementById("playButton");
 
 playButton.addEventListener('click', function() {
-  if (playButton.className === 'play') {
-    playButton.setAttribute('class', 'pause')
+  if (playButton.innerHTML === 'Play') {
+    play()
+
+    playButton.innerHTML = ""
+    crel(playButton, "Pause")
   } else {
-    playButton.setAttribute('class', 'play')
+    stop()
+
+    playButton.innerHTML = ""
+    crel(playButton, "Play")
   }
 })
 
@@ -75,6 +81,9 @@ function setDevice(deviceID) {
 }
 
 function renderQueue() {
+  player = document.getElementById('player');
+  player.style.display  = 'block';
+
   deviceList = document.getElementById("deviceList")
   deviceList.style.display = 'none'
 
@@ -96,7 +105,7 @@ function renderQueue() {
         return songElement;
       }
 
-      crel(playerQueue, { style: "display: block" },
+      crel(playerList, { style: "display: block" },
         songs.map(renderSong)
       );
     }
@@ -109,13 +118,20 @@ function renderQueue() {
 
 
 
-function playSong(songURI) {
+function play() {
   var url = 'http://localhost:8080/play'
   var xhr = new XMLHttpRequest();
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(JSON.stringify({
-    songURI: songURI
-  }))
+  xhr.send()
+}
+
+function stop() {
+  var url = 'http://localhost:8080/stop'
+  var xhr = new XMLHttpRequest();
+
+  xhr.open("POST", url, true)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send()
 }

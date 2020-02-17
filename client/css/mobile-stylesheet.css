@@ -31,78 +31,32 @@
 }
 
 #player {
+  display: none;
+}
+
+#queued {
   float:left;
   width:50%;
   text-align: center;
 }
 
-#playerQueue  {
+#playerList  {
   height: 70vh;
   overflow:scroll;
   text-align: center;
 }
 
 #played {
-  
+  float:right;
+  width:50%;
+  text-align: center;
 }
 
 #playback {
   text-align: center;
 }
 
-#playButton.play {
-  width: 5vw;
-  height: 5vw;
-  border-style: solid;
-  border-width: 37px;
-  border-color: #202020;
-  border-width: 37px 37px 37px 37px;
-  border-color: red blue green yellow;
-  box-sizing: border-box;
-  border-width: 37px 0px 37px 74px;
-  border-color: transparent transparent transparent #202020;
-}
-
-
-#playButton.pause {
-  width: 5vw;
-  height: 5vw;
-  border-style: solid;
-  border-width: 37px;
-  border-color: #202020;
-  border-style: double;
-  border-width: 0px 37px 0px 37px;
-  border-width: 0px 0px 0px 37px;
-  border-color: #202020;
-}
-
-#playButton {
-  outline:none;
-  border: 0;
-  background: transparent;
-  box-sizing: border-box;
-  width: 0px;
-  height: 5vw;
-
-  border-color: transparent transparent transparent #202020;
-  transition: 100ms all ease;
-  cursor: pointer;
-
-  // play state
-  border-style: solid;
-  border-width: 37px 0 37px 60px;
-
-  &.paused {
-    border-style: double;
-    border-width: 0px 0 0px 60px;
-  }
-
-  &:hover {
-    border-color: transparent transparent transparent #404040;
-  }
-}
-
-#searchButton {
+#searchButton, #playButton  {
   margin: 3vw;
   padding: 2vw 6vw;
   font-family: 'Lato', sans-serif;
@@ -113,7 +67,7 @@
   background-color: white;
 }
 
-.addSongButton, .addDeviceButton {
+.addSongButton, .addDeviceButton, #saveButton {
   font-family: 'Quicksand', sans-serif;
   font-size: 2.5vw;
   border-width: thin;

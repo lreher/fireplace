@@ -13,6 +13,7 @@ module.exports = function(request, response) {
   console.log(url)
 
   switch(url) {
+    // Main pages
     case '/':
       servePath = path.resolve(__dirname, "../client/html/login.html")
 
@@ -23,6 +24,14 @@ module.exports = function(request, response) {
 
     case '/client':
       servePath = path.resolve(__dirname, "../client/html/client.html")
+
+      response.writeHead(200, { 'Content-Type': 'text/html' })
+      fs.createReadStream(servePath, 'utf-8').pipe(response)
+
+      break;
+
+    case "/player":
+      servePath = path.resolve(__dirname, "../client/html/player.html")
 
       response.writeHead(200, { 'Content-Type': 'text/html' })
       fs.createReadStream(servePath, 'utf-8').pipe(response)
@@ -45,6 +54,7 @@ module.exports = function(request, response) {
       fs.createReadStream(servePath, 'utf-8').pipe(response)
       break;
 
+    // Spotify Redirect
     case (url.match(/callback/) || {}).input:
       code = url.replace("/callback?code=", "")
 
@@ -61,13 +71,6 @@ module.exports = function(request, response) {
 
       break;
 
-    case "/player":
-      servePath = path.resolve(__dirname, "../client/html/player.html")
-
-      response.writeHead(200, { 'Content-Type': 'text/html' })
-      fs.createReadStream(servePath, 'utf-8').pipe(response)
-
-      break;
 
     case "/devices":
       controller.getDevices(function(error, devices) {
@@ -90,9 +93,8 @@ module.exports = function(request, response) {
         requestData += chunk.toString()
       })
       .on('end', function() {
-        deviceID = requestData
+        controller.setDevice(requestData)
 
-        console.log(deviceID)
         response.writeHead(200);
         response.end();
       })
@@ -100,6 +102,8 @@ module.exports = function(request, response) {
       break;
 
     case "/current_device":
+      deviceID = controller.getDevice()
+
       if (!deviceID) {
         response.writeHead(404);
         response.end();
