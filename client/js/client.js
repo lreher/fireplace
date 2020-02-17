@@ -87,7 +87,7 @@ function addSong(song) {
 }
 
 function getQueue() {
-  var url = 'http://localhost:8080/songs'
+  var url = 'http://localhost:8080/queue'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {

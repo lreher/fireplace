@@ -5,9 +5,6 @@ var authorizationController = require('../controller/authorizationController');
 var deviceController = require('../controller/deviceController');
 var queueController = require('../controller/queueController');
 
-
-var queue = [];
-
 module.exports = function(request, response) {
   var url = request.url
 
@@ -146,40 +143,30 @@ module.exports = function(request, response) {
         requestData += chunk.toString()
       })
       .on('end', function() {
-        queue.push(JSON.parse(requestData))
+        queueController.addToQueue(JSON.parse(requestData))
 
         response.writeHead(200);
-        response.end(JSON.stringify(queue));
+        response.end(JSON.stringify(queueController.getQueue()));
       })
 
       break;
 
-    case "/songs":
+    case "/queue":
       response.writeHead(200);
-      response.end(JSON.stringify(queue));
+      response.end(JSON.stringify(queueController.getQueue()));
 
       break;
 
     case "/play":
-      var requestData = ""
-
-      request.on('data', function(chunk) {
-        requestData += chunk.toString()
-      })
-      .on('end', function() {
-        playInfo = JSON.parse(requestData)
-
-        queueController.playSong(deviceID, playInfo.songURI, function(error, response) {
-          if (error) {
-            response.writeHead(500);
-            response.end("Failed to Play Song.");
-            return;
-          }
-        })
+      queueController.playSong(function(error, response) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to Play Song.");
+          return;
+        }
       })
 
       break;
-
 
     default:
       response.writeHead(400)

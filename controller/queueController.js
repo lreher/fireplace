@@ -1,8 +1,18 @@
 var spotifyRequest = require('../services/spotifyRequest')
 
-function playSong(deviceID, songURI, callback) {
+queue = [];
+
+function addToQueue(song) {
+  queue.push(song)
+}
+
+function getQueue(song) {
+  return queue;
+}
+
+function playSong(callback) {
   body = {
-    uris: [songURI]
+    uris: [queue[0]]
   }
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, function(error, response) {
@@ -60,6 +70,8 @@ function searchSongs(song, album, artist, callback) {
 }
 
 module.exports = {
+  addToQueue: addToQueue,
+  getQueue: getQueue,
   searchSongs: searchSongs,
   playSong: playSong
 }

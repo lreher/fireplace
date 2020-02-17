@@ -87,7 +87,7 @@ function renderQueue() {
   deviceList = document.getElementById("deviceList")
   deviceList.style.display = 'none'
 
-  var url = 'http://localhost:8080/songs'
+  var url = 'http://localhost:8080/queue'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
