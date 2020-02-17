@@ -1,9 +1,12 @@
-var fs = require('fs')
-var path = require('path')
-var controller = require('../controller')
+var fs = require('fs');
+var path = require('path');
 
-var queue = []
-var deviceID;
+var authorizationController = require('../controller/authorizationController');
+var deviceController = require('../controller/deviceController');
+var queueController = require('../controller/queueController');
+
+
+var queue = [];
 
 module.exports = function(request, response) {
   var url = request.url
@@ -58,7 +61,7 @@ module.exports = function(request, response) {
     case (url.match(/callback/) || {}).input:
       code = url.replace("/callback?code=", "")
 
-      controller.authorize(code, function(error, authorization) {
+      authorizationController.authorize(code, function(error, authorization) {
         if (error) {
           response.writeHead(500);
           response.end("Failed to Authenticate to Spotify");
@@ -71,9 +74,8 @@ module.exports = function(request, response) {
 
       break;
 
-
     case "/devices":
-      controller.getDevices(function(error, devices) {
+      deviceController.getDevices(function(error, devices) {
         if (error) {
           response.writeHead(500);
           response.end("Failed to Get Devices.");
@@ -93,7 +95,7 @@ module.exports = function(request, response) {
         requestData += chunk.toString()
       })
       .on('end', function() {
-        controller.setDevice(requestData)
+        deviceController.setDevice(requestData)
 
         response.writeHead(200);
         response.end();
@@ -102,7 +104,7 @@ module.exports = function(request, response) {
       break;
 
     case "/current_device":
-      deviceID = controller.getDevice()
+      deviceID = deviceController.getDevice()
 
       if (!deviceID) {
         response.writeHead(404);
@@ -123,7 +125,7 @@ module.exports = function(request, response) {
       .on('end', function() {
         var searchQuery = JSON.parse(requestData)
 
-        controller.searchSongs(searchQuery.song, searchQuery.album, searchQuery.artist, function(error, songs) {
+        queueController.searchSongs(searchQuery.song, searchQuery.album, searchQuery.artist, function(error, songs) {
           if (error) {
             response.writeHead(500);
             response.end("Failed to Get Songs.");
@@ -167,7 +169,7 @@ module.exports = function(request, response) {
       .on('end', function() {
         playInfo = JSON.parse(requestData)
 
-        controller.playSong(deviceID, playInfo.songURI, function(error, response) {
+        queueController.playSong(deviceID, playInfo.songURI, function(error, response) {
           if (error) {
             response.writeHead(500);
             response.end("Failed to Play Song.");

@@ -1,44 +1,11 @@
-var requestToken = require('../services/requestToken')
 var spotifyRequest = require('../services/spotifyRequest')
-
-var accessToken;
-var deviceID;
-
-function authorize(code, callback) {
- requestToken(code, function(error, response) {
-   if (error) {
-     callback(error, null)
-   }
-
-   accessToken = response.data.access_token
-   callback(null, response)
- })
-}
-
-function getDevices(callback) {
-  spotifyRequest("GET", "/me/player/devices", null, accessToken, function(error, response) {
-    if(error) {
-      callback(error, null)
-    }
-
-    callback(null, response)
-  })
-}
-
-function setDevice(_deviceID) {
-  deviceID = _deviceID;
-}
-
-function getDevice() {
-  return deviceID;
-}
 
 function playSong(deviceID, songURI, callback) {
   body = {
     uris: [songURI]
   }
 
-  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, accessToken, function(error, response) {
+  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, function(error, response) {
     if (error) {
       console.log(error)
       callback(error, null)
@@ -63,7 +30,7 @@ function searchSongs(song, album, artist, callback) {
 
   console.log(query)
 
-  spotifyRequest("GET", '/search?q=' + query + '&type=track', null, accessToken, function(error, response) {
+  spotifyRequest("GET", '/search?q=' + query + '&type=track', null, function(error, response) {
     if(error) {
       callback(error, null)
     }
@@ -93,10 +60,6 @@ function searchSongs(song, album, artist, callback) {
 }
 
 module.exports = {
-  authorize: authorize,
-  getDevices: getDevices,
-  setDevice: setDevice,
-  getDevice: getDevice,
   searchSongs: searchSongs,
   playSong: playSong
 }
