@@ -6,6 +6,7 @@ function getDevices(callback) {
   spotifyRequest("GET", "/me/player/devices", null, function(error, response) {
     if(error) {
       callback(error, null)
+      return;
     }
 
     callback(null, response)
@@ -19,6 +20,11 @@ function setDevice(_deviceID) {
 function getDevice() {
   return deviceID;
 }
+
+function resetDevice() {
+  deviceID = null;
+}
+
 
 module.exports = {
   getDevices: getDevices,

@@ -1,7 +1,7 @@
 var axios = require('axios')
 var queryString = require('querystring')
 
-function requestToken(code, callback) {
+function refreshAccessToken(refreshToken, callback) {
   // Safety first!
   var clientID = process.env.CLIENT_ID
   var secretKey = process.env.CLIENT_SECRET
@@ -10,24 +10,25 @@ function requestToken(code, callback) {
   var base64Auth = Buffer.from(authorizationText).toString('base64')
 
   var data = {
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: 'http://localhost:8080/callback'
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken
   }
-
+  console.log(refreshToken)
+  console.log(authorizationText)
   axios({
     method: 'POST',
     url: 'https://accounts.spotify.com/api/token',
     json: true,
     headers: {
-      Authorization: 'Basic ' + base64Auth
+      'Authorization': 'Basic ' + base64Auth
     },
     data: queryString.stringify(data)
   })
   .then(result => {
-    callback(null, result)
+    callback(null, result.data)
   })
-  .catch(callback)
-}
+  .catch(error => {
+    callback(error, null)
+  })}
 
-module.exports = requestToken
+module.exports = refreshAccessToken

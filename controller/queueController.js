@@ -33,6 +33,7 @@ function play(callback) {
 
     queueUpdated = false;
     callback(null,  response.data)
+
   })
 }
 
