@@ -1,7 +1,10 @@
 var spotifyRequest = require('../services/spotifyRequest')
+var deviceController = require('../controller/deviceController');
 
 queue = [];
 queueUpdated = false;
+
+setInterval(getPlayback, 10000)
 
 function addToQueue(song) {
   queue.push(song)
@@ -16,29 +19,63 @@ function play(callback) {
   if (queue.length === 0) {
     callback("No songs in queue.", null)
     return;
-  } else if (queueUpdated === false) {
-    resume(callback);
-    return;
   }
+  //else if (queueUpdated === false) {
+  //   resume(callback);
+  //   return;
+  // }
 
   body = {
     uris: queue.map(song => song.uri)
   }
 
-  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceID, body, function(error, response) {
+  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
       callback(error, null)
       return;
     }
 
     queueUpdated = false;
-    callback(null,  response.data)
+    callback(null, response.data)
+  })
 
+  // transfer(function(error, response) {
+  //   if (error) {
+  //     console.log(error)
+  //     return;
+  //   }
+//  })
+
+}
+
+function  getPlayback() {
+  console.log('heyo')
+  spotifyRequest('GET', '/me/player', null, function(error, response) {
+    if (error) {
+      console.log(error)
+      return;
+    }
+    console.log(response)
+  })
+}
+
+function transfer(callback) {
+  body = {
+    device_ids: [deviceController.getDevice()],
+    play: true
+  }
+
+  spotifyRequest('PUT', '/me/player', body, function(error, response) {
+    if (error) {
+      callback(error, null)
+      return;
+    }
+    callback(null, response)
   })
 }
 
 function resume(callback) {
-  spotifyRequest('PUT', '/me/player/play', {}, function(error, response) {
+  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), {}, function(error, response) {
     if (error) {
       callback(error, null)
       return;

@@ -8,7 +8,7 @@ function getDevices(callback) {
       callback(error, null)
       return;
     }
-
+    console.log(response)
     callback(null, response)
   })
 }

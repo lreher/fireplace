@@ -16,7 +16,7 @@ playButton.addEventListener('click', function() {
 hasDevice();
 
 function hasDevice() {
-  var url = 'https://fireplace.onrender.com/current_device'
+  var url = 'http://localhost:8080/current_device'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -33,7 +33,7 @@ function hasDevice() {
 }
 
 function selectDevice() {
-  var url = 'https://fireplace.onrender.com/devices'
+  var url = 'http://localhost:8080/devices'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -64,7 +64,7 @@ function selectDevice() {
 }
 
 function setDevice(deviceID) {
-  var url = 'https://fireplace.onrender.com/set_device'
+  var url = 'http://localhost:8080/set_device'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -85,7 +85,7 @@ function renderQueue() {
   deviceList = document.getElementById("deviceList")
   deviceList.style.display = 'none'
 
-  var url = 'https://fireplace.onrender.com/queue'
+  var url = 'http://localhost:8080/queue'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -115,7 +115,7 @@ function renderQueue() {
 }
 
 function play() {
-  var url = 'https://fireplace.onrender.com/play'
+  var url = 'http://localhost:8080/play'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -131,7 +131,7 @@ function play() {
 }
 
 function stop() {
-  var url = 'https://fireplace.onrender.com/stop'
+  var url = 'http://localhost:8080/stop'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {

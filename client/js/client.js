@@ -11,7 +11,7 @@ searchSongs.addEventListener('submit', function(event) {
     artist: document.getElementById("searchBarArtist").value
   }
 
-  var url = 'https://fireplace.onrender.com/search'
+  var url = 'http://localhost:8080/search'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -72,7 +72,7 @@ function renderQueue(queueResponse) {
 }
 
 function addSong(song) {
-  var url = 'https://fireplace.onrender.com/add'
+  var url = 'http://localhost:8080/add'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -87,7 +87,7 @@ function addSong(song) {
 }
 
 function getQueue() {
-  var url = 'https://fireplace.onrender.com/queue'
+  var url = 'http://localhost:8080/queue'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
