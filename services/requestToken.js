@@ -5,7 +5,10 @@ var queryString = require('querystring')
 var clientID = process.env.CLIENT_ID
 var secretKey = process.env.CLIENT_SECRET
 
+
 function requestToken(code, callback) {
+  console.log(clientID)
+  console.log(secretKey)
   var authorizationText = (clientID + ':' + secretKey)
   var base64Auth = Buffer.from(authorizationText).toString('base64')
 
