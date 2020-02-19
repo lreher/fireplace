@@ -157,6 +157,12 @@ module.exports = function(request, response) {
 
       break;
 
+    case "/played":
+      response.writeHead(200);
+      response.end(JSON.stringify(queueController.getPlayed()));
+
+      break;
+
     case "/play":
       queueController.play(function(error, status) {
         if (error) {

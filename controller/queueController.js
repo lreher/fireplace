@@ -4,6 +4,8 @@ var deviceController = require('../controller/deviceController');
 queue = [];
 queueUpdated = false;
 
+played = [];
+
 setInterval(getPlayback, 10000)
 
 function addToQueue(song) {
@@ -11,8 +13,12 @@ function addToQueue(song) {
   queueUpdated = true;
 }
 
-function getQueue(song) {
+function getQueue() {
   return queue;
+}
+
+function getPlayed() {
+  return played;
 }
 
 function play(callback) {
@@ -20,14 +26,13 @@ function play(callback) {
     callback("No songs in queue.", null)
     return;
   }
-  //else if (queueUpdated === false) {
-  //   resume(callback);
-  //   return;
-  // }
 
   body = {
-    uris: queue.map(song => song.uri)
+    uris: [queue[0].uri]
   }
+
+  console.log(body)
+  console.log(queue)
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
@@ -38,17 +43,11 @@ function play(callback) {
     queueUpdated = false;
     callback(null, response.data)
   })
-
-  // transfer(function(error, response) {
-  //   if (error) {
-  //     console.log(error)
-  //     return;
-  //   }
-//  })
-
 }
 
 function getPlayback() {
+  console.log("run")
+
   spotifyRequest('GET', '/me/player', null, function(error, response) {
     if (error) {
       console.log(error.response.status)
@@ -61,7 +60,13 @@ function getPlayback() {
 }
 
 function alterState(response) {
-
+  // Check if song has played to 80% completion, remove from queue and count it as played.
+  if (response.item.uri === queue[0].uri) {
+    if ((response.progress_ms / response.item.duration_ms) > 0.8) {
+      console.log("dons")
+      played.push(queue.shift())
+    }
+  }
 }
 
 function transfer(callback) {
@@ -146,6 +151,7 @@ function searchSongs(song, album, artist, callback) {
 module.exports = {
   addToQueue: addToQueue,
   getQueue: getQueue,
+  getPlayed: getPlayed,
   searchSongs: searchSongs,
   play: play,
   resume: resume,

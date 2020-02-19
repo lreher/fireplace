@@ -46,6 +46,12 @@
   text-align: center;
 }
 
+#playedList  {
+  height: 70vh;
+  overflow:scroll;
+  text-align: center;
+}
+
 #played {
   float:right;
   width:50%;

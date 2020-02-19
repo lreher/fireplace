@@ -21,7 +21,8 @@ function hasDevice() {
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      renderQueue()
+      setInterval(renderQueue, 5000)
+      setInterval(renderPlayed, 5000)
     } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 404) {
       selectDevice()
     }
@@ -69,7 +70,7 @@ function setDevice(deviceID) {
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      renderQueue()
+      hasDevice();
     }
   }
 
@@ -93,6 +94,9 @@ function renderQueue() {
       var songs = JSON.parse(xhr.responseText)
       queue = songs
 
+      var playerList  = document.getElementById('playerList')
+      playerList.innerHTML = ""
+
       function renderSong(song) {
         var songElement = crel('div', { class: 'song' },
           crel('p', song.name),
@@ -104,6 +108,38 @@ function renderQueue() {
       }
 
       crel(playerList, { style: "display: block" },
+        songs.map(renderSong)
+      );
+    }
+  }
+
+  xhr.open("GET", url, true)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send()
+}
+
+function renderPlayed() {
+  var url = 'http://localhost:8080/played'
+  var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var songs = JSON.parse(xhr.responseText)
+
+      var playedList  = document.getElementById('playedList')
+      playedList.innerHTML = ""
+
+      function renderSong(song) {
+        var songElement = crel('div', { class: 'song' },
+          crel('p', song.name),
+          crel('p', song.album),
+          crel('p', song.artists)
+        );
+
+        return songElement;
+      }
+
+      crel(playedList, { style: "display: block" },
         songs.map(renderSong)
       );
     }
