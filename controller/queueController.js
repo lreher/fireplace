@@ -48,15 +48,20 @@ function play(callback) {
 
 }
 
-function  getPlayback() {
-  console.log('heyo')
+function getPlayback() {
   spotifyRequest('GET', '/me/player', null, function(error, response) {
     if (error) {
-      console.log(error)
+      console.log(error.response.status)
+      console.log(error.response.statusText)
       return;
     }
-    console.log(response)
+
+    alterState(response)
   })
+}
+
+function alterState(response) {
+
 }
 
 function transfer(callback) {
