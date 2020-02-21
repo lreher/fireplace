@@ -1,13 +1,11 @@
 var spotifyRequest = require('../services/spotifyRequest')
 var deviceController = require('../controller/deviceController');
 
-queue = ["spotify:track:28Zg3EXyibO3UEda2WirSV", "spotify:track:0Ceozg27V0Ws9jgQixD8fr", "spotify:track:6YBz2t787QoPWZrIww5AvV", "spotify:track:28Zg3EXyibO3UEda2WirSV", "spotify:track:0Ceozg27V0Ws9jgQixD8fr", "spotify:track:6YBz2t787QoPWZrIww5AvV", "spotify:track:28Zg3EXyibO3UEda2WirSV", "spotify:track:0Ceozg27V0Ws9jgQixD8fr", "spotify:track:6YBz2t787QoPWZrIww5AvV"];
+queue = [];
 queueUpdated = false;
 
 played = [];
 playing = false;
-
-setInterval(getPlayback, 5000)
 
 function addToQueue(song) {
   queue.push(song)
@@ -45,24 +43,22 @@ function play(callback) {
   })
 }
 
+function start() {
+  play(function(error, response) {
+    setInterval(queueTimer, 1000))
+    setInterval(getPlayback, 10000)
+  })
+}
+
+function queueTimer() {
+  
+}
+
 function getPlayback() {
   spotifyRequest('GET', '/me/player', null, function(error, response) {
     if (error) {
       return;
     }
-
-    // if (playing === true) {
-    //   stop()
-    // } else {
-    //   play()
-    // }
-    play(function(error, response) {
-      if (error) {
-        console.log(error);
-        return error;
-      }
-      console.log(response);
-    })
 
     alterPlaybackState(response)
   })

@@ -3,13 +3,13 @@ var queue;
 var playButton = document.getElementById("playButton");
 
 playButton.addEventListener('click', function() {
-  if (playButton.innerHTML === 'Play') {
-    play()
+  if (playButton.innerHTML === 'Start') {
+    start()
   } else {
-    stop()
+    skip()
 
     playButton.innerHTML = ""
-    crel(playButton, "Play")
+    crel(playButton, "Start")
   }
 })
 
@@ -23,7 +23,7 @@ function hasDevice() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       renderQueue()
       renderPlayed()
-      
+
       setInterval(renderQueue, 5000)
       setInterval(renderPlayed, 5000)
     } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 404) {
@@ -153,14 +153,14 @@ function renderPlayed() {
   xhr.send()
 }
 
-function play() {
-  var url = 'http://localhost:8080/play'
+function start() {
+  var url = 'http://localhost:8080/start'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       playButton.innerHTML = ""
-      crel(playButton, "Stop")
+      crel(playButton, "Skip")
     }
   }
 
@@ -169,16 +169,9 @@ function play() {
   xhr.send()
 }
 
-function stop() {
-  var url = 'http://localhost:8080/stop'
+function skip() {
+  var url = 'http://localhost:8080/skip'
   var xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      playButton.innerHTML = ""
-      crel(playButton, "Play")
-    }
-  }
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

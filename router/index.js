@@ -163,25 +163,11 @@ module.exports = function(request, response) {
 
       break;
 
-    case "/play":
-      queueController.play(function(error, status) {
+    case "/start":
+      queueController.start(function(error, status) {
         if (error) {
           response.writeHead(500);
-          response.end("Failed to play song.");
-          return;
-        }
-
-        response.writeHead(200);
-        response.end()
-      })
-
-      break;
-
-    case "/stop":
-      queueController.stop(function(error, status) {
-        if (error) {
-          response.writeHead(500);
-          response.end("Failed to stop playback.");
+          response.end("Failed to start queue.");
           return;
         }
 
