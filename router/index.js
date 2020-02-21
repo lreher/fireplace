@@ -10,8 +10,6 @@ module.exports = function(request, response) {
 
   var servePath
 
-  console.log(url)
-
   switch(url) {
     // Main pages
     case '/':
@@ -86,6 +84,8 @@ module.exports = function(request, response) {
       break;
 
     case "/set_device":
+      console.log("setting")
+
       var requestData = ""
 
       request.on('data', function(chunk) {
@@ -93,7 +93,7 @@ module.exports = function(request, response) {
       })
       .on('end', function() {
         deviceController.setDevice(requestData)
-
+        console.log("set")
         response.writeHead(200);
         response.end();
       })

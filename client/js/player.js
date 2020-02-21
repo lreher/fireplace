@@ -21,6 +21,9 @@ function hasDevice() {
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      renderQueue()
+      renderPlayed()
+      
       setInterval(renderQueue, 5000)
       setInterval(renderPlayed, 5000)
     } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 404) {

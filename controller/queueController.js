@@ -5,11 +5,13 @@ queue = [];
 queueUpdated = false;
 
 played = [];
+playing = false;
 
-setInterval(getPlayback, 10000)
+setInterval(getPlayback, 1000)
 
 function addToQueue(song) {
   queue.push(song)
+
   queueUpdated = true;
 }
 
@@ -22,6 +24,7 @@ function getPlayed() {
 }
 
 function play(callback) {
+  playing = true;
   if (queue.length === 0) {
     callback("No songs in queue.", null)
     return;
@@ -46,24 +49,27 @@ function play(callback) {
 }
 
 function getPlayback() {
-  console.log("run")
-
   spotifyRequest('GET', '/me/player', null, function(error, response) {
     if (error) {
-      console.log(error.response.status)
-      console.log(error.response.statusText)
       return;
     }
 
-    alterState(response)
+    if (playing === true) {
+      stop()
+    } else {
+      resume()
+    }
+
+    alterPlaybackState(response)
   })
 }
 
-function alterState(response) {
+function alterPlaybackState(response) {
+  console.log(response.progress_ms + " : " + response.item.duration_ms)
   // Check if song has played to 80% completion, remove from queue and count it as played.
   if (response.item.uri === queue[0].uri) {
     if ((response.progress_ms / response.item.duration_ms) > 0.8) {
-      console.log("dons")
+      console.log("song is d0ne")
       played.push(queue.shift())
     }
   }
@@ -84,25 +90,29 @@ function transfer(callback) {
   })
 }
 
-function resume(callback) {
+function resume() {
+  playing = true;
+  console.log("resuming")
+
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), {}, function(error, response) {
     if (error) {
-      callback(error, null)
+      console.log("error resuming")
       return;
     }
-
-    callback(null, response.data)
+    console.log("resuming")
   })
 }
 
-function stop(callback) {
+function stop() {
+  playing = false;
+  console.log("stopping")
+
   spotifyRequest('PUT', '/me/player/pause', {}, function(error, response) {
     if (error) {
-      callback(error, null)
+      console.log("error stopping")
       return;
     }
-
-    callback(null,  response.data)
+    console.log("stopped")
   })
 }
 
