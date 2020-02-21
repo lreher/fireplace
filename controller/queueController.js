@@ -1,13 +1,13 @@
 var spotifyRequest = require('../services/spotifyRequest')
 var deviceController = require('../controller/deviceController');
 
-queue = [];
+queue = ["spotify:track:28Zg3EXyibO3UEda2WirSV", "spotify:track:0Ceozg27V0Ws9jgQixD8fr", "spotify:track:6YBz2t787QoPWZrIww5AvV", "spotify:track:28Zg3EXyibO3UEda2WirSV", "spotify:track:0Ceozg27V0Ws9jgQixD8fr", "spotify:track:6YBz2t787QoPWZrIww5AvV", "spotify:track:28Zg3EXyibO3UEda2WirSV", "spotify:track:0Ceozg27V0Ws9jgQixD8fr", "spotify:track:6YBz2t787QoPWZrIww5AvV"];
 queueUpdated = false;
 
 played = [];
 playing = false;
 
-setInterval(getPlayback, 1000)
+setInterval(getPlayback, 5000)
 
 function addToQueue(song) {
   queue.push(song)
@@ -31,11 +31,8 @@ function play(callback) {
   }
 
   body = {
-    uris: [queue[0].uri]
+    uris: [queue.shift()]
   }
-
-  console.log(body)
-  console.log(queue)
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
@@ -54,11 +51,18 @@ function getPlayback() {
       return;
     }
 
-    if (playing === true) {
-      stop()
-    } else {
-      resume()
-    }
+    // if (playing === true) {
+    //   stop()
+    // } else {
+    //   play()
+    // }
+    play(function(error, response) {
+      if (error) {
+        console.log(error);
+        return error;
+      }
+      console.log(response);
+    })
 
     alterPlaybackState(response)
   })
@@ -66,54 +70,15 @@ function getPlayback() {
 
 function alterPlaybackState(response) {
   console.log(response.progress_ms + " : " + response.item.duration_ms)
+  console.log(response.item.uri)
   // Check if song has played to 80% completion, remove from queue and count it as played.
   if (response.item.uri === queue[0].uri) {
     if ((response.progress_ms / response.item.duration_ms) > 0.8) {
       console.log("song is d0ne")
+
       played.push(queue.shift())
     }
   }
-}
-
-function transfer(callback) {
-  body = {
-    device_ids: [deviceController.getDevice()],
-    play: true
-  }
-
-  spotifyRequest('PUT', '/me/player', body, function(error, response) {
-    if (error) {
-      callback(error, null)
-      return;
-    }
-    callback(null, response)
-  })
-}
-
-function resume() {
-  playing = true;
-  console.log("resuming")
-
-  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), {}, function(error, response) {
-    if (error) {
-      console.log("error resuming")
-      return;
-    }
-    console.log("resuming")
-  })
-}
-
-function stop() {
-  playing = false;
-  console.log("stopping")
-
-  spotifyRequest('PUT', '/me/player/pause', {}, function(error, response) {
-    if (error) {
-      console.log("error stopping")
-      return;
-    }
-    console.log("stopped")
-  })
 }
 
 function searchSongs(song, album, artist, callback) {
@@ -163,7 +128,5 @@ module.exports = {
   getQueue: getQueue,
   getPlayed: getPlayed,
   searchSongs: searchSongs,
-  play: play,
-  resume: resume,
-  stop: stop
+  start: start
 }
