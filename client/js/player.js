@@ -13,7 +13,7 @@ playButton.addEventListener('click', function() {
 hasDevice();
 
 function hasDevice() {
-  var url = 'https://fireplace.onrender.com/current_device'
+  var url = 'https://fireplace.onrender.co/current_device'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -34,7 +34,7 @@ function hasDevice() {
 }
 
 function selectDevice() {
-  var url = 'https://fireplace.onrender.com/devices'
+  var url = 'https://fireplace.onrender.co/devices'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -65,7 +65,7 @@ function selectDevice() {
 }
 
 function setDevice(deviceID) {
-  var url = 'https://fireplace.onrender.com/set_device'
+  var url = 'https://fireplace.onrender.co/set_device'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -86,7 +86,7 @@ function renderQueue() {
   deviceList = document.getElementById("deviceList")
   deviceList.style.display = 'none'
 
-  var url = 'https://fireplace.onrender.com/queue'
+  var url = 'https://fireplace.onrender.co/queue'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -119,7 +119,7 @@ function renderQueue() {
 }
 
 function renderPlayed() {
-  var url = 'https://fireplace.onrender.com/played'
+  var url = 'https://fireplace.onrender.co/played'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -160,7 +160,7 @@ function renderPlayed() {
 }
 
 function start() {
-  var url = 'https://fireplace.onrender.com/start'
+  var url = 'https://fireplace.onrender.co/start'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -185,7 +185,7 @@ function start() {
 }
 
 function end() {
-  var url = 'https://fireplace.onrender.com/end'
+  var url = 'https://fireplace.onrender.co/end'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -209,7 +209,7 @@ function end() {
 }
 
 function save(saveButton) {
-  var url = 'https://fireplace.onrender.com/save'
+  var url = 'https://fireplace.onrender.co/save'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {

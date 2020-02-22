@@ -12,7 +12,7 @@ function requestToken(code, callback) {
   var data = {
     grant_type: 'authorization_code',
     code: code,
-    redirect_uri: 'https://fireplace.onrender.com/callback'
+    redirect_uri: 'https://fireplace.onrender.co/callback'
   }
 
   axios({
