@@ -6,7 +6,7 @@ queue = [];
 played = [];
 playing = false;
 
-time = 0;
+canSkip = true;
 
 function addToQueue(song) {
   queue.push(song)
@@ -21,10 +21,14 @@ function getPlayed() {
 }
 
 function play(callback) {
-  playing = true;
+  console.log("play")
   if (queue.length === 0) {
     callback("No songs in queue.", null)
     return;
+  }
+
+  if (playing == true) {
+    played.push(queue.shift())
   }
 
   body = {
@@ -36,24 +40,25 @@ function play(callback) {
       callback(error, null)
       return;
     }
+
+    playing = true;
+    canSkip = true;
+
     callback(null, response.data)
   })
+
 }
 
 function start(callback) {
+  setInterval(getPlayback, 10000)
+
   play(function(error, response) {
     if (error) {
       callback(error, null)
       return;
     }
     callback(null, response)
-    setInterval(getPlayback, 10000)
   })
-}
-
-function queueTimer() {
-  time += 1;
-  console.log(time)
 }
 
 function getPlayback() {
@@ -67,12 +72,16 @@ function getPlayback() {
 }
 
 function alterPlaybackState(response) {
-  console.log(response.progress_ms + " : " + response.item.duration_ms)
-  console.log(response.item.uri)
-  // Check if song has played to 80% completion, remove from queue and count it as played.
+  // Check if song has less than 20 seconds left, set a timeout to change songs.
   if (response.item.uri === queue[0].uri) {
-    if ((response.progress_ms / response.item.duration_ms) > 0.8) {
-      played.push(queue.shift())
+    progress = response.item.duration_ms - response.progress_ms
+
+    console.log(progress)
+
+    if (progress < 20000 && canSkip) {
+      canSkip = false;
+      console.log("setting")
+      setTimeout(play, progress - 1000)
     }
   }
 }

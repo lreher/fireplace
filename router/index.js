@@ -84,8 +84,6 @@ module.exports = function(request, response) {
       break;
 
     case "/set_device":
-      console.log("setting")
-
       var requestData = ""
 
       request.on('data', function(chunk) {

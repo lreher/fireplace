@@ -19,8 +19,6 @@ searchSongs.addEventListener('submit', function(event) {
   searchSongs.classList.remove("success")
   searchSongs.classList.remove("fail")
 
-  console.log(event)
-
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       renderSearch(xhr.responseText)
@@ -98,9 +96,8 @@ function addSong(song, button) {
       renderQueue(xhr.responseText)
 
       canAddSong = false;
-      setTimeout(() => canAddSong = true, 5000)
+      setTimeout(() => canAddSong = true, 2000)
 
-      console.log('cando')
       void button.offsetWidth;
       button.classList.add("success")
     }
@@ -111,7 +108,6 @@ function addSong(song, button) {
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify(song))
   } else {
-    console.log('cantdo')
     void button.offsetWidth;
     button.classList.add("fail")
   }
