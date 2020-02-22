@@ -57,34 +57,35 @@ function end(callback) {
 }
 
 function play() {
-  if (playing == true && queue.length > 0) {
-    song = queue.shift()
-    played.push(song)
-  }
-
   if (queue.length === 0) {
     console.log("No songs in queue.")
-
-    playing = false;
 
     setTimeout(play, 3000)
     return;
   }
 
+  song = queue[0]
+
   body = {
-    uris: [queue[0].uri]
+    uris: [song.uri]
   }
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
+      setTimeout(play, 3000)
       return;
     }
 
-    playing = true;
     canSkip = true;
-
-    callback(null, response.data)
+    console.log("did it?")
   })
+}
+
+function next()  {
+  if (queue.length > 0) {
+    played.push(queue[0])
+    queue.shift()
+  }
 }
 
 
@@ -105,6 +106,8 @@ function alterPlaybackState(response) {
 
     if (progress < 10000 && canSkip) {
       canSkip = false;
+
+      setTimeout(next, progress - 2000)
       setTimeout(play, progress - 1500)
     }
   }
