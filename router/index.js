@@ -175,6 +175,20 @@ module.exports = function(request, response) {
 
       break;
 
+    case "/save":
+      queueController.save(function(error, status) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to create playlist.");
+          return;
+        }
+
+        response.writeHead(200);
+        response.end()
+      })
+
+      break;
+
     case "/end":
       queueController.end(function(error, status) {
         if (error) {

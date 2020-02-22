@@ -1,7 +1,6 @@
 var queue;
 
 var playButton = document.getElementById("playButton");
-var saveButton = document.getElementById("saveButton");
 
 playButton.addEventListener('click', function() {
   if (playButton.innerHTML === 'Start') {
@@ -9,10 +8,6 @@ playButton.addEventListener('click', function() {
   } else {
     end()
   }
-})
-
-saveButton.addEventListener('click', function() {
-  save()
 })
 
 hasDevice();
@@ -146,10 +141,16 @@ function renderPlayed() {
         return songElement;
       }
 
+      saveButton = crel('button', { id: 'saveButton' }, 'Save playlist')
+
       crel(playedList, { style: "display: block" },
         songs.map(renderSong),
-        crel('button', { id: 'saveButton' }, 'Save playlist')
+        saveButton
       );
+
+      saveButton.addEventListener('click', function() {
+        save(saveButton)
+      })
     }
   }
 
@@ -184,7 +185,6 @@ function start() {
 }
 
 function end() {
-  console.log("end")
   var url = 'http://localhost:8080/end'
   var xhr = new XMLHttpRequest();
 
@@ -194,7 +194,6 @@ function end() {
       void playButton.offsetWidth;
       playButton.classList.add("success")
 
-      console.log("hm")
       window.location.reload(true);
 
     } else if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -209,6 +208,24 @@ function end() {
   xhr.send()
 }
 
-function save() {
-  
+function save(saveButton) {
+  var url = 'http://localhost:8080/save'
+  var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      saveButton.classList.remove("success")
+      void saveButton.offsetWidth;
+      saveButton.classList.add("success")
+
+    } else if (xhr.readyState === XMLHttpRequest.DONE) {
+      saveButton.classList.remove("fail")
+      void saveButton.offsetWidth;
+      saveButton.classList.add("fail")
+    }
+  }
+
+  xhr.open("POST", url, true)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send()
 }

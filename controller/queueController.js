@@ -8,30 +8,63 @@ played = [];
 playing = false;
 canSkip = true;
 
-function clearQueue() {
+function start(callback) {
+  setInterval(getPlayback, 5000)
+
+  awaitPlayback()
+
+  callback(null, "Gottem")
+}
+
+function save(callback) {
+
+  time = new Date(Date.now())
+  body = {
+    name: "Fireplace: " + time.toUTCString()
+  }
+
+  uris = played.map(song => song.uri).join(',')
+  console.log(uris)
+
+  // spotifyRequest('POST', "/users/" + deviceController.getUser()+ "/playlists", body, function(error, response) {
+  //   if (error) {
+  //     callback(error, null)
+  //     return
+  //   }
+  //
+  //   console.log
+  //
+  //   // spotifyRequest('POST', "/playlists/{playlist_id}" + response.id+ "/tracks", body, function(error, response) {
+  //   //
+  //   // }
+  // })
+
+  callback(null, "yiit")
+}
+
+function end(callback) {
   queue = [];
-}
 
-function addToQueue(song) {
-  queue.push(song)
-}
+  deviceController.resetDevice()
 
-function getQueue() {
-  return queue;
-}
+  playing = false;
+  canSkip = true;
 
-function getPlayed() {
-  return played;
+  callback(null, "Gottem")
 }
 
 function play() {
-  if (queue.length === 0) {
-    console.log("No songs in queue.")
-    return;
-  }
-
   if (playing == true) {
     played.push(queue.shift())
+  }
+
+  if (queue.length === 0) {
+    console.log("No songs in queue.")
+
+    playing = false;
+    awaitPlayback()
+
+    return;
   }
 
   body = {
@@ -50,30 +83,11 @@ function play() {
   })
 }
 
-function end(callback) {
-  queue = [];
-
-  deviceController.resetDevice()
-
-  playing = false;
-  canSkip = true;
-
-  callback(null, "Gottem")
-}
-
-function start(callback) {
-  setInterval(getPlayback, 10000)
-
-  setPlayback()
-
-  callback(null, "Gottem")
-}
-
-function setPlayback() {
+function awaitPlayback() {
   if (playing == false) {
     play()
 
-    setTimeout(setPlayback, 3000)
+    setTimeout(awaitPlayback, 3000)
   }
 }
 
@@ -92,7 +106,7 @@ function alterPlaybackState(response) {
   if (response.item.uri === queue[0].uri) {
     progress = response.item.duration_ms - response.progress_ms
 
-    if (progress < 20000 && canSkip) {
+    if (progress < 10000 && canSkip) {
       canSkip = false;
       setTimeout(play, progress - 1500)
     }
@@ -141,11 +155,28 @@ function searchSongs(song, album, artist, callback) {
   })
 }
 
+function clearQueue() {
+  queue = [];
+}
+
+function addToQueue(song) {
+  queue.push(song)
+}
+
+function getQueue() {
+  return queue;
+}
+
+function getPlayed() {
+  return played;
+}
+
 module.exports = {
   addToQueue: addToQueue,
   getQueue: getQueue,
   getPlayed: getPlayed,
   searchSongs: searchSongs,
   start: start,
+  save: save,
   end: end
 }

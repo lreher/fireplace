@@ -1,6 +1,7 @@
 var spotifyRequest = require('../services/spotifyRequest')
 
 var deviceID;
+var userID;
 
 function getDevices(callback) {
   spotifyRequest("GET", "/me/player/devices", null, function(error, response) {
@@ -8,13 +9,28 @@ function getDevices(callback) {
       callback(error, null)
       return;
     }
-    console.log(response)
+
     callback(null, response)
   })
 }
 
 function setDevice(_deviceID) {
   deviceID = _deviceID;
+  setUser()
+}
+
+function setUser() {
+  spotifyRequest("GET", "/me/", null, function(error, response) {
+    if (error)  {
+      return;
+    }
+
+    userID = response.id
+  })
+}
+
+function getUser() {
+  return userID;
 }
 
 function getDevice() {
@@ -23,11 +39,13 @@ function getDevice() {
 
 function resetDevice() {
   deviceID = null;
+  userID = null;
 }
 
 module.exports = {
   getDevices: getDevices,
   setDevice: setDevice,
   getDevice: getDevice,
-  resetDevice: resetDevice
+  resetDevice: resetDevice,
+  getUser: getUser
 }
