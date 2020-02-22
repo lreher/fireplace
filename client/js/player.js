@@ -1,13 +1,18 @@
 var queue;
 
 var playButton = document.getElementById("playButton");
+var saveButton = document.getElementById("saveButton");
 
 playButton.addEventListener('click', function() {
   if (playButton.innerHTML === 'Start') {
     start()
   } else {
-    skip()
+    end()
   }
+})
+
+saveButton.addEventListener('click', function() {
+  save()
 })
 
 hasDevice();
@@ -129,6 +134,8 @@ function renderPlayed() {
       var playedList  = document.getElementById('playedList')
       playedList.innerHTML = ""
 
+      var saveButton = document.getElementById('saveButton')
+
       function renderSong(song) {
         var songElement = crel('div', { class: 'song' },
           crel('p', song.name),
@@ -140,7 +147,8 @@ function renderPlayed() {
       }
 
       crel(playedList, { style: "display: block" },
-        songs.map(renderSong)
+        songs.map(renderSong),
+        crel('button', { id: 'saveButton' }, 'Save playlist')
       );
     }
   }
@@ -157,7 +165,7 @@ function start() {
   xhr.onreadystatechange = function() {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       playButton.innerHTML = ""
-      crel(playButton, "Skip")
+      crel(playButton, "End")
 
       playButton.classList.remove("success")
       void playButton.offsetWidth;
@@ -175,22 +183,32 @@ function start() {
   xhr.send()
 }
 
-function skip() {
-  var url = 'http://localhost:8080/skip'
+function end() {
+  console.log("end")
+  var url = 'http://localhost:8080/end'
   var xhr = new XMLHttpRequest();
 
-  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-    playButton.classList.remove("success")
-    void playButton.offsetWidth;
-    playButton.classList.add("success")
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      playButton.classList.remove("success")
+      void playButton.offsetWidth;
+      playButton.classList.add("success")
 
-  } else if (xhr.readyState === XMLHttpRequest.DONE) {
-    playButton.classList.remove("fail")
-    void playButton.offsetWidth;
-    playButton.classList.add("fail")
+      console.log("hm")
+      window.location.reload(true);
+
+    } else if (xhr.readyState === XMLHttpRequest.DONE) {
+      playButton.classList.remove("fail")
+      void playButton.offsetWidth;
+      playButton.classList.add("fail")
+    }
   }
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send()
+}
+
+function save() {
+  
 }

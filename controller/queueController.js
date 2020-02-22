@@ -4,9 +4,13 @@ var deviceController = require('../controller/deviceController');
 queue = [];
 
 played = [];
-playing = false;
 
+playing = false;
 canSkip = true;
+
+function clearQueue() {
+  queue = [];
+}
 
 function addToQueue(song) {
   queue.push(song)
@@ -20,10 +24,9 @@ function getPlayed() {
   return played;
 }
 
-function play(callback) {
-  console.log("play")
+function play() {
   if (queue.length === 0) {
-    callback("No songs in queue.", null)
+    console.log("No songs in queue.")
     return;
   }
 
@@ -37,7 +40,6 @@ function play(callback) {
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
-      callback(error, null)
       return;
     }
 
@@ -46,19 +48,33 @@ function play(callback) {
 
     callback(null, response.data)
   })
+}
 
+function end(callback) {
+  queue = [];
+
+  deviceController.resetDevice()
+
+  playing = false;
+  canSkip = true;
+
+  callback(null, "Gottem")
 }
 
 function start(callback) {
   setInterval(getPlayback, 10000)
 
-  play(function(error, response) {
-    if (error) {
-      callback(error, null)
-      return;
-    }
-    callback(null, response)
-  })
+  setPlayback()
+
+  callback(null, "Gottem")
+}
+
+function setPlayback() {
+  if (playing == false) {
+    play()
+
+    setTimeout(setPlayback, 3000)
+  }
 }
 
 function getPlayback() {
@@ -76,12 +92,9 @@ function alterPlaybackState(response) {
   if (response.item.uri === queue[0].uri) {
     progress = response.item.duration_ms - response.progress_ms
 
-    console.log(progress)
-
     if (progress < 20000 && canSkip) {
       canSkip = false;
-      console.log("setting")
-      setTimeout(play, progress - 1000)
+      setTimeout(play, progress - 1500)
     }
   }
 }
@@ -133,5 +146,6 @@ module.exports = {
   getQueue: getQueue,
   getPlayed: getPlayed,
   searchSongs: searchSongs,
-  start: start
+  start: start,
+  end: end
 }

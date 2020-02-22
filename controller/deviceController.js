@@ -25,9 +25,9 @@ function resetDevice() {
   deviceID = null;
 }
 
-
 module.exports = {
   getDevices: getDevices,
   setDevice: setDevice,
   getDevice: getDevice,
+  resetDevice: resetDevice
 }

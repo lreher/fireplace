@@ -91,7 +91,7 @@ module.exports = function(request, response) {
       })
       .on('end', function() {
         deviceController.setDevice(requestData)
-        console.log("set")
+
         response.writeHead(200);
         response.end();
       })
@@ -166,6 +166,20 @@ module.exports = function(request, response) {
         if (error) {
           response.writeHead(500);
           response.end("Failed to start queue.");
+          return;
+        }
+
+        response.writeHead(200);
+        response.end()
+      })
+
+      break;
+
+    case "/end":
+      queueController.end(function(error, status) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to end queue.");
           return;
         }
 
