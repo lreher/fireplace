@@ -11,35 +11,38 @@ canSkip = true;
 function start(callback) {
   setInterval(getPlayback, 5000)
 
-  awaitPlayback()
+  play()
 
   callback(null, "Gottem")
 }
 
 function save(callback) {
-
   time = new Date(Date.now())
+
   body = {
     name: "Fireplace: " + time.toUTCString()
   }
 
-  uris = played.map(song => song.uri).join(',')
-  console.log(uris)
+  spotifyRequest('POST', "/users/" + deviceController.getUser()+ "/playlists", body, function(error, response) {
+    if (error) {
+      callback(error, null)
+      return
+    }
 
-  // spotifyRequest('POST', "/users/" + deviceController.getUser()+ "/playlists", body, function(error, response) {
-  //   if (error) {
-  //     callback(error, null)
-  //     return
-  //   }
-  //
-  //   console.log
-  //
-  //   // spotifyRequest('POST', "/playlists/{playlist_id}" + response.id+ "/tracks", body, function(error, response) {
-  //   //
-  //   // }
-  // })
+    body = {
+      uris: played.map(song => song.uri)
+    }
 
-  callback(null, "yiit")
+    spotifyRequest('POST', "/playlists/" + response.id + "/tracks", body, function(error, response) {
+      if (error) {
+        callback(error, null)
+        return;
+      }
+
+      played = []
+      callback(null, "Gottem")
+    })
+  })
 }
 
 function end(callback) {
@@ -54,16 +57,17 @@ function end(callback) {
 }
 
 function play() {
-  if (playing == true) {
-    played.push(queue.shift())
+  if (playing == true && queue.length > 0) {
+    song = queue.shift()
+    played.push(song)
   }
 
   if (queue.length === 0) {
     console.log("No songs in queue.")
 
     playing = false;
-    awaitPlayback()
 
+    setTimeout(play, 3000)
     return;
   }
 
@@ -83,13 +87,6 @@ function play() {
   })
 }
 
-function awaitPlayback() {
-  if (playing == false) {
-    play()
-
-    setTimeout(awaitPlayback, 3000)
-  }
-}
 
 function getPlayback() {
   spotifyRequest('GET', '/me/player', null, function(error, response) {
