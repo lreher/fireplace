@@ -2,15 +2,14 @@ var spotifyRequest = require('../services/spotifyRequest')
 var deviceController = require('../controller/deviceController');
 
 queue = [];
-queueUpdated = false;
 
 played = [];
 playing = false;
 
+time = 0;
+
 function addToQueue(song) {
   queue.push(song)
-
-  queueUpdated = true;
 }
 
 function getQueue() {
@@ -29,7 +28,7 @@ function play(callback) {
   }
 
   body = {
-    uris: [queue.shift()]
+    uris: [queue[0].uri]
   }
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
@@ -37,21 +36,24 @@ function play(callback) {
       callback(error, null)
       return;
     }
-
-    queueUpdated = false;
     callback(null, response.data)
   })
 }
 
-function start() {
+function start(callback) {
   play(function(error, response) {
-    setInterval(queueTimer, 1000))
+    if (error) {
+      callback(error, null)
+      return;
+    }
+    callback(null, response)
     setInterval(getPlayback, 10000)
   })
 }
 
 function queueTimer() {
-  
+  time += 1;
+  console.log(time)
 }
 
 function getPlayback() {
@@ -70,8 +72,6 @@ function alterPlaybackState(response) {
   // Check if song has played to 80% completion, remove from queue and count it as played.
   if (response.item.uri === queue[0].uri) {
     if ((response.progress_ms / response.item.duration_ms) > 0.8) {
-      console.log("song is d0ne")
-
       played.push(queue.shift())
     }
   }

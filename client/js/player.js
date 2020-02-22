@@ -7,9 +7,6 @@ playButton.addEventListener('click', function() {
     start()
   } else {
     skip()
-
-    playButton.innerHTML = ""
-    crel(playButton, "Start")
   }
 })
 
@@ -158,9 +155,18 @@ function start() {
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
-    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       playButton.innerHTML = ""
       crel(playButton, "Skip")
+
+      playButton.classList.remove("success")
+      void playButton.offsetWidth;
+      playButton.classList.add("success")
+
+    } else if (xhr.readyState === XMLHttpRequest.DONE) {
+      playButton.classList.remove("fail")
+      void playButton.offsetWidth;
+      playButton.classList.add("fail")
     }
   }
 
@@ -172,6 +178,17 @@ function start() {
 function skip() {
   var url = 'http://localhost:8080/skip'
   var xhr = new XMLHttpRequest();
+
+  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+    playButton.classList.remove("success")
+    void playButton.offsetWidth;
+    playButton.classList.add("success")
+
+  } else if (xhr.readyState === XMLHttpRequest.DONE) {
+    playButton.classList.remove("fail")
+    void playButton.offsetWidth;
+    playButton.classList.add("fail")
+  }
 
   xhr.open("POST", url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

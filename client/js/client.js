@@ -1,4 +1,6 @@
-getQueue();
+setInterval(getQueue, 5000);
+
+canAddSong = true;
 
 var searchSongs = document.getElementById('searchSongs')
 
@@ -14,9 +16,20 @@ searchSongs.addEventListener('submit', function(event) {
   var url = 'http://localhost:8080/search'
   var xhr = new XMLHttpRequest();
 
+  searchSongs.classList.remove("success")
+  searchSongs.classList.remove("fail")
+
+  console.log(event)
+
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       renderSearch(xhr.responseText)
+
+      void searchSongs.offsetWidth;
+      searchSongs.classList.add("success")
+    } else if (xhr.readyState === XMLHttpRequest.DONE) {
+      void searchSongs.offsetWidth;
+      searchSongs.classList.add("fail")
     }
   }
 
@@ -39,7 +52,9 @@ function renderSearch(songsResponse) {
       crel('p', song.artists),
       button = crel('button', { class: "addSongButton" }, 'Add to Queue')
     );
-    button.addEventListener('click', () => addSong(song))
+    button.addEventListener('click', () => {
+      addSong(song, button)
+    })
 
     return songElement;
   }
@@ -71,19 +86,35 @@ function renderQueue(queueResponse) {
 
 }
 
-function addSong(song) {
+function addSong(song, button) {
   var url = 'http://localhost:8080/add'
   var xhr = new XMLHttpRequest();
+
+  button.classList.remove("success")
+  button.classList.remove("fail")
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       renderQueue(xhr.responseText)
+
+      canAddSong = false;
+      setTimeout(() => canAddSong = true, 5000)
+
+      console.log('cando')
+      void button.offsetWidth;
+      button.classList.add("success")
     }
   }
 
-  xhr.open("POST", url, true)
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(JSON.stringify(song))
+  if (canAddSong) {
+    xhr.open("POST", url, true)
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(song))
+  } else {
+    console.log('cantdo')
+    void button.offsetWidth;
+    button.classList.add("fail")
+  }
 }
 
 function getQueue() {

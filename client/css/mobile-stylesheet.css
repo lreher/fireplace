@@ -63,16 +63,29 @@
 }
 
 @keyframes fail {
-  25%, 50% {
-     background-color: red;
+  25%, 75% {
+     background-color: #ff7878;
   }
-  0%, 25%, 75%, 100% {
+  0%, 25%, 100% {
      background-color: white;
   }
 }
 
 .fail {
-  animation: fail 1s;
+  animation: fail 0.3s;
+}
+
+@keyframes success {
+  25%, 75% {
+     background-color: #7fed79;
+  }
+  0%, 25%, 100% {
+     background-color: white;
+  }
+}
+
+.success {
+  animation: success 0.3s;
 }
 
 #searchButton, #playButton  {
