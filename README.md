@@ -24,3 +24,10 @@ Its good!
 ## Will it support multiple users?
 
 Not at the moment, I mainly created this to use amongst my friends. If it becomes popular enough that they want to use it in their own time, I'll consider adding user support. 
+
+## TODO
+
+- Modal before ending playback (advising played list will be deleted)
+- Lock client button until playback has been established
+- Only one user for player
+- Multiple users??
