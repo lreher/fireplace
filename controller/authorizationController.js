@@ -31,7 +31,10 @@ function tokenRefresh() {
       return;
     }
 
-    accessToken = response.accessToken
+    console.log("New Token: " + response.access_token)
+    console.log("Expires in:" + response.expires_in)
+
+    accessToken = response.access_token
   })
 }
 

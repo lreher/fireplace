@@ -13,8 +13,7 @@ function refreshAccessToken(refreshToken, callback) {
     grant_type: 'refresh_token',
     refresh_token: refreshToken
   }
-  console.log(refreshToken)
-  console.log(authorizationText)
+
   axios({
     method: 'POST',
     url: 'https://accounts.spotify.com/api/token',

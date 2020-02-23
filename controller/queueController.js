@@ -10,11 +10,38 @@ canSkip = true;
 
 function start(callback) {
   setInterval(getPlayback, 5000)
+  setInterval(logState, 20000)
 
   play()
 
   callback(null, "Gottem")
 }
+
+
+function play() {
+  if (queue.length === 0) {
+    setTimeout(play, 3000)
+    return;
+  }
+
+  song = queue[0]
+
+  body = {
+    uris: [song.uri]
+  }
+
+  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
+    if (error) {
+      console.log("didn't play")
+      setTimeout(play, 3000)
+      return;
+    }
+
+    canSkip = true;
+    console.log("played")
+  })
+}
+
 
 function save(callback) {
   time = new Date(Date.now())
@@ -47,6 +74,7 @@ function save(callback) {
 
 function end(callback) {
   queue = [];
+  played = [];
 
   deviceController.resetDevice()
 
@@ -56,38 +84,12 @@ function end(callback) {
   callback(null, "Gottem")
 }
 
-function play() {
-  if (queue.length === 0) {
-    console.log("No songs in queue.")
-
-    setTimeout(play, 3000)
-    return;
-  }
-
-  song = queue[0]
-
-  body = {
-    uris: [song.uri]
-  }
-
-  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
-    if (error) {
-      setTimeout(play, 3000)
-      return;
-    }
-
-    canSkip = true;
-    console.log("did it?")
-  })
-}
-
 function next()  {
   if (queue.length > 0) {
     played.push(queue[0])
     queue.shift()
   }
 }
-
 
 function getPlayback() {
   spotifyRequest('GET', '/me/player', null, function(error, response) {
@@ -129,6 +131,7 @@ function searchSongs(song, album, artist, callback) {
   spotifyRequest("GET", '/search?q=' + query + '&type=track', null, function(error, response) {
     if(error) {
       callback(error, null)
+      return;
     }
 
     var responseItems = response.tracks.items
@@ -169,6 +172,13 @@ function getQueue() {
 
 function getPlayed() {
   return played;
+}
+
+function logState() {
+  console.log('Queued Songs: ' + queue)
+  console.log('Played Songs: ' + played)
+  console.log('User: ' +  deviceController.getUser())
+  console.log('Device: ' +  deviceController.getDevice())
 }
 
 module.exports = {
