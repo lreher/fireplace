@@ -32,13 +32,13 @@ function play() {
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
-      console.log("didn't play")
+      console.log("Failed to  play.")
       setTimeout(play, 3000)
       return;
     }
 
     canSkip = true;
-    console.log("played")
+    console.log("Did do play.")
   })
 }
 
