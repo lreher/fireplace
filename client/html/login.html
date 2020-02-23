@@ -12,6 +12,13 @@
   </head>
   <body>
     <div class="login">
+      <h3>Login as Client</h3>
+      <form action="client" method="POST">
+        <button type="submit" id="searchButton" value="Client Login">Login</button>
+      </form>
+    </div>
+
+    <div class="login">
       <h3>Login as Player</h3>
       <form action="https://accounts.spotify.com/authorize" method="GET">
         <input type="hidden" name="client_id" value="bb0223ab795042bea7ba790b47c20a5c">
@@ -19,15 +26,7 @@
         <input type="hidden" name="scope" value="playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private">
         <input type="hidden" name="redirect_uri" value="https://fireplace.onrender.com/callback">
 
-
         <button type="submit" id="searchButton" value="Spotify Login">Login</button>
-      </form>
-    </div>
-
-    <div class="login">
-      <h3>Login as Client</h3>
-      <form action="client" method="POST">
-        <button type="submit" id="searchButton" value="Client Login">Login</button>
       </form>
     </div>
 
