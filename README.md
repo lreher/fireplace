@@ -30,4 +30,6 @@ Not at the moment, I mainly created this to use amongst my friends. If it become
 - Modal before ending playback (advising played list will be deleted)
 - Lock client button until playback has been established
 - Only one user for player
+- Cool fire animation
+- Client login, shuffle search
 - Multiple users??
