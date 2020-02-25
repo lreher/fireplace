@@ -1,3 +1,4 @@
+getQueue();
 setInterval(getQueue, 5000);
 
 canAddSong = true;

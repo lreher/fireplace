@@ -2,15 +2,18 @@
 <html lang="en" dir="ltr">
   <head>
     <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+
     <title>Fireplace</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato|Quicksand&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <canvas id='fire'></canvas>
 
     <div id="title">
        <h2>fireplace</h2>
     </div>
 
-    <link href="https://fonts.googleapis.com/css?family=Lato|Quicksand&display=swap" rel="stylesheet">
-  </head>
-  <body>
     <div class="login">
       <h3>Login as Client</h3>
       <form action="client" method="POST">
@@ -29,6 +32,9 @@
         <button type="submit" id="searchButton" value="Spotify Login">Login</button>
       </form>
     </div>
+
+    <script type="text/javascript" src="paper-core.min.js"></script>
+    <script type="text/javascript" src="fire.js"></script>
 
     <link rel="stylesheet" href="mobile-stylesheet.css">
   </body>
