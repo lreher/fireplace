@@ -2,6 +2,18 @@
 
 Communal Spotify queue management, revisited.
 
+## TODO
+
+- [ ] Set Playlist name
+- [ ] Clicking logo return to homepage
+- [ ] Intermission song if queue terminates.
+- [ ] Modal before ending playback (advising played list will be deleted)
+- [ ] Lock client button until playback has been established
+- [ ] Only one user for player
+- [x] Cool fire animation
+- [ ] Client login, shuffle search
+- [ ] Multiple users??
+
 ## What is it?
 
 At its core, fireplace is a simple song queue app. Users simply search and push songs to a communal queue. A designated player logs in to his Spotify account through the app and can manage simple playback. 
@@ -24,12 +36,3 @@ Its good!
 ## Will it support multiple users?
 
 Not at the moment, I mainly created this to use amongst my friends. If it becomes popular enough that they want to use it in their own time, I'll consider adding user support. 
-
-## TODO
-
-- Modal before ending playback (advising played list will be deleted)
-- Lock client button until playback has been established
-- Only one user for player
-- Cool fire animation
-- Client login, shuffle search
-- Multiple users??
