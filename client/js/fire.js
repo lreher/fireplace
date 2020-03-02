@@ -26,7 +26,6 @@ window.onload = function() {
 }
 
 function startFire() {
-  // red!
   redPath.add(10, height)
 
   for (var i = 1; i < pathNumber; i++) {
@@ -42,7 +41,6 @@ function startFire() {
 }
 
 function frame() {
-  // red!
   for (var i = 1; i < pathNumber; i++) {
     redPath.segments[i].point.y += Math.sin(segmentSpeeds[i])/5
 
