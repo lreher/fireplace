@@ -13,7 +13,7 @@ playButton.addEventListener('click', function() {
 hasDevice();
 
 function hasDevice() {
-  var url = 'https://fireplace.onrender.com/current_device'
+  var url = 'http://localhost:8080/current_device'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -34,7 +34,7 @@ function hasDevice() {
 }
 
 function selectDevice() {
-  var url = 'https://fireplace.onrender.com/devices'
+  var url = 'http://localhost:8080/devices'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -72,7 +72,7 @@ function selectDevice() {
 }
 
 function setDevice(deviceID) {
-  var url = 'https://fireplace.onrender.com/set_device'
+  var url = 'http://localhost:8080/set_device'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -93,7 +93,7 @@ function renderQueue() {
   deviceList = document.getElementById("deviceList")
   deviceList.style.display = 'none'
 
-  var url = 'https://fireplace.onrender.com/queue'
+  var url = 'http://localhost:8080/queue'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -126,7 +126,7 @@ function renderQueue() {
 }
 
 function renderPlayed() {
-  var url = 'https://fireplace.onrender.com/played'
+  var url = 'http://localhost:8080/played'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -167,7 +167,7 @@ function renderPlayed() {
 }
 
 function start() {
-  var url = 'https://fireplace.onrender.com/start'
+  var url = 'http://localhost:8080/start'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -192,7 +192,7 @@ function start() {
 }
 
 function end() {
-  var url = 'https://fireplace.onrender.com/end'
+  var url = 'http://localhost:8080/end'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {
@@ -216,7 +216,7 @@ function end() {
 }
 
 function save(saveButton) {
-  var url = 'https://fireplace.onrender.com/save'
+  var url = 'http://localhost:8080/save'
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function() {

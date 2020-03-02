@@ -32,7 +32,7 @@ function play() {
 
   spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
     if (error) {
-      console.log("Failed to  play.")
+      console.log("Failed to play.")
       setTimeout(play, 3000)
       return;
     }
@@ -84,11 +84,19 @@ function end(callback) {
   callback(null, "Gottem")
 }
 
-function next()  {
+function next() {
+  console.log("hea")
+
   if (queue.length > 0) {
     played.push(queue[0])
     queue.shift()
+  } else if (queue === 1) {
+    console.log("empty queue!")
   }
+}
+
+function intermission() {
+
 }
 
 function getPlayback() {
@@ -175,8 +183,8 @@ function getPlayed() {
 }
 
 function logState() {
-  console.log('Queued Songs: ' + queue)
-  console.log('Played Songs: ' + played)
+  console.log('Queued Songs: \n' + queue.map(song => song.name + ' : ' + song.uri + '\n'))
+  console.log('Played Songs: \n' + played.map(song => song.name + ' : ' + song.uri + '\n'))
   console.log('User: ' +  deviceController.getUser())
   console.log('Device: ' +  deviceController.getDevice())
 }
