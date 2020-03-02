@@ -8,6 +8,10 @@ played = [];
 playing = false;
 canSkip = true;
 
+intermissionSong = 'spotify:track:2Q6TBFbl8dIQpOqXcLLsAR'
+playingIntermission = false;
+
+
 function start(callback) {
   setInterval(getPlayback, 5000)
   setInterval(logState, 20000)
@@ -21,6 +25,11 @@ function start(callback) {
 function play() {
   if (queue.length === 0) {
     setTimeout(play, 3000)
+
+    if (!playingIntermission) {
+      playIntermission()
+    }
+
     return;
   }
 
@@ -38,6 +47,7 @@ function play() {
     }
 
     canSkip = true;
+    playingIntermission = false;
     console.log("Did do play.")
   })
 }
@@ -85,18 +95,29 @@ function end(callback) {
 }
 
 function next() {
-  console.log("hea")
-
   if (queue.length > 0) {
     played.push(queue[0])
     queue.shift()
-  } else if (queue === 1) {
-    console.log("empty queue!")
   }
 }
 
-function intermission() {
+// Let people know the queue has finished, continue playback
+function playIntermission() {
+  body = {
+    uris: [intermissionSong]
+  }
 
+  spotifyRequest('PUT', '/me/player/play?device_id=' + deviceController.getDevice(), body, function(error, response) {
+    if (error) {
+      setTimeout(playIntermission, 3000)
+      return;
+    }
+
+    canSkip = true;
+    playingIntermission = true;
+
+    console.log("Playing intermission.")
+  })
 }
 
 function getPlayback() {
@@ -109,13 +130,14 @@ function getPlayback() {
   })
 }
 
-function alterPlaybackState(response) {
-  // Check if song has less than 20 seconds left, set a timeout to change songs.
-  if (response.item.uri === queue[0].uri) {
-    progress = response.item.duration_ms - response.progress_ms
+function alterPlaybackState(playback) {
+  // Check if song has less than 10 seconds left, set a timeout to change songs.
+  if ((playback.item.uri === intermissionSong) || (playback.item.uri === queue[0].uri)) {
+    progress = playback.item.duration_ms - playback.progress_ms
 
     if (progress < 10000 && canSkip) {
       canSkip = false;
+      playingIntermission = false;
 
       setTimeout(next, progress - 2000)
       setTimeout(play, progress - 1500)
@@ -172,6 +194,10 @@ function clearQueue() {
 
 function addToQueue(song) {
   queue.push(song)
+
+  if (playingIntermission) {
+    play()
+  }
 }
 
 function getQueue() {
