@@ -2,6 +2,7 @@ getQueue();
 setInterval(getQueue, 5000);
 
 canAddSong = true;
+clientQueue = [];
 
 var searchSongs = document.getElementById('searchSongs')
 
@@ -70,6 +71,13 @@ function renderQueue(queueResponse) {
   queueList.innerHTML = "";
 
   function renderSong(song) {
+    for (clientSong of clientQueue) {
+      console.log(clientSong.uri)
+      if (clientSong.uri === song.uri) {
+        console.log("hmm")
+      }
+    }
+
     var songElement = crel('div', { class: 'song' },
       crel('p', song.name),
       crel('p', song.album),
@@ -82,7 +90,6 @@ function renderQueue(queueResponse) {
   crel(queueList,
     songs.map(renderSong)
   );
-
 }
 
 function addSong(song, button) {
@@ -94,9 +101,12 @@ function addSong(song, button) {
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      clientQueue.push(song)
+
       renderQueue(xhr.responseText)
 
       canAddSong = false;
+
       setTimeout(() => canAddSong = true, 2000)
 
       void button.offsetWidth;
@@ -108,6 +118,7 @@ function addSong(song, button) {
     xhr.open("POST", url, true)
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify(song))
+
   } else {
     void button.offsetWidth;
     button.classList.add("fail")
