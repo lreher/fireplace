@@ -4,6 +4,8 @@ Communal Spotify queue management, revisited.
 
 ## TODO
 
+- [ ] Add BE tests with tape, FE tests with puppeteer
+- [ ] Add CI/CD with github actions
 - [ ] Set Playlist name
 - [ ] Clicking logo return to homepage
 - [x] Intermission song if queue terminates.
