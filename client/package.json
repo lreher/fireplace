@@ -1,0 +1,21 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify index.js -o static/bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ]"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "babelify": "^10.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "watchify": "^3.11.1"
+  }
+}
