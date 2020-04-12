@@ -1,16 +1,19 @@
 {
-  "name": "fireplace-v2",
+  "name": "fireplace",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Spotify extension",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": ". .env && node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lreher/fireplace.git"
+  },
+  "author": "Lucas Reher",
   "license": "ISC",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "dotenv": "^8.2.0"
-  }
+  "bugs": {
+    "url": "https://github.com/lreher/fireplace/issues"
+  },
+  "homepage": "https://github.com/lreher/fireplace#readme"
 }

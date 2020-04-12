@@ -1,5 +1,1 @@
-require('dotenv').config()
-
-var createServer = require('./server')
-
-createServer()
+console.log("hello!")
