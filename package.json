@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lreher/fireplace/issues"
   },
-  "homepage": "https://github.com/lreher/fireplace#readme"
+  "homepage": "https://github.com/lreher/fireplace#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
 }
