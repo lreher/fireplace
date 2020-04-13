@@ -17,7 +17,16 @@ module.exports = function(request, response) {
       serveFile(response, '../client/static/bundle.js');
       break;
 
-    default: 
+    // Spotify Redirect
+    case (url.match(/callback/) || {}).input:
+      console.log(request.url)
+
+      response.writeHead(302, { 'Location': '.' });
+      response.end();
+
+      break;
+
+    default:
       response.writeHead(400);
       response.end("Bad Request.");
   }
