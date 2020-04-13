@@ -1,6 +1,9 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
+const Header = require('./components/header');
+const Login = require('./components/login');
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +13,8 @@ class App extends React.Component {
 
   render() {
     return <div>
+      <Header></Header>
+      <Login></Login>
     </div>
   }
 }

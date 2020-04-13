@@ -1,6 +1,52 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
+var React = require('react');
+
+module.exports = function (props) {
+  return /*#__PURE__*/React.createElement("div", {
+    "class": "header"
+  }, /*#__PURE__*/React.createElement("h1", null, "fireplace"));
+};
+
+},{"react":13}],2:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+module.exports = function (props) {
+  return /*#__PURE__*/React.createElement("div", {
+    "class": "content"
+  }, /*#__PURE__*/React.createElement("form", {
+    action: "https://accounts.spotify.com/authorize",
+    method: "GET",
+    id: "spotifyLogin"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "client_id",
+    value: "9aa2e7de31584c679c82b6c1e2f4238b"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "response_type",
+    value: "token"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "scope",
+    value: "user-read-playback-state user-read-email user-read-private"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "redirect_uri",
+    value: "http://localhost:8081/callback"
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    id: "searchButton",
+    value: "Spotify Login"
+  }, "login")));
+};
+
+},{"react":13}],3:[function(require,module,exports){
+"use strict";
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,6 +73,10 @@ var React = require('react');
 
 var ReactDOM = require('react-dom');
 
+var Header = require('./components/header');
+
+var Login = require('./components/login');
+
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -45,7 +95,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("div", null);
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Login, null));
     }
   }]);
 
@@ -56,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
   ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
 });
 
-},{"react":11,"react-dom":8}],2:[function(require,module,exports){
+},{"./components/header":1,"./components/login":2,"react":13,"react-dom":10}],4:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -148,7 +198,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],3:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -334,7 +384,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -440,7 +490,7 @@ checkPropTypes.resetWarningCache = function() {
 module.exports = checkPropTypes;
 
 }).call(this,require('_process'))
-},{"./lib/ReactPropTypesSecret":5,"_process":3}],5:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":7,"_process":5}],7:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -454,7 +504,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 (function (process){
 /** @license React v16.13.1
  * react-dom.development.js
@@ -25470,7 +25520,7 @@ exports.version = ReactVersion;
 }
 
 }).call(this,require('_process'))
-},{"_process":3,"object-assign":2,"prop-types/checkPropTypes":4,"react":11,"scheduler":16,"scheduler/tracing":17}],7:[function(require,module,exports){
+},{"_process":5,"object-assign":4,"prop-types/checkPropTypes":6,"react":13,"scheduler":18,"scheduler/tracing":19}],9:[function(require,module,exports){
 /** @license React v16.13.1
  * react-dom.production.min.js
  *
@@ -25764,7 +25814,7 @@ exports.flushSync=function(a,b){if((W&(fj|gj))!==V)throw Error(u(187));var c=W;W
 exports.unmountComponentAtNode=function(a){if(!gk(a))throw Error(u(40));return a._reactRootContainer?(Nj(function(){ik(null,null,a,!1,function(){a._reactRootContainer=null;a[Od]=null})}),!0):!1};exports.unstable_batchedUpdates=Mj;exports.unstable_createPortal=function(a,b){return kk(a,b,2<arguments.length&&void 0!==arguments[2]?arguments[2]:null)};
 exports.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!gk(c))throw Error(u(200));if(null==a||void 0===a._reactInternalFiber)throw Error(u(38));return ik(a,b,c,!1,d)};exports.version="16.13.1";
 
-},{"object-assign":2,"react":11,"scheduler":16}],8:[function(require,module,exports){
+},{"object-assign":4,"react":13,"scheduler":18}],10:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -25806,7 +25856,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-dom.development.js":6,"./cjs/react-dom.production.min.js":7,"_process":3}],9:[function(require,module,exports){
+},{"./cjs/react-dom.development.js":8,"./cjs/react-dom.production.min.js":9,"_process":5}],11:[function(require,module,exports){
 (function (process){
 /** @license React v16.13.1
  * react.development.js
@@ -27722,7 +27772,7 @@ exports.version = ReactVersion;
 }
 
 }).call(this,require('_process'))
-},{"_process":3,"object-assign":2,"prop-types/checkPropTypes":4}],10:[function(require,module,exports){
+},{"_process":5,"object-assign":4,"prop-types/checkPropTypes":6}],12:[function(require,module,exports){
 /** @license React v16.13.1
  * react.production.min.js
  *
@@ -27749,7 +27799,7 @@ key:d,ref:g,props:e,_owner:k}};exports.createContext=function(a,b){void 0===b&&(
 exports.lazy=function(a){return{$$typeof:A,_ctor:a,_status:-1,_result:null}};exports.memo=function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}};exports.useCallback=function(a,b){return Z().useCallback(a,b)};exports.useContext=function(a,b){return Z().useContext(a,b)};exports.useDebugValue=function(){};exports.useEffect=function(a,b){return Z().useEffect(a,b)};exports.useImperativeHandle=function(a,b,c){return Z().useImperativeHandle(a,b,c)};
 exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.1";
 
-},{"object-assign":2}],11:[function(require,module,exports){
+},{"object-assign":4}],13:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -27760,7 +27810,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react.development.js":9,"./cjs/react.production.min.js":10,"_process":3}],12:[function(require,module,exports){
+},{"./cjs/react.development.js":11,"./cjs/react.production.min.js":12,"_process":5}],14:[function(require,module,exports){
 (function (process){
 /** @license React v0.19.1
  * scheduler-tracing.development.js
@@ -28113,7 +28163,7 @@ exports.unstable_wrap = unstable_wrap;
 }
 
 }).call(this,require('_process'))
-},{"_process":3}],13:[function(require,module,exports){
+},{"_process":5}],15:[function(require,module,exports){
 /** @license React v0.19.1
  * scheduler-tracing.production.min.js
  *
@@ -28125,7 +28175,7 @@ exports.unstable_wrap = unstable_wrap;
 
 'use strict';var b=0;exports.__interactionsRef=null;exports.__subscriberRef=null;exports.unstable_clear=function(a){return a()};exports.unstable_getCurrent=function(){return null};exports.unstable_getThreadID=function(){return++b};exports.unstable_subscribe=function(){};exports.unstable_trace=function(a,d,c){return c()};exports.unstable_unsubscribe=function(){};exports.unstable_wrap=function(a){return a};
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (process){
 /** @license React v0.19.1
  * scheduler.development.js
@@ -28987,7 +29037,7 @@ exports.unstable_wrapCallback = unstable_wrapCallback;
 }
 
 }).call(this,require('_process'))
-},{"_process":3}],15:[function(require,module,exports){
+},{"_process":5}],17:[function(require,module,exports){
 /** @license React v0.19.1
  * scheduler.production.min.js
  *
@@ -29010,7 +29060,7 @@ exports.unstable_getCurrentPriorityLevel=function(){return R};exports.unstable_g
 exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();if("object"===typeof c&&null!==c){var e=c.delay;e="number"===typeof e&&0<e?d+e:d;c="number"===typeof c.timeout?c.timeout:Y(a)}else c=Y(a),e=d;c=e+c;a={id:P++,callback:b,priorityLevel:a,startTime:e,expirationTime:c,sortIndex:-1};e>d?(a.sortIndex=e,J(O,a),null===L(N)&&a===L(O)&&(U?h():U=!0,g(W,e-d))):(a.sortIndex=c,J(N,a),T||S||(T=!0,f(X)));return a};
 exports.unstable_shouldYield=function(){var a=exports.unstable_now();V(a);var b=L(N);return b!==Q&&null!==Q&&null!==b&&null!==b.callback&&b.startTime<=a&&b.expirationTime<Q.expirationTime||k()};exports.unstable_wrapCallback=function(a){var b=R;return function(){var c=R;R=b;try{return a.apply(this,arguments)}finally{R=c}}};
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -29021,7 +29071,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler.development.js":14,"./cjs/scheduler.production.min.js":15,"_process":3}],17:[function(require,module,exports){
+},{"./cjs/scheduler.development.js":16,"./cjs/scheduler.production.min.js":17,"_process":5}],19:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -29032,4 +29082,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler-tracing.development.js":12,"./cjs/scheduler-tracing.production.min.js":13,"_process":3}]},{},[1]);
+},{"./cjs/scheduler-tracing.development.js":14,"./cjs/scheduler-tracing.production.min.js":15,"_process":5}]},{},[3]);

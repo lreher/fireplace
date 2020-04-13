@@ -1,0 +1,41 @@
+* { 
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  background-color: #e8d399;
+  overflow-y: hidden;
+  overflow-x: hidden; 
+}
+
+.header {
+  background-color: #ad490a;
+  font-family: 'Baloo Bhaina 2';
+  font-size: 1.5vh;
+  color: #e8d399;
+  padding: 1vh;
+  width: 100vw;
+  height: 5vh;
+}
+
+.content {
+  height: 95vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#searchButton {
+  width: 35vh;
+  height: 15vh;
+  font-family: 'Baloo Bhaina 2';
+  font-size: 25px;
+  background-color: #ad490a;
+  color: #e8d399;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10vh;
+}
