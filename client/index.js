@@ -14,7 +14,7 @@ class App extends React.Component {
   render() {
     return <div>
       <Header></Header>
-      <Login></Login>
+      <Login userID="theads"></Login>
     </div>
   }
 }

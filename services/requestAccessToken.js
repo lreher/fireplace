@@ -7,6 +7,10 @@ module.exports = function(code, callback) {
   var clientID = process.env.CLIENT_ID
   var secretKey = process.env.CLIENT_SECRET
 
+  console.log(code)
+  console.log(clientID)
+  console.log(secretKey)
+
   var authorizationText = (clientID + ':' + secretKey)
   var base64Auth = Buffer.from(authorizationText).toString('base64')
 

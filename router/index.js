@@ -21,9 +21,12 @@ module.exports = function(request, response) {
 
     // Spotify Redirect
     case (url.match(/callback/) || {}).input:
-      code = url.replace("/callback?code=", "");
+      url_parts = url.replace("/callback?code=", "").split("&state=")
+      
+      code = url_parts[0];
+      userID = url_parts[1];
 
-      auth.authorize(code, function(error, authorization) {
+      auth.authorize(code, userID, function(error, authorization) {
         if (error) {
           response.writeHead(500);
           response.end("Failed to Authenticate to Spotify");

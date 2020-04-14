@@ -34,6 +34,10 @@ module.exports = function (props) {
     value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
+    name: "state",
+    value: "ya"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
     name: "redirect_uri",
     value: "http://localhost:8081/callback"
   }), /*#__PURE__*/React.createElement("button", {
@@ -94,7 +98,9 @@ var App = /*#__PURE__*/function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Login, null));
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Login, {
+        userID: "theads"
+      }));
     }
   }]);
 
