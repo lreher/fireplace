@@ -1,4 +1,6 @@
-var serveFile = require('./serveFile')
+var serveFile = require('./serveFile');
+
+var auth = require('../auth');
 
 module.exports = function(request, response) {
   var url = request.url;
@@ -19,12 +21,21 @@ module.exports = function(request, response) {
 
     // Spotify Redirect
     case (url.match(/callback/) || {}).input:
-      console.log(request.url)
+      code = url.replace("/callback?code=", "");
 
-      response.writeHead(302, { 'Location': '.' });
-      response.end();
+      auth.authorize(code, function(error, authorization) {
+        if (error) {
+          response.writeHead(500);
+          response.end("Failed to Authenticate to Spotify");
+          return;
+        }
+
+        response.writeHead(302, { 'Location': '.' })
+        response.end();
+      })
 
       break;
+
 
     default:
       response.writeHead(400);

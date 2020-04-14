@@ -19,20 +19,19 @@ module.exports = function (props) {
     "class": "content"
   }, /*#__PURE__*/React.createElement("form", {
     action: "https://accounts.spotify.com/authorize",
-    method: "GET",
-    id: "spotifyLogin"
+    method: "GET"
   }, /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "client_id",
-    value: "9aa2e7de31584c679c82b6c1e2f4238b"
+    value: "bb0223ab795042bea7ba790b47c20a5c"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "response_type",
-    value: "token"
+    value: "code"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "scope",
-    value: "user-read-playback-state user-read-email user-read-private"
+    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "redirect_uri",
@@ -41,7 +40,7 @@ module.exports = function (props) {
     type: "submit",
     id: "searchButton",
     value: "Spotify Login"
-  }, "login")));
+  }, "Play")));
 };
 
 },{"react":13}],3:[function(require,module,exports){
