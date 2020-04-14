@@ -35,7 +35,7 @@ module.exports = function (props) {
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "state",
-    value: "ya"
+    value: props.userID
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "redirect_uri",
@@ -80,6 +80,8 @@ var Header = require('./components/header');
 
 var Login = require('./components/login');
 
+var userID = require('../utils/createUUID')();
+
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -99,7 +101,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Login, {
-        userID: "theads"
+        userID: userID
       }));
     }
   }]);
@@ -111,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
   ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
 });
 
-},{"./components/header":1,"./components/login":2,"react":13,"react-dom":10}],4:[function(require,module,exports){
+},{"../utils/createUUID":20,"./components/header":1,"./components/login":2,"react":13,"react-dom":10}],4:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -29087,4 +29089,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler-tracing.development.js":14,"./cjs/scheduler-tracing.production.min.js":15,"_process":5}]},{},[3]);
+},{"./cjs/scheduler-tracing.development.js":14,"./cjs/scheduler-tracing.production.min.js":15,"_process":5}],20:[function(require,module,exports){
+"use strict";
+
+module.exports = function () {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : r & 0x3 | 0x8;
+    return v.toString(16);
+  });
+};
+
+},{}]},{},[3]);

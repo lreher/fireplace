@@ -4,6 +4,8 @@ const ReactDOM = require('react-dom');
 const Header = require('./components/header');
 const Login = require('./components/login');
 
+const userID = require('../utils/createUUID')();
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,7 @@ class App extends React.Component {
   render() {
     return <div>
       <Header></Header>
-      <Login userID="theads"></Login>
+      <Login userID={userID}></Login>
     </div>
   }
 }
