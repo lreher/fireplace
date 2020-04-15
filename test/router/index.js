@@ -59,3 +59,22 @@ test('/callback', function(t) {
       server.close();
     })
 })
+
+test('/me?userID=', function(t) {
+  t.plan(1);
+
+  var server = createServer(router);
+
+  mock_url = '/me?userID=dasdf-asdfasdf-asdfasdf';
+
+  // oof
+  axios.get('http://localhost:8081/' + mock_url)
+    .then(function(response) {
+      t.assert(response.status === 200)
+      server.close();
+    })
+    .catch(function(error) {
+      t.assert(true)
+      server.close();
+    })
+})

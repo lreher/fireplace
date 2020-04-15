@@ -6,7 +6,11 @@ var React = require('react');
 module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
     "class": "header"
-  }, /*#__PURE__*/React.createElement("h1", null, "fireplace"));
+  }, /*#__PURE__*/React.createElement("div", {
+    "class": "header-title"
+  }, /*#__PURE__*/React.createElement("h1", null, "fireplace")), /*#__PURE__*/React.createElement("div", {
+    "class": "header-name"
+  }, /*#__PURE__*/React.createElement("h1", null, props.userName)));
 };
 
 },{"react":13}],2:[function(require,module,exports){
@@ -80,6 +84,8 @@ var Header = require('./components/header');
 
 var Login = require('./components/login');
 
+var request = require('./utils/request');
+
 var user = require('./utils/user');
 
 var userID;
@@ -129,7 +135,9 @@ var App = /*#__PURE__*/function (_React$Component2) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null));
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
+        userName: this.state.userName
+      }));
     }
   }]);
 
@@ -144,11 +152,18 @@ document.addEventListener('DOMContentLoaded', function () {
     document.cookie = 'userID=' + userID + ';';
     ReactDOM.render( /*#__PURE__*/React.createElement(LoginApp, null), document.getElementById('root'));
   } else {
-    ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
+    request('GET', 'http://localhost:8081/me?userID=' + userID, {}, function (error, response) {
+      if (error.status === 401) {
+        ReactDOM.render( /*#__PURE__*/React.createElement(LoginApp, null), document.getElementById('root'));
+        return;
+      }
+
+      ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
+    });
   }
 });
 
-},{"./components/header":1,"./components/login":2,"./utils/user":20,"react":13,"react-dom":10}],4:[function(require,module,exports){
+},{"./components/header":1,"./components/login":2,"./utils/request":20,"./utils/user":21,"react":13,"react-dom":10}],4:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -29125,6 +29140,28 @@ if (process.env.NODE_ENV === 'production') {
 
 }).call(this,require('_process'))
 },{"./cjs/scheduler-tracing.development.js":14,"./cjs/scheduler-tracing.production.min.js":15,"_process":5}],20:[function(require,module,exports){
+"use strict";
+
+module.exports = function (method, url, data, callback) {
+  var xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      callback(error, xhr.responseText);
+    } else if (xhr.readyState === XMLHttpRequest.DONE) {
+      callback({
+        status: xhr.status,
+        responseText: xhr.responseText
+      }, null);
+    }
+  };
+
+  xhr.open(method, url, true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(data);
+};
+
+},{}],21:[function(require,module,exports){
 "use strict";
 
 function createID() {

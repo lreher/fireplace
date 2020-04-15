@@ -4,6 +4,8 @@ const ReactDOM = require('react-dom');
 const Header = require('./components/header');
 const Login = require('./components/login');
 
+const request = require('./utils/request');
+
 const user = require('./utils/user');
 var userID;
 
@@ -32,7 +34,7 @@ class App extends React.Component {
 
   render() {
     return <div>
-      <Header></Header>
+      <Header userName={this.state.userName}></Header>
     </div>
   }
 }
@@ -44,8 +46,17 @@ document.addEventListener('DOMContentLoaded', function () {
   if (userID == null) {
     userID = user.createID();
     document.cookie = 'userID=' + userID + ';'
+
     ReactDOM.render(<LoginApp/>, document.getElementById('root'));
   } else {
-    ReactDOM.render(<App/>, document.getElementById('root'));
+    request('GET', 'http://localhost:8081/me?userID=' + userID, {}, function(error, response) {
+      if (error.status === 401) {
+        ReactDOM.render(<LoginApp/>, document.getElementById('root'));
+        return;
+      }
+
+      ReactDOM.render(<App/>, document.getElementById('root'));
+    })
+
   }
 })
