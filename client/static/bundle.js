@@ -44,7 +44,7 @@ module.exports = function (props) {
     type: "submit",
     id: "searchButton",
     value: "Spotify Login"
-  }, "Play")));
+  }, "login")));
 };
 
 },{"react":13}],3:[function(require,module,exports){
@@ -80,24 +80,26 @@ var Header = require('./components/header');
 
 var Login = require('./components/login');
 
-var userID = require('../utils/createUUID')();
+var user = require('./utils/user');
 
-var App = /*#__PURE__*/function (_React$Component) {
-  _inherits(App, _React$Component);
+var userID;
 
-  var _super = _createSuper(App);
+var LoginApp = /*#__PURE__*/function (_React$Component) {
+  _inherits(LoginApp, _React$Component);
 
-  function App(props) {
+  var _super = _createSuper(LoginApp);
+
+  function LoginApp(props) {
     var _this;
 
-    _classCallCheck(this, App);
+    _classCallCheck(this, LoginApp);
 
     _this = _super.call(this, props);
     _this.state = {};
     return _this;
   }
 
-  _createClass(App, [{
+  _createClass(LoginApp, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Login, {
@@ -106,14 +108,47 @@ var App = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 
+  return LoginApp;
+}(React.Component);
+
+var App = /*#__PURE__*/function (_React$Component2) {
+  _inherits(App, _React$Component2);
+
+  var _super2 = _createSuper(App);
+
+  function App(props) {
+    var _this2;
+
+    _classCallCheck(this, App);
+
+    _this2 = _super2.call(this, props);
+    _this2.state = {};
+    return _this2;
+  }
+
+  _createClass(App, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null));
+    }
+  }]);
+
   return App;
 }(React.Component);
 
 document.addEventListener('DOMContentLoaded', function () {
-  ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
+  userID = user.getIDFromCookie(document.cookie);
+
+  if (userID == null) {
+    userID = user.createID();
+    document.cookie = 'userID=' + userID + ';';
+    ReactDOM.render( /*#__PURE__*/React.createElement(LoginApp, null), document.getElementById('root'));
+  } else {
+    ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
+  }
 });
 
-},{"../utils/createUUID":20,"./components/header":1,"./components/login":2,"react":13,"react-dom":10}],4:[function(require,module,exports){
+},{"./components/header":1,"./components/login":2,"./utils/user":20,"react":13,"react-dom":10}],4:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -29092,12 +29127,28 @@ if (process.env.NODE_ENV === 'production') {
 },{"./cjs/scheduler-tracing.development.js":14,"./cjs/scheduler-tracing.production.min.js":15,"_process":5}],20:[function(require,module,exports){
 "use strict";
 
-module.exports = function () {
+function createID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0,
         v = c == 'x' ? r : r & 0x3 | 0x8;
     return v.toString(16);
   });
+}
+
+function getIDFromCookie(cookie) {
+  var values = cookie.split(';');
+  var userID = null;
+  values.map(function (value) {
+    if (value.split('=')[0] === 'userID') {
+      userID = value.split('=')[1];
+    }
+  });
+  return userID;
+}
+
+module.exports = {
+  createID: createID,
+  getIDFromCookie: getIDFromCookie
 };
 
 },{}]},{},[3]);

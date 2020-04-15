@@ -9,7 +9,7 @@ module.exports = function(props) {
       <input type="hidden" name="state" value={props.userID}></input>
       <input type="hidden" name="redirect_uri" value="http://localhost:8081/callback"></input>
 
-      <button type="submit" id="searchButton" value="Spotify Login">Play</button>
+      <button type="submit" id="searchButton" value="Spotify Login">login</button>
     </form>
   </div>
     

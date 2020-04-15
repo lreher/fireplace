@@ -4,9 +4,10 @@ const ReactDOM = require('react-dom');
 const Header = require('./components/header');
 const Login = require('./components/login');
 
-const userID = require('../utils/createUUID')();
+const user = require('./utils/user');
+var userID;
 
-class App extends React.Component {
+class LoginApp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -21,6 +22,30 @@ class App extends React.Component {
   }
 }
 
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  render() {
+    return <div>
+      <Header></Header>
+    </div>
+  }
+}
+
+
 document.addEventListener('DOMContentLoaded', function () {
-  ReactDOM.render(<App/>, document.getElementById('root'));
+  userID = user.getIDFromCookie(document.cookie);
+
+  if (userID == null) {
+    userID = user.createID();
+    document.cookie = 'userID=' + userID + ';'
+    ReactDOM.render(<LoginApp/>, document.getElementById('root'));
+  } else {
+    ReactDOM.render(<App/>, document.getElementById('root'));
+  }
 })
