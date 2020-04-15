@@ -9,54 +9,53 @@ const request = require('./utils/request');
 const user = require('./utils/user');
 var userID;
 
-class LoginApp extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  render() {
-    return <div>
-      <Header></Header>
-      <Login userID={userID}></Login>
-    </div>
-  }
-}
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
+   
+    this.state = {
+      userName: "Bobby"
+    };
+  }
 
-    this.state = {};
+  promptLogin() {
+    var login;
+    var userID = user.getIDFromCookie(document.cookie);
+
+    if (userID == null) {
+      userID = user.createID();
+      document.cookie = 'userID=' + userID + ';'
+      login = <Login userID={userID}></Login>
+    } else {
+      request('GET', 'http://localhost:8081/me?userID=' + userID, {}, (error, response) => {
+        // userID not longer in back-end  
+        if (error) {
+          login = <Login userID={userID}></Login>
+          console.log('hmm')
+          return;
+        }
+
+        var userInfo = JSON.parse(response);
+
+        this.setState({
+          ...this.state,
+          userName: userInfo.display_name
+        })
+      })
+    }
+
+    console.log(login)
+    return login;
   }
 
   render() {
     return <div>
       <Header userName={this.state.userName}></Header>
+      {this.promptLogin()}
     </div>
   }
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
-  userID = user.getIDFromCookie(document.cookie);
-
-  if (userID == null) {
-    userID = user.createID();
-    document.cookie = 'userID=' + userID + ';'
-
-    ReactDOM.render(<LoginApp/>, document.getElementById('root'));
-  } else {
-    request('GET', 'http://localhost:8081/me?userID=' + userID, {}, function(error, response) {
-      if (error.status === 401) {
-        ReactDOM.render(<LoginApp/>, document.getElementById('root'));
-        return;
-      }
-
-      ReactDOM.render(<App/>, document.getElementById('root'));
-    })
-
-  }
+  ReactDOM.render(<App/>, document.getElementById('root'));
 })

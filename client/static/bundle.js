@@ -56,6 +56,12 @@ module.exports = function (props) {
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -90,54 +96,65 @@ var user = require('./utils/user');
 
 var userID;
 
-var LoginApp = /*#__PURE__*/function (_React$Component) {
-  _inherits(LoginApp, _React$Component);
+var App = /*#__PURE__*/function (_React$Component) {
+  _inherits(App, _React$Component);
 
-  var _super = _createSuper(LoginApp);
-
-  function LoginApp(props) {
-    var _this;
-
-    _classCallCheck(this, LoginApp);
-
-    _this = _super.call(this, props);
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(LoginApp, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Login, {
-        userID: userID
-      }));
-    }
-  }]);
-
-  return LoginApp;
-}(React.Component);
-
-var App = /*#__PURE__*/function (_React$Component2) {
-  _inherits(App, _React$Component2);
-
-  var _super2 = _createSuper(App);
+  var _super = _createSuper(App);
 
   function App(props) {
-    var _this2;
+    var _this;
 
     _classCallCheck(this, App);
 
-    _this2 = _super2.call(this, props);
-    _this2.state = {};
-    return _this2;
+    _this = _super.call(this, props);
+    _this.state = {
+      userName: "Bobby"
+    };
+    return _this;
   }
 
   _createClass(App, [{
+    key: "promptLogin",
+    value: function promptLogin() {
+      var _this2 = this;
+
+      var login;
+      var userID = user.getIDFromCookie(document.cookie);
+
+      if (userID == null) {
+        userID = user.createID();
+        document.cookie = 'userID=' + userID + ';';
+        login = /*#__PURE__*/React.createElement(Login, {
+          userID: userID
+        });
+      } else {
+        request('GET', 'http://localhost:8081/me?userID=' + userID, {}, function (error, response) {
+          // userID not longer in back-end  
+          if (error) {
+            login = /*#__PURE__*/React.createElement(Login, {
+              userID: userID
+            });
+            console.log('hmm');
+            return;
+          }
+
+          var userInfo = JSON.parse(response);
+
+          _this2.setState(_objectSpread({}, _this2.state, {
+            userName: userInfo.display_name
+          }));
+        });
+      }
+
+      console.log(login);
+      return login;
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
         userName: this.state.userName
-      }));
+      }), this.promptLogin());
     }
   }]);
 
@@ -145,22 +162,7 @@ var App = /*#__PURE__*/function (_React$Component2) {
 }(React.Component);
 
 document.addEventListener('DOMContentLoaded', function () {
-  userID = user.getIDFromCookie(document.cookie);
-
-  if (userID == null) {
-    userID = user.createID();
-    document.cookie = 'userID=' + userID + ';';
-    ReactDOM.render( /*#__PURE__*/React.createElement(LoginApp, null), document.getElementById('root'));
-  } else {
-    request('GET', 'http://localhost:8081/me?userID=' + userID, {}, function (error, response) {
-      if (error.status === 401) {
-        ReactDOM.render( /*#__PURE__*/React.createElement(LoginApp, null), document.getElementById('root'));
-        return;
-      }
-
-      ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
-    });
-  }
+  ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
 });
 
 },{"./components/header":1,"./components/login":2,"./utils/request":20,"./utils/user":21,"react":13,"react-dom":10}],4:[function(require,module,exports){
@@ -29147,7 +29149,7 @@ module.exports = function (method, url, data, callback) {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      callback(error, xhr.responseText);
+      callback(null, xhr.responseText);
     } else if (xhr.readyState === XMLHttpRequest.DONE) {
       callback({
         status: xhr.status,

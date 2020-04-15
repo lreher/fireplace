@@ -13,11 +13,22 @@
 .header {
   background-color: #ad490a;
   font-family: 'Baloo Bhaina 2';
-  font-size: 1.5vh;
-  color: #e8d399;
-  padding: 1vh;
+  display: flex;
+  justify-content: space-between;
   width: 100vw;
   height: 5vh;
+}
+
+.header-title {
+  font-size: 1.5vh;
+  margin-left: 1vh;
+  color: #e8d399;
+}
+
+.header-name {
+  font-size: 0.8vh;
+  margin-right: 1vh;
+  color: #e8d399;
 }
 
 .content {

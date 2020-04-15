@@ -3,7 +3,6 @@ var queryString = require('querystring')
 var auth = require('../auth/')
 
 module.exports = function(method, endpoint, body, userID, callback) {
-  console.log(auth.getUserToken(userID))
   axios({
     method: method,
     url: 'https://api.spotify.com/v1' + endpoint,

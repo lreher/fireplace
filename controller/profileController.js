@@ -4,9 +4,10 @@ function getProfile(userID, callback) {
   spotifyRequest('GET', '/me', null, userID, function(error, response) {
     if (error) {
       callback(error, null);
+      return;
     }
 
-    console.log(response)
+    callback(null, response);
   })
 }
 

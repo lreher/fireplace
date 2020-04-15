@@ -56,17 +56,19 @@ module.exports = function(request, response) {
 
       switch (url_parts[0]) {
         case '/me':
-          profileController.getProfile(userID, function(error, response) {
+          profileController.getProfile(userID, function(error, profile) {
             if (error) {
+              console.log(error)
               response.writeHead(500);
               response.end("Failed to get User Information from Spotify.");
               return;
             }
-            
+
             response.writeHead(200);
-            response.end();
+            response.end(JSON.stringify(profile));
           })
 
+          break;
 
         default:
           response.writeHead(400);
