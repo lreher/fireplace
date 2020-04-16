@@ -67,11 +67,7 @@ module.exports = function (props) {
 var React = require('react');
 
 module.exports = function (props) {
-  if (props.location == "Profile") {
-    return /*#__PURE__*/React.createElement("h2", null, "Profile!");
-  } else {
-    return /*#__PURE__*/React.createElement("h2", null, "Else");
-  }
+  return /*#__PURE__*/React.createElement("h2", null, props.location + "!");
 };
 
 },{"react":16}],3:[function(require,module,exports){

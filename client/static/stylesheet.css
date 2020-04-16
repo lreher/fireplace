@@ -16,40 +16,45 @@
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  height: 8vh;
+  height: 10vh;
 }
 
 .header-title {
-  font-size: 2vh;
+  font-size: 2.5vh;
   margin-left: 1vh;
   color: #e8d399;
 }
 
 .header-profile {
-  font-size: 0.8vh;
+  font-size: 1vh;
   margin-right: 1vh;
   color: #e8d399;
 }
 
 .nav {
-  background-color: #c24a00;
-  display: flex;
+  background-color: #ba591e;
   width: 100vw;
-  height: 3vh;
+  height: 4vh;
   border-style: solid;
   border-color: #ad490a;
   border-width: 1px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .nav-button {
+  font-family: 'Baloo Bhaina 2';
   background-color: Transparent;
   background-repeat:no-repeat;
   border: none;
   cursor:pointer;
   overflow: hidden;
   outline:none;
-  font-size: 2vh;
+  font-size: 2.5vh;
   margin-left: 1vh;
+  margin-right: 5vh;
+  margin-top: 1vh;
   color: #e8d399;
 }
 
