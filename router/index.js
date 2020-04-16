@@ -6,8 +6,6 @@ var profileController = require('../controller/profileController')
 module.exports = function(request, response) {
   var url = request.url;
 
-  console.log(url);
-
   switch(url) {
     // Serve files.
     case '/':

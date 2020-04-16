@@ -1,7 +1,6 @@
 var axios = require('axios')
 var queryString = require('querystring')
 
-
 module.exports = function(code, callback) {
   // Safety first!
   var clientID = process.env.CLIENT_ID

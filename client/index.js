@@ -1,61 +1,34 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const Header = require('./components/header');
 const Login = require('./components/login');
-
-const request = require('./utils/request');
+const App = require('./components/app');
 
 const user = require('./utils/user');
-var userID;
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-   
-    this.state = {
-      userName: "Bobby"
-    };
-  }
-
-  promptLogin() {
-    var login;
-    var userID = user.getIDFromCookie(document.cookie);
-
-    if (userID == null) {
-      userID = user.createID();
+function initializeRender(callback) {
+  user.loggedIn(function(error, response) {
+    if (error) {
+      // create and set new ID
+      const userID = user.createID();
       document.cookie = 'userID=' + userID + ';'
-      login = <Login userID={userID}></Login>
-    } else {
-      request('GET', 'http://localhost:8081/me?userID=' + userID, {}, (error, response) => {
-        // userID not longer in back-end  
-        if (error) {
-          login = <Login userID={userID}></Login>
-          console.log('hmm')
-          return;
-        }
 
-        var userInfo = JSON.parse(response);
-
-        this.setState({
-          ...this.state,
-          userName: userInfo.display_name
-        })
-      })
+      callback(<Login userID={userID}></Login>, null);
+      return;
     }
-
-    console.log(login)
-    return login;
-  }
-
-  render() {
-    return <div>
-      <Header userName={this.state.userName}></Header>
-      {this.promptLogin()}
-    </div>
-  }
-}
+    
+    callback(null, <App userID={response}></App>);
+  });
+} 
 
 document.addEventListener('DOMContentLoaded', function () {
-  ReactDOM.render(<App/>, document.getElementById('root'));
+
+  initializeRender((promptLogin, promptApp) => {
+    if (promptLogin) {
+      ReactDOM.render(promptLogin, document.getElementById('root'));
+      return;
+    }
+
+    ReactDOM.render(promptApp, document.getElementById('root'));
+  })
 })
