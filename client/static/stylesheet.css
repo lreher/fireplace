@@ -16,11 +16,11 @@
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  height: 5vh;
+  height: 8vh;
 }
 
 .header-title {
-  font-size: 1.5vh;
+  font-size: 2vh;
   margin-left: 1vh;
   color: #e8d399;
 }
@@ -29,6 +29,15 @@
   font-size: 0.8vh;
   margin-right: 1vh;
   color: #e8d399;
+}
+
+.nav {
+  background-color: #c24a00;
+  width: 100vw;
+  height: 3vh;
+  border-style: solid;
+  border-color: #ad490a;
+  border-width: 1px;
 }
 
 .content {
