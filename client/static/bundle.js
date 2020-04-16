@@ -68,9 +68,9 @@ var React = require('react');
 
 module.exports = function (props) {
   if (props.location == "Profile") {
-    return /*#__PURE__*/React.createElement("h1", null, "Profile!");
+    return /*#__PURE__*/React.createElement("h2", null, "Profile!");
   } else {
-    return /*#__PURE__*/React.createElement("h1", null, "Else");
+    return /*#__PURE__*/React.createElement("h2", null, "Else");
   }
 };
 
@@ -140,14 +140,26 @@ module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
     "class": "nav"
   }, /*#__PURE__*/React.createElement("button", {
+    "class": "nav-button",
     onClick: function onClick() {
       return props.action('Profile');
     }
   }, "Profile"), /*#__PURE__*/React.createElement("button", {
+    "class": "nav-button",
     onClick: function onClick() {
-      return props.action('else');
+      return props.action('Fireplace');
     }
-  }, "Else"));
+  }, "Fireplace"), /*#__PURE__*/React.createElement("button", {
+    "class": "nav-button",
+    onClick: function onClick() {
+      return props.action('Player');
+    }
+  }, "Player"), /*#__PURE__*/React.createElement("button", {
+    "class": "nav-button",
+    onClick: function onClick() {
+      return props.action('Recomender');
+    }
+  }, "Recomender"));
 };
 
 },{"react":16}],6:[function(require,module,exports){

@@ -33,11 +33,24 @@
 
 .nav {
   background-color: #c24a00;
+  display: flex;
   width: 100vw;
   height: 3vh;
   border-style: solid;
   border-color: #ad490a;
   border-width: 1px;
+}
+
+.nav-button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  font-size: 2vh;
+  margin-left: 1vh;
+  color: #e8d399;
 }
 
 .content {
@@ -58,4 +71,9 @@
   border: none;
   border-radius: 5px;
   margin-bottom: 10vh;
+}
+
+h2 {
+  font-family: 'Baloo Bhaina 2';
+  color: #c24a00;
 }
