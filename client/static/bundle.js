@@ -88,24 +88,25 @@ var Playlists = require('./playlists');
 
 function changeCategory(setCategoryTitle, setcategoryPlaylists, category) {
   setCategoryTitle(category);
-  var playlists = [];
-
-  switch (category) {
-    case 'Saved Songs':
-      playlists = [{
-        name: "Songs",
-        songs: [{
-          title: "Title Test",
-          album: "Album Test",
-          artist: "Artist Test"
-        }, {
-          title: "Another Test",
-          album: "Another",
-          artist: "Test"
-        }]
-      }];
-      break;
-  }
+  var playlists = []; // switch (category) {
+  //   case 'Saved Songs':
+  //     playlists = [{
+  //       name: "Songs",
+  //       songs: [
+  //         {
+  //         title: "Title Test",
+  //         album: "Album Test",
+  //         artist: "Artist Test"
+  //         },
+  //         {
+  //           title: "Another Test",
+  //           album: "Another",
+  //           artist: "Test"
+  //         }
+  //       ]
+  //     }]
+  //     break;
+  // }
 
   setcategoryPlaylists(playlists);
 }
@@ -116,7 +117,18 @@ module.exports = function (props) {
       categoryTitle = _useState2[0],
       setCategoryTitle = _useState2[1];
 
-  var _useState3 = (0, _react.useState)([]),
+  var _useState3 = (0, _react.useState)([{
+    name: "Songs",
+    songs: [{
+      title: "Title Test",
+      album: "Album Test",
+      artist: "Artist Test"
+    }, {
+      title: "Another Test",
+      album: "Another",
+      artist: "Test"
+    }]
+  }]),
       _useState4 = _slicedToArray(_useState3, 2),
       categoryPlaylists = _useState4[0],
       setcategoryPlaylists = _useState4[1];
@@ -167,7 +179,9 @@ module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
     "class": "browse-playlist"
   }, /*#__PURE__*/React.createElement("div", {
-    "class": "songs"
+    "class": "browse-playlist-title"
+  }, /*#__PURE__*/React.createElement("h3", null, props.name)), /*#__PURE__*/React.createElement("div", {
+    "class": "browse-songs"
   }, songs));
 };
 
@@ -199,7 +213,13 @@ var React = require('react');
 module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
     "class": "browse-song"
-  }, /*#__PURE__*/React.createElement("h4", null, props.song.title), /*#__PURE__*/React.createElement("h4", null, props.song.album), /*#__PURE__*/React.createElement("h4", null, props.song.artist));
+  }, /*#__PURE__*/React.createElement("div", {
+    "class": "browse-song-cell"
+  }, /*#__PURE__*/React.createElement("h4", null, props.song.title)), /*#__PURE__*/React.createElement("div", {
+    "class": "browse-song-cell"
+  }, /*#__PURE__*/React.createElement("h4", null, props.song.album)), /*#__PURE__*/React.createElement("div", {
+    "class": "browse-song-cell"
+  }, /*#__PURE__*/React.createElement("h4", null, props.song.artist)));
 };
 
 },{"react":20}],6:[function(require,module,exports){

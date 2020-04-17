@@ -8,6 +8,7 @@ module.exports = function(props) {
   })
 
   return <div class="browse-playlist">
-    <div class="songs">{songs}</div>
+    <div class="browse-playlist-title"><h3>{props.name}</h3></div>
+    <div class="browse-songs">{songs}</div>
   </div>
 }

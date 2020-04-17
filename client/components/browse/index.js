@@ -7,32 +7,46 @@ function changeCategory(setCategoryTitle, setcategoryPlaylists, category) {
 
   var playlists = [];
 
-  switch (category) {
-    case 'Saved Songs':
-      playlists = [{
-        name: "Songs",
-        songs: [
-          {
-          title: "Title Test",
-          album: "Album Test",
-          artist: "Artist Test"
-          },
-          {
-            title: "Another Test",
-            album: "Another",
-            artist: "Test"
-          }
-        ]
-      }]
-      break;
-  }
+  // switch (category) {
+  //   case 'Saved Songs':
+  //     playlists = [{
+  //       name: "Songs",
+  //       songs: [
+  //         {
+  //         title: "Title Test",
+  //         album: "Album Test",
+  //         artist: "Artist Test"
+  //         },
+  //         {
+  //           title: "Another Test",
+  //           album: "Another",
+  //           artist: "Test"
+  //         }
+  //       ]
+  //     }]
+  //     break;
+  // }
 
   setcategoryPlaylists(playlists)
 }
 
 module.exports = function(props) {
   const [categoryTitle, setCategoryTitle] = useState('Saved Songs');
-  const [categoryPlaylists, setcategoryPlaylists] = useState([]);
+  const [categoryPlaylists, setcategoryPlaylists] = useState([{
+    name: "Songs",
+    songs: [
+      {
+      title: "Title Test",
+      album: "Album Test",
+      artist: "Artist Test"
+      },
+      {
+        title: "Another Test",
+        album: "Another",
+        artist: "Test"
+      }
+    ]
+  }]);
 
   return <div class="browse">
     <div class='browse-categories'>

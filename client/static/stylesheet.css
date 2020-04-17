@@ -103,6 +103,26 @@
   margin-left: 2vh;
 }
 
+/* .browse-playlists {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+} */
+
+/* .browse-playlist {
+  display: flex;
+  align-items: center
+} */
+
+.browse-song {
+  display: flex;
+  justify-content: space-around
+}
+
+.browse-song-cell {
+  width: 23vw;
+}
+
 .browse-queue {
   height: 87vh;
   width: 30vw;
