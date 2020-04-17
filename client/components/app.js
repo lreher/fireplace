@@ -8,7 +8,7 @@ const request = require('../utils/request');
 
 module.exports = function(props) {
   const [userName, setName] = useState('');
-  const [location, setLocation] = useState('Profile')
+  const [location, setLocation] = useState('browse')
 
   if (props.userID) {
     request('GET', 'http://localhost:8081/me?userID=' + props.userID, {}, (error, response) => {

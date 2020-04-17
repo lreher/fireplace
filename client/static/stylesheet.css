@@ -58,15 +58,36 @@
   color: #e8d399;
 }
 
-.content {
-  height: 95vh;
-  width: 100vw;
+.browse {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
-#searchButton {
+.browse-categories {
+  height: 85vh;
+  width: 20vw;
+  border-style: solid;
+  border-color: #ba591e;
+  border-width: 1px;
+}
+
+.browse-category {
+  height: 85vh;
+  width: 70vw;
+  border-style: solid;
+  border-color: #ba591e;
+  border-width: 1px;
+}
+
+.browse-queue {
+  height: 85vh;
+  width: 30vw;
+  border-style: solid;
+  border-color: #ba591e;
+  border-width: 1px;
+}
+
+#loginButton {
   width: 35vh;
   height: 15vh;
   font-family: 'Baloo Bhaina 2';

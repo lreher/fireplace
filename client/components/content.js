@@ -1,6 +1,14 @@
 const React = require('react');
 
-module.exports = function(props) {
+const Browse = require('./browse')
 
-  return <h2>{props.location + "!"}</h2>
+module.exports = function(props) {
+  switch(props.location) {
+    case 'browse': 
+      return <Browse userID={props.userID}></Browse>
+      break;
+    
+    default:
+      return <h2>{props.location + "!"}</h2>
+  }
 }
