@@ -64,27 +64,51 @@
 }
 
 .browse-categories {
-  height: 85vh;
+  height: 87vh;
   width: 20vw;
-  border-style: solid;
-  border-color: #ba591e;
-  border-width: 1px;
+  background-color: #dbc588;
+  display: flex;
+  flex-direction: column;
+  border-right: #ad490a 1px solid;
+}
+
+.browse-categories-button {
+  font-family: 'Baloo Bhaina 2';
+  background-color: transparent;
+  background-repeat:no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  border-bottom: #ad490a;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  font-size: 2.5vh;
+  color: #ad490a;
+  text-align: left;
+  padding-left: 1vw;
+  transition: background-color 1s;
+}
+
+.browse-categories-button:hover {
+  background-color: #ad480a33
 }
 
 .browse-category {
   height: 85vh;
   width: 70vw;
-  border-style: solid;
-  border-color: #ba591e;
-  border-width: 1px;
+}
+
+.browse-category-title {
+  margin-left: 2vh;
 }
 
 .browse-queue {
-  height: 85vh;
+  height: 87vh;
   width: 30vw;
-  border-style: solid;
-  border-color: #ba591e;
-  border-width: 1px;
+  border-left-style: solid;
+  border-left-color: #ba591e;
+  border-left-width: 1px;
 }
 
 .login {
