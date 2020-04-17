@@ -87,6 +87,14 @@
   border-width: 1px;
 }
 
+.login {
+  height: 95vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #loginButton {
   width: 35vh;
   height: 15vh;

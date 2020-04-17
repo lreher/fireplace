@@ -66,12 +66,31 @@ module.exports = function (props) {
 
 var React = require('react');
 
+function changeCategory(category) {
+  console.log(category);
+}
+
 module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
     "class": "browse"
   }, /*#__PURE__*/React.createElement("div", {
     "class": "browse-categories"
-  }), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("button", {
+    "class": "browse-categories-button",
+    onClick: function onClick() {
+      return changeCategory('saved');
+    }
+  }, "Saved Songs"), /*#__PURE__*/React.createElement("button", {
+    "class": "browse-categories-button",
+    onClick: function onClick() {
+      return changeCategory('playlists');
+    }
+  }, "Playlists"), /*#__PURE__*/React.createElement("button", {
+    "class": "browse-categories-button",
+    onClick: function onClick() {
+      return changeCategory('favorites');
+    }
+  }, "Favorite Songs")), /*#__PURE__*/React.createElement("div", {
     "class": "browse-category"
   }), /*#__PURE__*/React.createElement("div", {
     "class": "browse-queue"
@@ -124,7 +143,7 @@ module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
     userName: null
   }), /*#__PURE__*/React.createElement("div", {
-    "class": "content"
+    "class": "login"
   }, /*#__PURE__*/React.createElement("form", {
     action: "https://accounts.spotify.com/authorize",
     method: "GET"
@@ -169,6 +188,11 @@ module.exports = function (props) {
       return props.action('browse');
     }
   }, "Browse"), /*#__PURE__*/React.createElement("button", {
+    "class": "nav-button",
+    onClick: function onClick() {
+      return props.action('search');
+    }
+  }, "Fireplace"), /*#__PURE__*/React.createElement("button", {
     "class": "nav-button",
     onClick: function onClick() {
       return props.action('fireplace');
