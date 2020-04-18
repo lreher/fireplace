@@ -26,6 +26,6 @@ module.exports = function(props) {
   return <div>
     <Header userName={userName}></Header>
     <Nav action={setLocation}></Nav>
-    <Content location={location}></Content>
+    <Content location={location} userID={props.userID}></Content>
   </div>
 }

@@ -57,7 +57,8 @@ module.exports = function (props) {
   }), /*#__PURE__*/_react["default"].createElement(Nav, {
     action: setLocation
   }), /*#__PURE__*/_react["default"].createElement(Content, {
-    location: location
+    location: location,
+    userID: props.userID
   }));
 };
 
@@ -105,7 +106,7 @@ function changeCategory(userID, state, category) {
       break;
   }
 
-  setcategoryPlaylists(playlists);
+  state.setCategoryPlaylists(playlists);
 }
 
 module.exports = function (props) {
@@ -273,7 +274,7 @@ module.exports = function (props) {
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "scope",
-    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private"
+    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private user-library-read"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "state",

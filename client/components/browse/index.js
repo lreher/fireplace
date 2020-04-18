@@ -22,7 +22,7 @@ function changeCategory(userID, state, category) {
       break;
   }
 
-  setcategoryPlaylists(playlists)
+  state.setCategoryPlaylists(playlists)
 }
 
 module.exports = function(props) {

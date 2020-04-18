@@ -6,6 +6,7 @@ var profileController = require('../controller/profileController')
 module.exports = function(request, response) {
   var url = request.url;
 
+    
   switch(url) {
     // Serve files.
     case '/':
@@ -56,7 +57,6 @@ module.exports = function(request, response) {
         case '/me':
           profileController.getProfile(userID, function(error, profile) {
             if (error) {
-              console.log(error)
               response.writeHead(500);
               response.end("Failed to get User Information from Spotify.");
               return;
@@ -64,6 +64,22 @@ module.exports = function(request, response) {
 
             response.writeHead(200);
             response.end(JSON.stringify(profile));
+          })
+
+          break;
+        
+        case '/saved_songs':
+          console.log('hm')
+          profileController.getSavedSongs(userID, function(error, songs) {
+            if (error) {
+              response.writeHead(500);
+              console.log(error);
+              response.end("Failed to get User Information from Spotify.");
+              return;
+            }
+            
+            response.writeHead(200);
+            response.end(JSON.stringify(songs));
           })
 
           break;
