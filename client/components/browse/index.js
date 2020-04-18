@@ -1,58 +1,44 @@
 import React, { useState } from 'react';
 
 const Playlists = require('./playlists')
+const request = require('../../utils/request')
 
-function changeCategory(setCategoryTitle, setcategoryPlaylists, category) {
-  setCategoryTitle(category)
+function changeCategory(userID, state, category) {
+  state.setCategoryTitle(category)
 
   var playlists = [];
 
-  // switch (category) {
-  //   case 'Saved Songs':
-  //     playlists = [{
-  //       name: "Songs",
-  //       songs: [
-  //         {
-  //         title: "Title Test",
-  //         album: "Album Test",
-  //         artist: "Artist Test"
-  //         },
-  //         {
-  //           title: "Another Test",
-  //           album: "Another",
-  //           artist: "Test"
-  //         }
-  //       ]
-  //     }]
-  //     break;
-  // }
+  switch (category) {
+    case 'Saved Songs':
+      request('GET', "http://localhost:8081/saved_songs?userID=" + userID, {}, (error, response) => {
+        if (error) {
+          // handle edgy case
+          return;
+        }
+
+        console.log(response);
+      });
+
+      break;
+  }
 
   setcategoryPlaylists(playlists)
 }
 
 module.exports = function(props) {
   const [categoryTitle, setCategoryTitle] = useState('Saved Songs');
-  const [categoryPlaylists, setcategoryPlaylists] = useState([{
-    name: "Songs",
-    songs: [
-      {
-      title: "Title Test",
-      album: "Album Test",
-      artist: "Artist Test"
-      },
-      {
-        title: "Another Test",
-        album: "Another",
-        artist: "Test"
-      }
-    ]
-  }]);
+  const [categoryPlaylists, setCategoryPlaylists] = useState([]);
+
+  const state = {
+    setCategoryTitle,
+    setCategoryPlaylists
+  }
 
   return <div class="browse">
     <div class='browse-categories'>
-      <button class='browse-categories-button' onClick={() => changeCategory(setCategoryTitle, setcategoryPlaylists,  'Saved Songs')}>Saved Songs</button>
-      <button class='browse-categories-button' onClick={() => changeCategory(setCategoryTitle, setcategoryPlaylists, 'Playlists')}>Playlists</button>
-      <button class='browse-categories-button' onClick={() => changeCategory(setCategoryTitle, setcategoryPlaylists, 'Favorite Songs')}>Favorite Songs</button>
+      <button class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Saved Songs')}>Saved Songs</button>
+      <button class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Playlists')}>Playlists</button>
+      <button class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Favorite Songs')}>Favorite Songs</button>
     </div>
     <div class='browse-category'>
       <div class='browse-category-title'><h2>{categoryTitle}</h2></div>

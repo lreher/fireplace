@@ -86,27 +86,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Playlists = require('./playlists');
 
-function changeCategory(setCategoryTitle, setcategoryPlaylists, category) {
-  setCategoryTitle(category);
-  var playlists = []; // switch (category) {
-  //   case 'Saved Songs':
-  //     playlists = [{
-  //       name: "Songs",
-  //       songs: [
-  //         {
-  //         title: "Title Test",
-  //         album: "Album Test",
-  //         artist: "Artist Test"
-  //         },
-  //         {
-  //           title: "Another Test",
-  //           album: "Another",
-  //           artist: "Test"
-  //         }
-  //       ]
-  //     }]
-  //     break;
-  // }
+var request = require('../../utils/request');
+
+function changeCategory(userID, state, category) {
+  state.setCategoryTitle(category);
+  var playlists = [];
+
+  switch (category) {
+    case 'Saved Songs':
+      request('GET', "http://localhost:8081/saved_songs?userID=" + userID, {}, function (error, response) {
+        if (error) {
+          // handle edgy case
+          return;
+        }
+
+        console.log(response);
+      });
+      break;
+  }
 
   setcategoryPlaylists(playlists);
 }
@@ -117,22 +114,15 @@ module.exports = function (props) {
       categoryTitle = _useState2[0],
       setCategoryTitle = _useState2[1];
 
-  var _useState3 = (0, _react.useState)([{
-    name: "Songs",
-    songs: [{
-      title: "Title Test",
-      album: "Album Test",
-      artist: "Artist Test"
-    }, {
-      title: "Another Test",
-      album: "Another",
-      artist: "Test"
-    }]
-  }]),
+  var _useState3 = (0, _react.useState)([]),
       _useState4 = _slicedToArray(_useState3, 2),
       categoryPlaylists = _useState4[0],
-      setcategoryPlaylists = _useState4[1];
+      setCategoryPlaylists = _useState4[1];
 
+  var state = {
+    setCategoryTitle: setCategoryTitle,
+    setCategoryPlaylists: setCategoryPlaylists
+  };
   return /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse"
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -140,17 +130,17 @@ module.exports = function (props) {
   }, /*#__PURE__*/_react["default"].createElement("button", {
     "class": "browse-categories-button",
     onClick: function onClick() {
-      return changeCategory(setCategoryTitle, setcategoryPlaylists, 'Saved Songs');
+      return changeCategory(props.userID, state, 'Saved Songs');
     }
   }, "Saved Songs"), /*#__PURE__*/_react["default"].createElement("button", {
     "class": "browse-categories-button",
     onClick: function onClick() {
-      return changeCategory(setCategoryTitle, setcategoryPlaylists, 'Playlists');
+      return changeCategory(props.userID, state, 'Playlists');
     }
   }, "Playlists"), /*#__PURE__*/_react["default"].createElement("button", {
     "class": "browse-categories-button",
     onClick: function onClick() {
-      return changeCategory(setCategoryTitle, setcategoryPlaylists, 'Favorite Songs');
+      return changeCategory(props.userID, state, 'Favorite Songs');
     }
   }, "Favorite Songs")), /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-category"
@@ -163,7 +153,7 @@ module.exports = function (props) {
   }));
 };
 
-},{"./playlists":4,"react":20}],3:[function(require,module,exports){
+},{"../../utils/request":27,"./playlists":4,"react":20}],3:[function(require,module,exports){
 "use strict";
 
 var React = require('react');

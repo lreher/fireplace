@@ -56,6 +56,11 @@
   margin-right: 5vh;
   margin-top: 1vh;
   color: #e8d399;
+  transition: color 0.5s;
+}
+
+.nav-button:hover {
+  color: #e8d399cc 
 }
 
 .browse {
@@ -100,27 +105,30 @@
 }
 
 .browse-category-title {
-  margin-left: 2vh;
+  margin-left: 1vh;
 }
 
-/* .browse-playlists {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-} */
+.browse-playlist {
+  padding: 1vh;
+}
 
-/* .browse-playlist {
-  display: flex;
-  align-items: center
-} */
+.browse-playlist-title {
+  margin-left: 1vh;
+}
 
 .browse-song {
+  border-bottom: #ba591e 1px solid;
   display: flex;
-  justify-content: space-around
+  justify-content: left;
+  margin-left: 3vh;
+  margin-right: 5vh;
 }
 
 .browse-song-cell {
-  width: 23vw;
+  width: 15vw;
+  display: flex;
+  justify-content: left;
+  margin: 2px;
 }
 
 .browse-queue {
@@ -153,5 +161,22 @@
 
 h2 {
   font-family: 'Baloo Bhaina 2';
+  font-weight: 600;
   color: #c24a00;
+}
+
+h3 {
+  font-family: 'Baloo Bhaina 2';
+  font-weight: 600;
+  margin-left: 1vh;
+  color: #ba591e;
+}
+
+h4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: small;
+  color: #ba591e;
+  padding: 0;
+  margin: 0;
 }
