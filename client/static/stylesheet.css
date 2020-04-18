@@ -116,6 +116,15 @@
   margin-left: 1vh;
 }
 
+.browse-songs {
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.browse-songs::-webkit-scrollbar {
+  display: none;
+}
+
 .browse-song {
   border-bottom: #ba591e 1px solid;
   display: flex;
