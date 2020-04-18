@@ -16,7 +16,7 @@ function changeCategory(userID, state, category) {
           return;
         }
 
-        console.log(response);
+        state.setCategoryPlaylists([JSON.parse(response)]);
       });
 
       break;

@@ -23,13 +23,16 @@ function getSavedSongs(userID, callback) {
 
       return {
         uri: song.uri,
-        track: song.name,
+        title: song.name,
         album: song.album.name,
-        artists: song.artists.map((artist) => artist.name).join(',')
+        artist: song.artists.map((artist) => artist.name).join(',')
       }
     });
 
-    callback(null, songs);
+    callback(null, {
+      name: "Your Songs",
+      songs: songs
+    });
   })
 }
 
