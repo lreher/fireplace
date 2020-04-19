@@ -34,9 +34,19 @@ module.exports = function(props) {
     setCategoryPlaylists
   }
 
+  request('GET', "http://localhost:8081/saved_songs?userID=" + props.userID, {}, (error, response) => {
+    if (error) {
+      // handle edgy case
+      return;
+    }
+
+    setCategoryPlaylists([JSON.parse(response)]);
+  });
+
+
   return <div class="browse">
     <div class='browse-categories'>
-      <button class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Saved Songs')}>Saved Songs</button>
+      <button id="first-button" class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Saved Songs')}>Saved Songs</button>
       <button class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Playlists')}>Playlists</button>
       <button class='browse-categories-button' onClick={() => changeCategory(props.userID, state, 'Favorite Songs')}>Favorite Songs</button>
     </div>

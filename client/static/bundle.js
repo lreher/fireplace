@@ -124,11 +124,20 @@ module.exports = function (props) {
     setCategoryTitle: setCategoryTitle,
     setCategoryPlaylists: setCategoryPlaylists
   };
+  request('GET', "http://localhost:8081/saved_songs?userID=" + props.userID, {}, function (error, response) {
+    if (error) {
+      // handle edgy case
+      return;
+    }
+
+    setCategoryPlaylists([JSON.parse(response)]);
+  });
   return /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-categories"
   }, /*#__PURE__*/_react["default"].createElement("button", {
+    id: "first-button",
     "class": "browse-categories-button",
     onClick: function onClick() {
       return changeCategory(props.userID, state, 'Saved Songs');
