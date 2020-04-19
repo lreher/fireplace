@@ -14,6 +14,7 @@ module.exports = function(method, url, data, callback) {
   
   xhr.open(method, url, true)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
   xhr.send(data)
 }
 

@@ -6,7 +6,6 @@ var profileController = require('../controller/profileController')
 module.exports = function(request, response) {
   var url = request.url;
 
-    
   switch(url) {
     // Serve files.
     case '/':
@@ -69,17 +68,50 @@ module.exports = function(request, response) {
           break;
         
         case '/saved_songs':
-          console.log('hm')
           profileController.getSavedSongs(userID, function(error, songs) {
             if (error) {
               response.writeHead(500);
-              console.log(error);
-              response.end("Failed to get User Information from Spotify.");
+              response.end("Failed to get Saved Songs from Spotify.");
               return;
             }
             
             response.writeHead(200);
             response.end(JSON.stringify(songs));
+          })
+
+          break;
+
+        case '/playlists':
+          profileController.getPlaylists(userID, function(error, playlists) {
+            if (error) {
+              response.writeHead(500);
+              response.end("Failed to get Playlists from Spotify.");
+              return;
+            }
+            
+            response.writeHead(200);
+            response.end(JSON.stringify(playlists));
+          });
+
+          break;
+
+        case '/playlist':
+          var uri = '';
+          
+          request.on('data', function(chunk) {
+            uri += chunk.toString()
+          })
+          .on('end', function() {
+            profileController.getPlaylist(userID, uri, function(error, songs) {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get Songs from Playlist from Spotify.");
+                return;
+              }
+             
+              response.writeHead(200);
+              response.end(JSON.stringify(songs));
+            })
           })
 
           break;

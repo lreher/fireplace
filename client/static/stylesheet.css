@@ -68,16 +68,22 @@
   align-items: center;
 }
 
-.browse-categories {
+.browse-playlists {
   height: 87vh;
   width: 20vw;
   background-color: #dbc588;
   display: flex;
   flex-direction: column;
   border-right: #ad490a 1px solid;
+  flex-wrap: nowrap;
+  overflow-y: auto;
 }
 
-.browse-categories-button {
+.browse-playlists::-webkit-scrollbar {
+  display: none;
+}
+
+.browse-playlists-button {
   font-family: 'Baloo Bhaina 2';
   background-color: transparent;
   background-repeat:no-repeat;
@@ -88,27 +94,20 @@
   border-bottom: #ad490a;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  font-size: 2.5vh;
+  font-size: 2vh;
   color: #ad490a;
   text-align: left;
   padding-left: 1vw;
   transition: background-color 1s;
 }
 
-.browse-categories-button:hover {
+.browse-playlists-button:hover {
   background-color: #ad480a33
 }
 
-.browse-category {
+.browse-playlist {
   height: 85vh;
   width: 70vw;
-}
-
-.browse-category-title {
-  margin-left: 1vh;
-}
-
-.browse-playlist {
   padding: 1vh;
 }
 
