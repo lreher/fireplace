@@ -1,4 +1,3 @@
-const axios = require('axios')
 const spotifyRequest = require('../services/spotifyRequest')
 
 function getProfile(userID, callback) {
@@ -9,16 +8,6 @@ function getProfile(userID, callback) {
     }
 
     callback(null, response);
-  })
-}
-
-function getProfilePhoto(url, callback) {
-  axios({ method: 'GET', url: url })
-  .then(result => {
-    callback(null, result)
-  })
-  .catch(error => {
-    callback(error, null)
   })
 }
 

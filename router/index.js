@@ -40,18 +40,6 @@ module.exports = function(request, response) {
 
       break;
     
-    case ('./profile_photo'):
-      var url = '';
-
-      request.on('data', function(chunk) {
-        uri += chunk.toString()
-      })
-      .on('end', function() {
-      
-      })
-      
-      break;
-    
     // User Endpoints
     case (url.match(/\?userID=/) || {}).input:
       url_parts = url.split('?userID=');

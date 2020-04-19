@@ -14,12 +14,12 @@ module.exports = function(props) {
 
   const state = {
     setPlaylistURI,
-    setPlaylistName
-  }
+    setPlaylistName 
+  } 
 
   return <div class="browse">
     <Playlists userID={props.userID} action={changeCategory} state={state}></Playlists>
-    <Playlist userID= {props.userID} uri={playlistURI} name={playlistName}></Playlist>
+    <Playlist userID={props.userID} uri={playlistURI} name={playlistName}></Playlist>
     <div class='browse-queue'></div>
   </div>
 }
