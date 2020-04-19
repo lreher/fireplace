@@ -80,6 +80,20 @@ module.exports = function(request, response) {
           })
 
           break;
+        
+        case '/favorite_songs':
+          profileController.getFavoriteSongs(userID, function(error, songs) {
+            if (error) {
+              response.writeHead(500);
+              response.end("Failed to get Favorite Songs from Spotify.");
+              return;
+            }
+            
+            response.writeHead(200);
+            response.end(JSON.stringify(songs));
+          })
+
+          break;
 
         case '/playlists':
           profileController.getPlaylists(userID, function(error, playlists) {
@@ -102,6 +116,7 @@ module.exports = function(request, response) {
             uri += chunk.toString()
           })
           .on('end', function() {
+            console.log(uri)
             profileController.getPlaylist(userID, uri, function(error, songs) {
               if (error) {
                 response.writeHead(500);

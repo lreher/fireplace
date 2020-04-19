@@ -18,16 +18,25 @@ function getSavedSongs(userID, callback) {
       return;
     }
 
-    var songs = response.items.map((item) => {
-      var song = item.track;
+    callback(null, songsFromResponse(response.items));
+  })
+}
 
+function getFavoriteSongs(userID, callback) {
+  spotifyRequest('GET', '/me/top/tracks?limit=12', null, userID, function(error, response) {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    var songs = response.items.map((song) => {
       return {
         uri: song.uri,
         title: song.name,
         album: song.album.name,
         artist: song.artists.map((artist) => artist.name).join(',')
       }
-    });
+    })
 
     callback(null, songs);
   })
@@ -50,31 +59,41 @@ function getPlaylists(userID, callback) {
 }
 
 function getPlaylist(userID, uri, callback) {
-  spotifyRequest('GET', '/playlists/' + uri.split(':')[2], null, userID, function(error, response) {
+  spotifyRequest('GET', '/playlists/' + uri.split(':')[2] + "/tracks/", null, userID, function(error, response) {
     if (error) {
+      console.log(error)
       callback(error, null);
       return;
     }
 
-    var songs = response.tracks.items.map((item) => {
-      var song = item.track;
-
-      return {
-        uri: song.uri,
-        title: song.name,
-        album: song.album.name,
-        artist: song.artists.map((artist) => artist.name).join(',')
-      }
+    console.log(response)
+    
+    callback(null, {
+      songs: songsFromResponse(response.items),
+      nextOffset: response.next
     });
+  });
+}
 
-    callback(null, songs);
-  })
+function songsFromResponse(items) {
+  var songs = items.map((item) => {
+    var song = item.track;
+    
+    return {
+      uri: song.uri,
+      title: song.name,
+      album: song.album.name,
+      artist: song.artists.map((artist) => artist.name).join(',')
+    }
+  });
+
+  return songs;
 }
 
 module.exports = {
   getProfile,
-  getProfilePhoto,
   getSavedSongs,
+  getFavoriteSongs,
   getPlaylists,
   getPlaylist
 }

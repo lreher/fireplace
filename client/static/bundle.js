@@ -167,29 +167,35 @@ module.exports = function (props) {
       setSongs = _useState2[1];
 
   if (playlistURI != props.uri) {
+    var url;
+    var data;
+
     switch (props.uri) {
       case '1':
-        request('GET', "http://localhost:8081/saved_songs?userID=" + props.userID, {}, function (error, response) {
-          if (error) {
-            // handle edgy case
-            return;
-          }
+        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
+        data = {};
+        break;
 
-          setSongs(JSON.parse(response));
-        });
+      case '2':
+        url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
+        data = {};
         break;
 
       default:
-        request('POST', "http://localhost:8081/playlist?userID=" + props.userID, props.uri, function (error, response) {
-          if (error) {
-            // handle edgy case
-            return;
-          }
-
-          setSongs(JSON.parse(response));
-        });
+        url = "http://localhost:8081/playlist?userID=" + props.userID;
+        data = props.uri;
         break;
     }
+
+    request('POST', url, data, function (error, response) {
+      if (error) {
+        // handle edgy case
+        return;
+      }
+
+      var responseObject = JSON.parse(response);
+      console.log(responseObject);
+    });
   }
 
   playlistURI = props.uri;
@@ -356,7 +362,7 @@ module.exports = function (props) {
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "scope",
-    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private user-library-read"
+    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private user-library-read user-top-read"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "state",
@@ -29445,7 +29451,6 @@ module.exports = function (method, url, data, callback) {
 
   xhr.open(method, url, true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  console.log(data);
   xhr.send(data);
 };
 

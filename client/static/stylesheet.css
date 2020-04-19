@@ -1,6 +1,7 @@
 * { 
   margin: 0;
   padding: 0;
+  scrollbar-width: none;
 }
 
 #root {
@@ -36,7 +37,7 @@
 .header-profile-picture { 
   width: 8vh;
   height: 8vh;
-  margin-left: 1vh;
+  margin-left: 2vh;
   border-radius: 50%;
 }
 
