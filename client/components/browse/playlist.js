@@ -4,7 +4,7 @@ const Song = require('./song')
 
 const request = require('../../utils/request');
 
-var playlistURI = "1"
+var playlistURI = "0"
 
 module.exports = function(props) {
   var [songs, setSongs] = useState([]);
