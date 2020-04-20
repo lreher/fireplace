@@ -52,70 +52,74 @@ module.exports = function(request, response) {
         break;
       }
 
-      switch (url_parts[0]) {
-        case '/me':
-          profileController.getProfile(userID, function(error, profile) {
-            if (error) {
-              response.writeHead(500);
-              response.end("Failed to get User Information from Spotify.");
-              return;
-            }
-
-            response.writeHead(200);
-            response.end(JSON.stringify(profile));
-          })
-
-          break;
-        
-        case '/saved_songs':
-          profileController.getSavedSongs(userID, function(error, songs) {
-            if (error) {
-              response.writeHead(500);
-              response.end("Failed to get Saved Songs from Spotify.");
-              return;
-            }
-            
-            response.writeHead(200);
-            response.end(JSON.stringify(songs));
-          })
-
-          break;
-        
-        case '/favorite_songs':
-          profileController.getFavoriteSongs(userID, function(error, songs) {
-            if (error) {
-              response.writeHead(500);
-              response.end("Failed to get Favorite Songs from Spotify.");
-              return;
-            }
-            
-            response.writeHead(200);
-            response.end(JSON.stringify(songs));
-          })
-
-          break;
-
-        case '/playlists':
-          profileController.getPlaylists(userID, function(error, playlists) {
-            if (error) {
-              response.writeHead(500);
-              response.end("Failed to get Playlists from Spotify.");
-              return;
-            }
-            
-            response.writeHead(200);
-            response.end(JSON.stringify(playlists));
-          });
-
-          break;
-
-        case '/playlist':
-          var uri = '';
+      var data = '';
           
-          request.on('data', function(chunk) {
-            uri += chunk.toString()
-          })
-          .on('end', function() {
+      request.on('data', function(chunk) {
+        data += chunk.toString()
+      })
+      .on('end', function() {
+        // todo move to its own router
+        switch (url_parts[0]) {
+          case '/me':
+            profileController.getProfile(userID, function(error, profile) {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get User Information from Spotify.");
+                return;
+              }
+  
+              response.writeHead(200);
+              response.end(JSON.stringify(profile));
+            })
+  
+            break;
+          
+          case '/saved_songs':
+            const offset = JSON.parse(data).offset;
+
+            profileController.getSavedSongs(userID, offset, function(error, songs) {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get Saved Songs from Spotify.");
+                return;
+              }
+              
+              response.writeHead(200);
+              response.end(JSON.stringify(songs));
+            })
+  
+            break;
+          
+          case '/favorite_songs':
+            profileController.getFavoriteSongs(userID, function(error, songs) {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get Favorite Songs from Spotify.");
+                return;
+              }
+              
+              response.writeHead(200);
+              response.end(JSON.stringify(songs));
+            })
+  
+            break;
+  
+          case '/playlists':
+            profileController.getPlaylists(userID, function(error, playlists) {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get Playlists from Spotify.");
+                return;
+              }
+              
+              response.writeHead(200);
+              response.end(JSON.stringify(playlists));
+            });
+  
+            break;
+  
+          case '/playlist':
+
             console.log(uri)
             profileController.getPlaylist(userID, uri, function(error, songs) {
               if (error) {
@@ -123,18 +127,20 @@ module.exports = function(request, response) {
                 response.end("Failed to get Songs from Playlist from Spotify.");
                 return;
               }
-             
+              
               response.writeHead(200);
               response.end(JSON.stringify(songs));
-            })
-          })
+            })  
 
-          break;
+            break;
+  
+          default:
+            response.writeHead(400);
+            response.end("Bad User Request.");
+            break;
 
-        default:
-          response.writeHead(400);
-          response.end("Bad User Request.");
-      }
+        }
+      });
 
       break;
     

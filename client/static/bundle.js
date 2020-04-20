@@ -154,11 +154,35 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var Song = require('./song');
 
 var request = require('../../utils/request');
 
 var playlistURI = "0";
+
+function getPaginatedSongs(url, data, offset, setSongs, songs) {
+  var dataObject = JSON.stringify(_objectSpread({}, data, {
+    offset: offset
+  }));
+  request('POST', url, dataObject, function (error, response) {
+    if (error) {
+      // handle edgy case
+      return;
+    }
+
+    var responseObject = JSON.parse(response);
+    var nextOffset = parseInt(responseObject.nextOffset);
+    var updatedSongs = songs.concat(responseObject.songs);
+    setSongs(updatedSongs);
+    getPaginatedSongs(url, data, nextOffset, setSongs, updatedSongs);
+  });
+}
 
 module.exports = function (props) {
   var _useState = (0, _react.useState)([]),
@@ -183,27 +207,26 @@ module.exports = function (props) {
 
       default:
         url = "http://localhost:8081/playlist?userID=" + props.userID;
-        data = props.uri;
+        data = {
+          uri: props.uri
+        };
         break;
     }
 
-    request('POST', url, data, function (error, response) {
-      if (error) {
-        // handle edgy case
-        return;
-      }
-
-      var responseObject = JSON.parse(response);
-      console.log(responseObject);
-    });
+    getPaginatedSongs(url, data, 0, setSongs, songs);
   }
 
   playlistURI = props.uri;
+  console.log(document.getElementsByClassName('browse-songs-search'));
   return /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-playlist"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-playlist-title"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, props.name)), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, props.name), /*#__PURE__*/_react["default"].createElement("input", {
+    "class": "browse-songs-search",
+    type: "text",
+    placeholder: "Search.."
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-songs"
   }, songs.map(function (song) {
     return /*#__PURE__*/_react["default"].createElement(Song, {

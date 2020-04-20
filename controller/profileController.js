@@ -11,14 +11,17 @@ function getProfile(userID, callback) {
   })
 }
 
-function getSavedSongs(userID, callback) {
-  spotifyRequest('GET', '/me/tracks?limit=50', null, userID, function(error, response) {
+function getSavedSongs(userID, offset, callback) {
+  spotifyRequest('GET', '/me/tracks?limit=50' + '&offset=' + offset, null, userID, function(error, response) {
     if (error) {
       callback(error, null);
       return;
     }
 
-    callback(null, songsFromResponse(response.items));
+    callback(null, {
+      songs: songsFromResponse(response.items),
+      nextOffset: response.next.match(/(?<=offset=)(.*)(?=&)/)[0]
+    });
   })
 }
 
@@ -70,7 +73,7 @@ function getPlaylist(userID, uri, callback) {
     
     callback(null, {
       songs: songsFromResponse(response.items),
-      nextOffset: response.next
+      nextOffset: response.next.match(/(?<=offset=)(.*)(?=&)/)[0]
     });
   });
 }

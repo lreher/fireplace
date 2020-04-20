@@ -124,12 +124,33 @@
 .browse-playlist-title {
   margin-left: 1vh;
   margin-bottom: 1vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .browse-songs {
   height: 75vh;
   overflow-y: auto;
 }
+
+.browse-songs-search {
+  background-color: #dbc588;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  font-family: 'Baloo Bhaina 2';
+  color: #ad490a;
+  font-weight: 600;
+  width: 15vw;
+  height: 3vh;
+  padding-left: 1vw;
+}
+
+.browse-songs-search::placeholder {
+  color: #ad490a;
+}
+
 
 .browse-songs::-webkit-scrollbar {
   display: none;
@@ -196,7 +217,7 @@ h3 {
 h4 {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 2vh;
+  font-size: 1.8vh;
   color: #ba591e;
   padding: 0;
   margin: 0;
