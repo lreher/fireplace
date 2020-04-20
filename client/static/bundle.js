@@ -165,6 +165,8 @@ var Song = require('./song');
 var request = require('../../utils/request');
 
 var playlistURI = "0";
+var previousSearch = "";
+var loadedSongs = [];
 
 function getPaginatedSongs(url, data, offset, setSongs, songs) {
   var dataObject = JSON.stringify(_objectSpread({}, data, {
@@ -179,7 +181,12 @@ function getPaginatedSongs(url, data, offset, setSongs, songs) {
     var responseObject = JSON.parse(response);
     var nextOffset = parseInt(responseObject.nextOffset);
     var updatedSongs = songs.concat(responseObject.songs);
-    setSongs(updatedSongs);
+    loadedSongs = updatedSongs; // load first 50
+
+    if (offset == 0) {
+      setSongs(updatedSongs);
+    }
+
     getPaginatedSongs(url, data, nextOffset, setSongs, updatedSongs);
   });
 }
@@ -217,14 +224,36 @@ module.exports = function (props) {
   }
 
   playlistURI = props.uri;
-  console.log(document.getElementsByClassName('browse-songs-search'));
+  var input = document.getElementById('search-songs');
+
+  if (input) {
+    input.addEventListener("search", function (e) {
+      if (e.target.value.length < 1) {
+        setSongs(loadedSongs.slice(0, 50));
+        return;
+      }
+
+      var search = new RegExp(e.target.value.toLowerCase());
+      var newState = [];
+      loadedSongs.map(function (song) {
+        var totalSong = (song.title + song.album + song.artist).toLowerCase();
+
+        if (totalSong.match(search)) {
+          newState.push(song);
+        }
+      });
+      setSongs(newState);
+    });
+  }
+
   return /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-playlist"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-playlist-title"
   }, /*#__PURE__*/_react["default"].createElement("h3", null, props.name), /*#__PURE__*/_react["default"].createElement("input", {
+    id: "search-songs",
     "class": "browse-songs-search",
-    type: "text",
+    type: "search",
     placeholder: "Search.."
   })), /*#__PURE__*/_react["default"].createElement("div", {
     "class": "browse-songs"

@@ -5,6 +5,8 @@ const Song = require('./song')
 const request = require('../../utils/request');
 
 var playlistURI = "0"
+var previousSearch = ""
+var loadedSongs = [];
 
 function getPaginatedSongs(url, data, offset, setSongs, songs) {
   var dataObject = JSON.stringify({
@@ -23,7 +25,13 @@ function getPaginatedSongs(url, data, offset, setSongs, songs) {
     
     var updatedSongs = songs.concat(responseObject.songs);
 
-    setSongs(updatedSongs);
+    loadedSongs = updatedSongs;
+
+    // load first 50
+    if (offset == 0) {
+      setSongs(updatedSongs);
+    }
+
     getPaginatedSongs(url, data, nextOffset, setSongs, updatedSongs);
   }); 
 }
@@ -60,12 +68,36 @@ module.exports = function(props) {
   
   playlistURI = props.uri;
 
-  console.log(document.getElementsByClassName('browse-songs-search'));
+
+  var input = document.getElementById('search-songs');
+
+  if (input) {
+    input.addEventListener("search", function (e) {
+      if (e.target.value.length < 1) {
+        setSongs(loadedSongs.slice(0, 50));
+        return;
+      }
+
+      const search = new RegExp(e.target.value.toLowerCase());
+      const newState = [];
+
+      loadedSongs.map((song) => {
+        const totalSong = (song.title + song.album + song.artist).toLowerCase();
+
+        if (totalSong.match(search)) {
+          newState.push(song);
+        }
+      })
+
+      setSongs(newState);
+    })
+  }
+
     
   return <div class="browse-playlist">
     <div class="browse-playlist-title">
       <h3>{props.name}</h3>
-      <input class="browse-songs-search" type="text" placeholder="Search.."></input>
+      <input id="search-songs" class="browse-songs-search" type="search" placeholder="Search.."></input>
     </div>
     <div class="browse-songs">{songs.map((song) => {
       return <Song song={song}></Song>

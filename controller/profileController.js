@@ -18,6 +18,8 @@ function getSavedSongs(userID, offset, callback) {
       return;
     }
 
+    console.log(response)
+
     callback(null, {
       songs: songsFromResponse(response.items),
       nextOffset: response.next.match(/(?<=offset=)(.*)(?=&)/)[0]
