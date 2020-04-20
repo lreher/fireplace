@@ -5,7 +5,7 @@ const Song = require('./song')
 const request = require('../../utils/request');
 
 var playlistURI = "0"
-var previousSearch = ""
+var hasSearchListener = false;
 var loadedSongs = [];
 
 function getPaginatedSongs(url, data, offset, setSongs, songs) {
@@ -62,19 +62,21 @@ module.exports = function(props) {
   
         break;
     }
-
     getPaginatedSongs(url, data, 0, setSongs, songs)
   }
   
   playlistURI = props.uri;
-
+    
+  
 
   var input = document.getElementById('search-songs');
 
-  if (input) {
+  if (input && hasSearchListener === false) {
+    hasSearchListener = true;
+
     input.addEventListener("search", function (e) {
       if (e.target.value.length < 1) {
-        setSongs(loadedSongs.slice(0, 50));
+        setSongs(loadedSongs);
         return;
       }
 
@@ -93,7 +95,6 @@ module.exports = function(props) {
     })
   }
 
-    
   return <div class="browse-playlist">
     <div class="browse-playlist-title">
       <h3>{props.name}</h3>
