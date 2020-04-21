@@ -12,17 +12,33 @@ function getProfile(userID, callback) {
 }
 
 function getSavedSongs(userID, offset, callback) {
+  var songs = {};
+
   spotifyRequest('GET', '/me/tracks?limit=50' + '&offset=' + offset, null, userID, function(error, response) {
     if (error) {
       callback(error, null);
       return;
     }
 
-    console.log(response)
+    // songs.push(songsFromResponse(response.items))
+    // totalRequests = Math.floor(parseInt(response.total)/50);
+
+    // for (var i = 1; i <= totalRequests; i++) {
+    //   var newOffset = 50 * i;
+
+    //   spotifyRequest('GET', '/me/tracks?limit=50' + '&offset=' + newOffset, null, userID, (error, response) => {
+    //     if (error) {
+    //       callback(error, null);
+    //       return;
+    //     }
+
+    //     console.log(response.offset);
+    //   });
+    // }
 
     callback(null, {
       songs: songsFromResponse(response.items),
-      nextOffset: response.next.match(/(?<=offset=)(.*)(?=&)/)[0]
+      total: response.total
     });
   })
 }

@@ -21,7 +21,7 @@ function getPaginatedSongs(url, data, offset, setSongs, songs) {
     }
 
     var responseObject = JSON.parse(response);
-    var nextOffset = parseInt(responseObject.nextOffset);
+    var total = parseInt(responseObject.total);
     
     var updatedSongs = songs.concat(responseObject.songs);
 
@@ -45,19 +45,19 @@ module.exports = function(props) {
 
     switch (props.uri) {
       case '1':
-        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
+        url = "https://fireplace.onrender.com/saved_songs?userID=" + props.userID;
         data = {};
   
         break;
       
       case '2':
-        url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
+        url = "https://fireplace.onrender.com/favorite_songs?userID=" + props.userID;
         data = {};
 
         break;
 
       default: 
-        url = "http://localhost:8081/playlist?userID=" + props.userID
+        url = "https://fireplace.onrender.com/playlist?userID=" + props.userID
         data = { uri: props.uri };
   
         break;
@@ -67,8 +67,6 @@ module.exports = function(props) {
   
   playlistURI = props.uri;
     
-  
-
   var input = document.getElementById('search-songs');
 
   if (input && hasSearchListener === false) {

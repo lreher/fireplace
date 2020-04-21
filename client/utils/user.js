@@ -25,7 +25,7 @@ function loggedIn(callback) {
   var userID = null;
 
   if (storedID != undefined && storedID != null) {
-    request('GET', 'http://localhost:8081/me?userID=' + storedID, {}, (error, response) => {
+    request('GET', 'https://fireplace.onrender.com/me?userID=' + storedID, {}, (error, response) => {
       // stored ID not longer in back-end  
       if (error) {
         callback(storedID, null);

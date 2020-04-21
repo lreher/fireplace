@@ -6,7 +6,7 @@ module.exports = function(props) {
   const [playlists, setPlaylists] = useState([]);
 
   if (playlists.length == 0) {
-    request('GET', 'http://localhost:8081/playlists?userID=' + props.userID, {}, (error, response) => {
+    request('GET', 'https://fireplace.onrender.com/playlists?userID=' + props.userID, {}, (error, response) => {
       if (error) {
         // handle edgy case
         return;
