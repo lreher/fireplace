@@ -8,10 +8,10 @@ var playlistURI = "0"
 var hasSearchListener = false;
 var loadedSongs = [];
 
-function getPaginatedSongs(url, data, offset, setSongs, songs) {
+function getPaginatedSongs(url, data, setSongs) {
   var dataObject = JSON.stringify({
     ...data,
-    offset: offset
+    offset: 0
   })
 
   request('POST', url, dataObject, (error, response) => {
@@ -21,18 +21,33 @@ function getPaginatedSongs(url, data, offset, setSongs, songs) {
     }
 
     var responseObject = JSON.parse(response);
-    var total = parseInt(responseObject.total);
+    var totalSongs = parseInt(responseObject.total);
+    var totalRequests = Math.floor(totalSongs)/50;
     
-    var updatedSongs = songs.concat(responseObject.songs);
+    loadedSongs = responseObject.songs;
+    setSongs(loadedSongs);
 
-    loadedSongs = updatedSongs;
+    // Download rest
+    for (var i = 1; i <= totalRequests; i++) {
+      var dataObject = JSON.stringify({
+        ...data,
+        offset: i * 50
+      })
+    
+      request('POST', url, dataObject, (error, response) => {
+        if (error) {
+          return;
+        }
 
-    // load first 50
-    if (offset == 0) {
-      setSongs(updatedSongs);
+        var responseObject = JSON.parse(response);
+
+        loadedSongs = loadedSongs.concat(responseObject.songs)
+
+        if (loadedSongs.length === totalSongs) {
+          setSongs(loadedSongs)
+        }
+      });
     }
-
-    getPaginatedSongs(url, data, nextOffset, setSongs, updatedSongs);
   }); 
 }
 
@@ -45,28 +60,29 @@ module.exports = function(props) {
 
     switch (props.uri) {
       case '1':
-        url = "https://fireplace.onrender.com/saved_songs?userID=" + props.userID;
+        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
         data = {};
   
         break;
       
       case '2':
-        url = "https://fireplace.onrender.com/favorite_songs?userID=" + props.userID;
+        url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
         data = {};
 
         break;
 
       default: 
-        url = "https://fireplace.onrender.com/playlist?userID=" + props.userID
+        url = "http://localhost:8081/playlist?userID=" + props.userID
         data = { uri: props.uri };
   
         break;
     }
-    getPaginatedSongs(url, data, 0, setSongs, songs)
+    getPaginatedSongs(url, data, setSongs)
   }
   
   playlistURI = props.uri;
-    
+  
+  // Search listener
   var input = document.getElementById('search-songs');
 
   if (input && hasSearchListener === false) {
