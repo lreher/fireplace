@@ -52,12 +52,17 @@ module.exports = function(request, response) {
         break;
       }
 
-      var data = '';
+      var requestData = '';
+      var data;
           
       request.on('data', function(chunk) {
-        data += chunk.toString()
+        requestData += chunk.toString()
       })
       .on('end', function() {
+        if (requestData) {
+          data = JSON.parse(requestData);
+        }
+
         // todo move to its own router
         switch (url_parts[0]) {
           case '/me':
@@ -75,9 +80,7 @@ module.exports = function(request, response) {
             break;
           
           case '/saved_songs':
-            const offset = JSON.parse(data).offset;
-
-            profileController.getSavedSongs(userID, offset, function(error, songs) {
+            profileController.getSavedSongs(userID, data.offset, function(error, songs) {
               if (error) {
                 response.writeHead(500);
                 response.end("Failed to get Saved Songs from Spotify.");
@@ -119,9 +122,7 @@ module.exports = function(request, response) {
             break;
   
           case '/playlist':
-
-            console.log(uri)
-            profileController.getPlaylist(userID, uri, function(error, songs) {
+            profileController.getPlaylist(userID, data.uri, data.offset, function(error, songs) {
               if (error) {
                 response.writeHead(500);
                 response.end("Failed to get Songs from Playlist from Spotify.");

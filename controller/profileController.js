@@ -20,22 +20,6 @@ function getSavedSongs(userID, offset, callback) {
       return;
     }
 
-    // songs.push(songsFromResponse(response.items))
-    // totalRequests = Math.floor(parseInt(response.total)/50);
-
-    // for (var i = 1; i <= totalRequests; i++) {
-    //   var newOffset = 50 * i;
-
-    //   spotifyRequest('GET', '/me/tracks?limit=50' + '&offset=' + newOffset, null, userID, (error, response) => {
-    //     if (error) {
-    //       callback(error, null);
-    //       return;
-    //     }
-
-    //     console.log(response.offset);
-    //   });
-    // }
-
     callback(null, {
       songs: songsFromResponse(response.items),
       total: response.total
@@ -44,7 +28,7 @@ function getSavedSongs(userID, offset, callback) {
 }
 
 function getFavoriteSongs(userID, callback) {
-  spotifyRequest('GET', '/me/top/tracks?limit=12', null, userID, function(error, response) {
+  spotifyRequest('GET', '/me/top/tracks', null, userID, function(error, response) {
     if (error) {
       callback(error, null);
       return;
@@ -59,7 +43,10 @@ function getFavoriteSongs(userID, callback) {
       }
     })
 
-    callback(null, songs);
+    callback(null, {
+      songs: songs,
+      total: 50
+    });
   })
 }
 
@@ -79,19 +66,17 @@ function getPlaylists(userID, callback) {
   })
 }
 
-function getPlaylist(userID, uri, callback) {
-  spotifyRequest('GET', '/playlists/' + uri.split(':')[2] + "/tracks/", null, userID, function(error, response) {
+function getPlaylist(userID, uri, offset, callback) {
+  spotifyRequest('GET', '/playlists/' + uri.split(':')[2] + "/tracks?limit=50&offset=" + offset, null, userID, function(error, response) {
     if (error) {
       console.log(error)
       callback(error, null);
       return;
     }
-
-    console.log(response)
     
     callback(null, {
       songs: songsFromResponse(response.items),
-      nextOffset: response.next.match(/(?<=offset=)(.*)(?=&)/)[0]
+      total: response.total
     });
   });
 }

@@ -169,6 +169,7 @@ var hasSearchListener = false;
 var loadedSongs = [];
 
 function getPaginatedSongs(url, data, setSongs) {
+  loadedSongs = [];
   var dataObject = JSON.stringify(_objectSpread({}, data, {
     offset: 0
   }));
