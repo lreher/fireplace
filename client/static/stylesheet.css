@@ -119,6 +119,7 @@
   height: 85vh;
   width: 70vw;
   padding: 1vh;
+  user-select: none;
 }
 
 .browse-playlist-title {
@@ -209,6 +210,8 @@
   align-items: center;
   justify-content: space-between;
 }
+
+
 
 .login {
   height: 95vh;

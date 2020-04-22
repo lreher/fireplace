@@ -24,7 +24,8 @@ function removeFromQueue(userID, songID, refreshSongs) {
 
   request('POST', 'http://localhost:8081/remove_from_queue?userID=' + userID, removeData, (error, response) => {
     if (error) {
-      alert(error)
+      alert(error.responseText)
+      return;
     }
 
     refreshSongs(JSON.parse(response));

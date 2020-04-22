@@ -85,31 +85,31 @@ module.exports = function(props) {
   playlistURI = props.uri;
   
   // Search listener
-  var input = document.getElementById('search-songs');
+  // var input = document.getElementById('search-songs');
 
-  if (input && hasSearchListener === false) {
-    hasSearchListener = true;
+  // if (input && hasSearchListener === false) {
+  //   hasSearchListener = true;
 
-    input.addEventListener("search", function (e) {
-      if (e.target.value.length < 1) {
-        setSongs(loadedSongs);
-        return;
-      }
+  //   input.addEventListener("search", function (e) {
+  //     if (e.target.value.length < 1) {
+  //       setSongs(loadedSongs);
+  //       return;
+  //     }
 
-      const search = new RegExp(e.target.value.toLowerCase());
-      const newState = [];
+  //     const search = new RegExp(e.target.value.toLowerCase());
+  //     const newState = [];
 
-      loadedSongs.map((song) => {
-        const totalSong = (song.title + song.album + song.artist).toLowerCase();
+  //     loadedSongs.map((song) => {
+  //       const totalSong = (song.title + song.album + song.artist).toLowerCase();
 
-        if (totalSong.match(search)) {
-          newState.push(song);
-        }
-      })
+  //       if (totalSong.match(search)) {
+  //         newState.push(song);
+  //       }
+  //     })
 
-      setSongs(newState);
-    })
-  }
+  //     setSongs(newState);
+  //   })
+  // }
 
   return <div class="browse-playlist">
     <div class="browse-playlist-title">
