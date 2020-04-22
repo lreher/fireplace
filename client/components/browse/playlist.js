@@ -117,7 +117,7 @@ module.exports = function(props) {
       <input id="search-songs" class="browse-songs-search" type="search" placeholder="Search.."></input>
     </div>
     <div class="browse-songs">{songs.map((song) => {
-      return <Song song={song}></Song>
+      return <Song mode='add' userID={props.userID} song={song}></Song>
     })}</div>
   </div>
 }

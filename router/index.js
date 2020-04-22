@@ -2,6 +2,7 @@ var serveFile = require('./serveFile');
 
 var auth = require('../auth');
 var profileController = require('../controller/profileController')
+var queueController = require('../controller/queueController')
 
 module.exports = function(request, response) {
   var url = request.url;
@@ -78,7 +79,21 @@ module.exports = function(request, response) {
             })
   
             break;
-          
+  
+          case '/playlists':
+            profileController.getPlaylists(userID, function(error, playlists) {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get Playlists from Spotify.");
+                return;
+              }
+              
+              response.writeHead(200);
+              response.end(JSON.stringify(playlists));
+            });
+  
+            break;
+
           case '/saved_songs':
             profileController.getSavedSongs(userID, data.offset, function(error, songs) {
               if (error) {
@@ -106,21 +121,7 @@ module.exports = function(request, response) {
             })
   
             break;
-  
-          case '/playlists':
-            profileController.getPlaylists(userID, function(error, playlists) {
-              if (error) {
-                response.writeHead(500);
-                response.end("Failed to get Playlists from Spotify.");
-                return;
-              }
-              
-              response.writeHead(200);
-              response.end(JSON.stringify(playlists));
-            });
-  
-            break;
-  
+
           case '/playlist':
             profileController.getPlaylist(userID, data.uri, data.offset, function(error, songs) {
               if (error) {
@@ -134,7 +135,30 @@ module.exports = function(request, response) {
             })  
 
             break;
-  
+          
+          case '/add_to_queue':
+            queueController.addToQueue(data.song);
+
+            response.writeHead(200);
+            response.end();
+
+            break;
+
+          case '/remove_from_queue':
+            queueController.removeFromQueue(data.songID, data.userID, (error, newQueue) => {
+              if (error) {
+                response.writeHead(403);
+                response.end(error);
+
+                return; 
+              }
+              
+              response.writeHead(200);
+              response.end(JSON.stringify(newQueue));
+            });
+
+            break;
+          
           default:
             response.writeHead(400);
             response.end("Bad User Request.");
@@ -145,6 +169,14 @@ module.exports = function(request, response) {
 
       break;
     
+    // Non User Endpoints
+    case '/get_queue': 
+      response.writeHead(200);
+      response.end(JSON.stringify(queueController.getQueue()));
+      
+      break;
+      
+
     default:
       response.writeHead(400);
       response.end("Bad Request.");

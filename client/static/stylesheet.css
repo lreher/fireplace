@@ -193,13 +193,21 @@
   background-color: #ad480a27
 }
 
-
 .browse-queue {
   height: 87vh;
   width: 30vw;
   border-left-style: solid;
   border-left-color: #ba591e;
   border-left-width: 1px;
+}
+
+.browse-queue-title {
+  margin-top: 1vh;
+  margin-left: 1.5vh;
+  margin-bottom: 1vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .login {
