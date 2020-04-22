@@ -361,7 +361,9 @@ module.exports = function (props) {
     "class": "browse-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.album)), /*#__PURE__*/React.createElement("div", {
     "class": "browse-song-cell"
-  }, /*#__PURE__*/React.createElement("h4", null, props.song.artist)));
+  }, /*#__PURE__*/React.createElement("h4", null, props.song.artist)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    "class": "browse-song-cell-button"
+  }, "Add")));
 };
 
 },{"react":20}],6:[function(require,module,exports){

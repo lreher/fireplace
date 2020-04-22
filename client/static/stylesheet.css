@@ -162,6 +162,8 @@
   justify-content: left;
   margin-left: 3vh;
   margin-right: 5vh;
+  transition: background-color 1s;
+  user-select: none;
 }
 
 .browse-song-cell {
@@ -170,6 +172,27 @@
   justify-content: left;
   margin: 2px;
 }
+
+.browse-song-cell-button {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1.8vh;
+  color: #ba591e;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  border: none;
+}
+
+.browse-song:hover {
+  background-color: #ad480a27
+}
+
 
 .browse-queue {
   height: 87vh;

@@ -5,5 +5,6 @@ module.exports = function(props) {
     <div class="browse-song-cell"><h4>{props.song.title}</h4></div>
     <div class="browse-song-cell"><h4>{props.song.album}</h4></div>
     <div class="browse-song-cell"><h4>{props.song.artist}</h4></div>
+    <div><button class="browse-song-cell-button">Add</button></div>
   </div>
 }
