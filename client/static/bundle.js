@@ -119,7 +119,7 @@ module.exports = function (props) {
     setPlaylistName: setPlaylistName
   };
   return /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse"
+    className: "browse"
   }, /*#__PURE__*/_react["default"].createElement(Playlists, {
     userID: props.userID,
     action: changeCategory,
@@ -261,16 +261,16 @@ module.exports = function (props) {
   // }
 
   return /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-playlist"
+    className: "browse-playlist"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-playlist-title"
+    className: "browse-playlist-title"
   }, /*#__PURE__*/_react["default"].createElement("h3", null, props.name), /*#__PURE__*/_react["default"].createElement("input", {
     id: "search-songs",
-    "class": "browse-songs-search",
+    className: "browse-songs-search",
     type: "search",
     placeholder: "Search.."
   })), /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-songs"
+    className: "browse-songs"
   }, songs.map(function (song) {
     return /*#__PURE__*/_react["default"].createElement(Song, {
       mode: "add",
@@ -336,10 +336,10 @@ module.exports = function (props) {
   }
 
   return /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-playlists"
+    className: "browse-playlists"
   }, playlists.map(function (playlist) {
     return /*#__PURE__*/_react["default"].createElement("button", {
-      "class": "browse-playlists-button",
+      className: "browse-playlists-button",
       onClick: function onClick() {
         return props.action(props.state, playlist.uri, playlist.name);
       }
@@ -406,11 +406,11 @@ module.exports = function (props) {
   // }, timeoutValue) 
 
   return /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-queue"
+    className: "browse-queue"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-queue-title"
+    className: "browse-queue-title"
   }, /*#__PURE__*/_react["default"].createElement("h3", null, "Queue")), /*#__PURE__*/_react["default"].createElement("div", {
-    "class": "browse-songs"
+    className: "browse-songs"
   }, songElements));
 };
 
@@ -457,14 +457,14 @@ module.exports = function (props) {
 
   if (props.mode === "add") {
     button = /*#__PURE__*/React.createElement("button", {
-      "class": "browse-song-cell-button",
+      className: "browse-song-cell-button",
       onClick: function onClick() {
         return addToQueue(props.userID, props.song);
       }
     }, "Add");
   } else {
     button = /*#__PURE__*/React.createElement("button", {
-      "class": "browse-song-cell-button",
+      className: "browse-song-cell-button",
       onClick: function onClick() {
         return removeFromQueue(props.userID, props.songID, props.refreshSongs);
       }
@@ -472,13 +472,13 @@ module.exports = function (props) {
   }
 
   return /*#__PURE__*/React.createElement("div", {
-    "class": "browse-song"
+    className: "browse-song"
   }, /*#__PURE__*/React.createElement("div", {
-    "class": "browse-song-cell"
+    className: "browse-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.title)), /*#__PURE__*/React.createElement("div", {
-    "class": "browse-song-cell"
+    className: "browse-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.album)), /*#__PURE__*/React.createElement("div", {
-    "class": "browse-song-cell"
+    className: "browse-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.artist)), /*#__PURE__*/React.createElement("div", null, button));
 };
 
@@ -512,7 +512,7 @@ module.exports = function (props) {
 // //const Queue = require('./queue');
 // module.exports = function(props) {
 //   //const [playlistURI, setPlaylistURI] = useState('1');
-//   return <div class="fireplace">
+//   return <div className="fireplace">
 //     <h3>{props.userID}</h3>
 //   </div>
 // }
@@ -527,13 +527,13 @@ var request = require('../utils/request');
 
 module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
-    "class": "header"
+    className: "header"
   }, /*#__PURE__*/React.createElement("div", {
-    "class": "header-title"
+    className: "header-title"
   }, /*#__PURE__*/React.createElement("h1", null, "fireplace")), /*#__PURE__*/React.createElement("div", {
-    "class": "header-profile"
+    className: "header-profile"
   }, /*#__PURE__*/React.createElement("h1", null, props.userName), /*#__PURE__*/React.createElement("img", {
-    "class": "header-profile-picture",
+    className: "header-profile-picture",
     src: props.photoURL
   })));
 };
@@ -549,7 +549,7 @@ module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
     userName: null
   }), /*#__PURE__*/React.createElement("div", {
-    "class": "login"
+    className: "login"
   }, /*#__PURE__*/React.createElement("form", {
     action: "https://accounts.spotify.com/authorize",
     method: "GET"
@@ -587,29 +587,29 @@ var React = require('react');
 
 module.exports = function (props) {
   return /*#__PURE__*/React.createElement("div", {
-    "class": "nav"
+    className: "nav"
   }, /*#__PURE__*/React.createElement("button", {
-    "class": "nav-button",
+    className: "nav-button",
     onClick: function onClick() {
       return props.action('browse');
     }
   }, "Browse"), /*#__PURE__*/React.createElement("button", {
-    "class": "nav-button",
+    className: "nav-button",
     onClick: function onClick() {
       return props.action('search');
     }
   }, "Search"), /*#__PURE__*/React.createElement("button", {
-    "class": "nav-button",
+    className: "nav-button",
     onClick: function onClick() {
       return props.action('fireplace');
     }
   }, "Fireplace"), /*#__PURE__*/React.createElement("button", {
-    "class": "nav-button",
+    className: "nav-button",
     onClick: function onClick() {
       return props.action('player');
     }
   }, "Player"), /*#__PURE__*/React.createElement("button", {
-    "class": "nav-button",
+    className: "nav-button",
     onClick: function onClick() {
       return props.action('recomender');
     }

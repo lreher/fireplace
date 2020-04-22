@@ -30,9 +30,9 @@ module.exports = function(props) {
     }]);
   }
  
-  return <div class='browse-playlists'>
+  return <div className='browse-playlists'>
     {playlists.map((playlist) => {
-      return <button class='browse-playlists-button' onClick={() => props.action(props.state, playlist.uri, playlist.name)}>{playlist.name}</button>
+      return <button className='browse-playlists-button' onClick={() => props.action(props.state, playlist.uri, playlist.name)}>{playlist.name}</button>
     })}
   </div>
 }

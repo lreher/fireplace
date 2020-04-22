@@ -5,7 +5,7 @@
 // module.exports = function(props) {
 //   //const [playlistURI, setPlaylistURI] = useState('1');
 
-//   return <div class="fireplace">
+//   return <div className="fireplace">
 //     <h3>{props.userID}</h3>
 //   </div>
 // }

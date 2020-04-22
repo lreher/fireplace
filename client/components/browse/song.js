@@ -36,15 +36,15 @@ module.exports = function(props) {
   var button; 
   
   if (props.mode === "add") {
-    button = <button class="browse-song-cell-button" onClick={() => addToQueue(props.userID, props.song)}>Add</button>
+    button = <button className="browse-song-cell-button" onClick={() => addToQueue(props.userID, props.song)}>Add</button>
   } else {
-    button = <button class="browse-song-cell-button" onClick={() => removeFromQueue(props.userID, props.songID, props.refreshSongs)}>Remove</button>
+    button = <button className="browse-song-cell-button" onClick={() => removeFromQueue(props.userID, props.songID, props.refreshSongs)}>Remove</button>
   }
   
-  return <div class="browse-song">
-    <div class="browse-song-cell"><h4>{props.song.title}</h4></div>
-    <div class="browse-song-cell"><h4>{props.song.album}</h4></div>
-    <div class="browse-song-cell"><h4>{props.song.artist}</h4></div>
+  return <div className="browse-song">
+    <div className="browse-song-cell"><h4>{props.song.title}</h4></div>
+    <div className="browse-song-cell"><h4>{props.song.album}</h4></div>
+    <div className="browse-song-cell"><h4>{props.song.artist}</h4></div>
     <div>{button}</div>
   </div>
 }

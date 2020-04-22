@@ -18,7 +18,7 @@ module.exports = function(props) {
     setPlaylistName 
   } 
 
-  return <div class="browse">
+  return <div className="browse">
     <Playlists userID={props.userID} action={changeCategory} state={state}></Playlists>
     <Playlist userID={props.userID} uri={playlistURI} name={playlistName}></Playlist>
     <Queue userID={props.userID}></Queue>

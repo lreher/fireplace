@@ -5,7 +5,7 @@ const Header = require('./header');
 module.exports = function(props) {
   return <div>
     <Header userName={null}></Header>
-    <div class="login">
+    <div className="login">
       <form action="https://accounts.spotify.com/authorize" method="GET">
         <input type="hidden" name="client_id" value="bb0223ab795042bea7ba790b47c20a5c"></input>
         <input type="hidden" name="response_type" value="code"></input>

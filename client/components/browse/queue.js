@@ -31,9 +31,9 @@ module.exports = function(props) {
   //   })
   // }, timeoutValue) 
 
-  return <div class='browse-queue'>
-    <div class='browse-queue-title'><h3>Queue</h3></div>
-    <div class='browse-songs'>
+  return <div className='browse-queue'>
+    <div className='browse-queue-title'><h3>Queue</h3></div>
+    <div className='browse-songs'>
       {songElements}
     </div>
   </div>
