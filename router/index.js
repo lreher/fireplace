@@ -21,6 +21,10 @@ module.exports = function(request, response) {
       serveFile(response, '../client/static/bundle.js');
       break;
 
+    case '/favicon.ico':
+      serveFile(response, '../client/static/favicon.ico');
+      break;
+
     // Spotify Redirect
     case (url.match(/callback/) || {}).input:
       url_parts = url.replace("/callback?code=", "").split("&state=")

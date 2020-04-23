@@ -10,7 +10,8 @@ module.exports = function(response, servePath) {
   var extensionToContentType = {
     'html': 'text/html',
     'css': 'text/css',
-    'js': 'text/json'
+    'js': 'text/json',
+    'ico': 'image/x-icon'
   }
 
   response.writeHead(200, { 'Content-Type': extensionToContentType[extension] });
