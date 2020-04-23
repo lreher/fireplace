@@ -233,13 +233,25 @@
   align-items: center;
 }
 
-.fireplace-queue {
-  height: 40vh;
-  width: 30vw;
-}
-
 .fireplace-queue-title {
   text-align: center;
+  margin-bottom: 1vh;
+}
+
+.fireplace-played-title {
+  text-align: center;
+  margin-bottom: 1vh;
+}
+
+.fireplace-songs {
+  overflow-y: auto;
+  height: 40vh;
+  width: 35vw;
+  margin-bottom: 20vh;
+}
+
+.fireplace-songs::-webkit-scrollbar {
+  display: none;
 }
 
 .fireplace-song {
