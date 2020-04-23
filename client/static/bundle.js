@@ -390,13 +390,12 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var timeoutValue = 0;
-
 var Song = require('./song');
 
 var request = require('../../utils/request');
 
 var timeoutValue = 0;
+var mounted = false;
 
 module.exports = function (props) {
   var _useState = (0, _react.useState)([]),
@@ -408,23 +407,35 @@ module.exports = function (props) {
   var songElements = songs.map(function (song) {
     songID++;
     return /*#__PURE__*/_react["default"].createElement(Song, {
+      key: songID,
       songID: songID,
       mode: "remove",
       userID: props.userID,
       song: song,
       refreshSongs: setSongs
     });
-  }); // setTimeout(() => {
-  //   timeoutValue = 1000;
-  //   request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
-  //     if (error) {
-  //       return;
-  //     }
-  //     var responseObect = JSON.parse(response);
-  //     setSongs(responseObect)
-  //   })
-  // }, timeoutValue) 
+  });
+  setTimeout(function () {
+    timeoutValue = 1000;
+    request('POST', 'http://localhost:8081/get_queue', {}, function (error, response) {
+      if (error) {
+        return;
+      }
 
+      var responseObect = JSON.parse(response);
+
+      if (mounted) {
+        setSongs(responseObect);
+      }
+    });
+  }, timeoutValue); // Reset state on unmount
+
+  (0, _react.useEffect)(function () {
+    mounted = true;
+    return function () {
+      mounted = false;
+    };
+  }, []);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "browse-queue"
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -528,17 +539,25 @@ module.exports = function (props) {
 };
 
 },{"./browse":2,"./fireplace":8,"react":22}],8:[function(require,module,exports){
-// import React, { useState } from 'react';
-// //const Queue = require('./queue');
-// module.exports = function(props) {
-//   //const [playlistURI, setPlaylistURI] = useState('1');
-//   return <div className="fireplace">
-//     <h3>{props.userID}</h3>
-//   </div>
-// }
 "use strict";
 
-},{}],9:[function(require,module,exports){
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+//const Queue = require('./queue');
+module.exports = function (props) {
+  //const [playlistURI, setPlaylistURI] = useState('1');
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "fireplace"
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, props.userID));
+};
+
+},{"react":22}],9:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
