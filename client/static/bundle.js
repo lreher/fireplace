@@ -240,26 +240,37 @@ module.exports = function (props) {
   }
 
   playlistURI = props.uri; // Search listener
-  // var input = document.getElementById('search-songs');
-  // if (input && hasSearchListener === false) {
-  //   hasSearchListener = true;
-  //   input.addEventListener("search", function (e) {
-  //     if (e.target.value.length < 1) {
-  //       setSongs(loadedSongs);
-  //       return;
-  //     }
-  //     const search = new RegExp(e.target.value.toLowerCase());
-  //     const newState = [];
-  //     loadedSongs.map((song) => {
-  //       const totalSong = (song.title + song.album + song.artist).toLowerCase();
-  //       if (totalSong.match(search)) {
-  //         newState.push(song);
-  //       }
-  //     })
-  //     setSongs(newState);
-  //   })
-  // }
 
+  var input = document.getElementById('search-songs');
+
+  if (input && hasSearchListener === false) {
+    hasSearchListener = true;
+    input.addEventListener("search", function (e) {
+      if (e.target.value.length < 1) {
+        setSongs(loadedSongs);
+        return;
+      }
+
+      var search = new RegExp(e.target.value.toLowerCase());
+      var newState = [];
+      loadedSongs.map(function (song) {
+        var totalSong = (song.title + song.album + song.artist).toLowerCase();
+
+        if (totalSong.match(search)) {
+          newState.push(song);
+        }
+      });
+      setSongs(newState);
+    });
+  } // Reset state on unmount
+
+
+  (0, _react.useEffect)(function () {
+    return function () {
+      playlistURI = "0";
+      hasSearchListener = false;
+    };
+  }, []);
   var key = 0;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "browse-playlist"
