@@ -166,6 +166,7 @@ var Song = require('./song');
 
 var request = require('../../utils/request');
 
+var mounted = false;
 var playlistURI = "0";
 var hasSearchListener = false;
 var loadedSongs = [];
@@ -199,7 +200,7 @@ function getPaginatedSongs(url, data, setSongs) {
         var responseObject = JSON.parse(response);
         loadedSongs = loadedSongs.concat(responseObject.songs);
 
-        if (loadedSongs.length === totalSongs) {
+        if (loadedSongs.length === totalSongs && mounted) {
           setSongs(loadedSongs);
         }
       });
@@ -266,7 +267,9 @@ module.exports = function (props) {
 
 
   (0, _react.useEffect)(function () {
+    mounted = true;
     return function () {
+      mounted = false;
       playlistURI = "0";
       hasSearchListener = false;
     };

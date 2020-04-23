@@ -4,6 +4,8 @@ const Song = require('./song')
 
 const request = require('../../utils/request');
 
+var mounted = false;
+
 var playlistURI = "0"
 var hasSearchListener = false;
 var loadedSongs = [];
@@ -45,7 +47,7 @@ function getPaginatedSongs(url, data, setSongs) {
 
         loadedSongs = loadedSongs.concat(responseObject.songs)
 
-        if (loadedSongs.length === totalSongs) {
+        if (loadedSongs.length === totalSongs && mounted) {
           setSongs(loadedSongs)
         }
       });
@@ -113,7 +115,9 @@ module.exports = function(props) {
 
   // Reset state on unmount
   useEffect(() => {
+    mounted = true;
     return () => {
+      mounted = false;
       playlistURI = "0";
       hasSearchListener = false;
     }
