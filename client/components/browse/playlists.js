@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const request = require('../../utils/request');
+
+var mounted = false;
 
 module.exports = function(props) {
   const [playlists, setPlaylists] = useState([]);
@@ -12,13 +14,15 @@ module.exports = function(props) {
         return;
       }
 
-      setPlaylists([{
-        name: "Your Songs",
-        uri: '1'
-      }, {
-        name: "Favorite Songs",
-        uri: '2'
-      }].concat(JSON.parse(response)));
+      if (mounted) {
+        setPlaylists([{
+          name: "Your Songs",
+          uri: '1'
+        }, {
+          name: "Favorite Songs",
+          uri: '2'
+        }].concat(JSON.parse(response)));
+      }
     });
     
     setPlaylists([{
@@ -29,6 +33,14 @@ module.exports = function(props) {
       uri: '2'
     }]);
   }
+
+  // Reset state on unmount
+  useEffect(() => {
+    mounted = true;
+    return () => {
+      mounted = false;
+    }
+  }, []);
  
   var key = 0;
   return <div className='browse-playlists'>

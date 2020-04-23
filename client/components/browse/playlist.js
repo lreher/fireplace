@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Song = require('./song')
+const Song = require('../shared/song')
 
 const request = require('../../utils/request');
 
@@ -29,7 +29,10 @@ function getPaginatedSongs(url, data, setSongs) {
     var totalRequests = Math.floor(totalSongs)/50;
     
     loadedSongs = responseObject.songs;
-    setSongs(loadedSongs);
+
+    if (mounted) {
+      setSongs(loadedSongs);
+    }
 
     // Download rest
     for (var i = 1; i <= totalRequests; i++) {
@@ -131,7 +134,7 @@ module.exports = function(props) {
     </div>
     <div className="browse-songs">{songs.map((song) => {
       key += 1;
-      return <Song key={key} mode='add' userID={props.userID} song={song}></Song>
+      return <Song location="browse" key={key} mode='add' userID={props.userID} song={song}></Song>
     })}</div>
   </div>
 }

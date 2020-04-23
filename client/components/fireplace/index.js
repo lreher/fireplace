@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 
-//const Queue = require('./queue');
+const Queue = require('../shared/queue');
 
 module.exports = function(props) {
   //const [playlistURI, setPlaylistURI] = useState('1');
 
   return <div className="fireplace">
-    <h3>{props.userID}</h3>
+    <div className="fireplace-devices"></div>
+    <div className="fireplace-main">
+      <Queue userID={props.userID} location="fireplace"></Queue>
+    </div>
+    <div className="fireplace-users"></div>
   </div>
 }

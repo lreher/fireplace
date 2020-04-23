@@ -69,7 +69,7 @@ module.exports = function (props) {
   }));
 };
 
-},{"../utils/request":29,"./content":7,"./header":9,"./nav":11,"react":22}],2:[function(require,module,exports){
+},{"../utils/request":29,"./content":5,"./header":7,"./nav":9,"react":22}],2:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -96,7 +96,7 @@ var Playlists = require('./playlists');
 
 var Playlist = require('./playlist');
 
-var Queue = require('./queue');
+var Queue = require('../shared/queue');
 
 function changeCategory(state, uri, name) {
   state.setPlaylistName(name);
@@ -129,11 +129,12 @@ module.exports = function (props) {
     uri: playlistURI,
     name: playlistName
   }), /*#__PURE__*/_react["default"].createElement(Queue, {
-    userID: props.userID
+    userID: props.userID,
+    location: "browse"
   }));
 };
 
-},{"./playlist":3,"./playlists":4,"./queue":5,"react":22}],3:[function(require,module,exports){
+},{"../shared/queue":10,"./playlist":3,"./playlists":4,"react":22}],3:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -162,7 +163,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Song = require('./song');
+var Song = require('../shared/song');
 
 var request = require('../../utils/request');
 
@@ -186,7 +187,11 @@ function getPaginatedSongs(url, data, setSongs) {
     var totalSongs = parseInt(responseObject.total);
     var totalRequests = Math.floor(totalSongs) / 50;
     loadedSongs = responseObject.songs;
-    setSongs(loadedSongs); // Download rest
+
+    if (mounted) {
+      setSongs(loadedSongs);
+    } // Download rest
+
 
     for (var i = 1; i <= totalRequests; i++) {
       var dataObject = JSON.stringify(_objectSpread({}, data, {
@@ -289,6 +294,7 @@ module.exports = function (props) {
   }, songs.map(function (song) {
     key += 1;
     return /*#__PURE__*/_react["default"].createElement(Song, {
+      location: "browse",
       key: key,
       mode: "add",
       userID: props.userID,
@@ -297,7 +303,7 @@ module.exports = function (props) {
   })));
 };
 
-},{"../../utils/request":29,"./song":6,"react":22}],4:[function(require,module,exports){
+},{"../../utils/request":29,"../shared/song":11,"react":22}],4:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -322,6 +328,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var request = require('../../utils/request');
 
+var mounted = false;
+
 module.exports = function (props) {
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -335,13 +343,15 @@ module.exports = function (props) {
         return;
       }
 
-      setPlaylists([{
-        name: "Your Songs",
-        uri: '1'
-      }, {
-        name: "Favorite Songs",
-        uri: '2'
-      }].concat(JSON.parse(response)));
+      if (mounted) {
+        setPlaylists([{
+          name: "Your Songs",
+          uri: '1'
+        }, {
+          name: "Favorite Songs",
+          uri: '2'
+        }].concat(JSON.parse(response)));
+      }
     });
     setPlaylists([{
       name: "Your Songs",
@@ -350,8 +360,15 @@ module.exports = function (props) {
       name: "Favorite Songs",
       uri: '2'
     }]);
-  }
+  } // Reset state on unmount
 
+
+  (0, _react.useEffect)(function () {
+    mounted = true;
+    return function () {
+      mounted = false;
+    };
+  }, []);
   var key = 0;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "browse-playlists"
@@ -368,6 +385,161 @@ module.exports = function (props) {
 };
 
 },{"../../utils/request":29,"react":22}],5:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var Browse = require('./browse');
+
+var Fireplace = require('./fireplace');
+
+module.exports = function (props) {
+  switch (props.location) {
+    case 'browse':
+      return /*#__PURE__*/React.createElement(Browse, {
+        userID: props.userID
+      });
+      break;
+
+    case 'fireplace':
+      return /*#__PURE__*/React.createElement(Fireplace, {
+        userID: props.userID
+      });
+      break;
+
+    default:
+      return /*#__PURE__*/React.createElement("h2", null, props.location + "!");
+  }
+};
+
+},{"./browse":2,"./fireplace":6,"react":22}],6:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var Queue = require('../shared/queue');
+
+module.exports = function (props) {
+  //const [playlistURI, setPlaylistURI] = useState('1');
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "fireplace"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "fireplace-devices"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "fireplace-main"
+  }, /*#__PURE__*/_react["default"].createElement(Queue, {
+    userID: props.userID,
+    location: "fireplace"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "fireplace-users"
+  }));
+};
+
+},{"../shared/queue":10,"react":22}],7:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var request = require('../utils/request');
+
+module.exports = function (props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "header"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "header-title"
+  }, /*#__PURE__*/React.createElement("h1", null, "fireplace")), /*#__PURE__*/React.createElement("div", {
+    className: "header-profile"
+  }, /*#__PURE__*/React.createElement("h1", null, props.userName), /*#__PURE__*/React.createElement("img", {
+    className: "header-profile-picture",
+    src: props.photoURL
+  })));
+};
+
+},{"../utils/request":29,"react":22}],8:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var Header = require('./header');
+
+module.exports = function (props) {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
+    userName: null
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "login"
+  }, /*#__PURE__*/React.createElement("form", {
+    action: "https://accounts.spotify.com/authorize",
+    method: "GET"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "client_id",
+    value: "bb0223ab795042bea7ba790b47c20a5c"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "response_type",
+    value: "code"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "scope",
+    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private user-library-read user-top-read"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "state",
+    value: props.userID
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "redirect_uri",
+    value: "http://localhost:8081/callback"
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    id: "loginButton",
+    value: "Spotify Login"
+  }, "login"))));
+};
+
+},{"./header":7,"react":22}],9:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+module.exports = function (props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "nav"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "nav-button",
+    onClick: function onClick() {
+      return props.action('browse');
+    }
+  }, "Browse"), /*#__PURE__*/React.createElement("button", {
+    className: "nav-button",
+    onClick: function onClick() {
+      return props.action('search');
+    }
+  }, "Search"), /*#__PURE__*/React.createElement("button", {
+    className: "nav-button",
+    onClick: function onClick() {
+      return props.action('fireplace');
+    }
+  }, "Fireplace"), /*#__PURE__*/React.createElement("button", {
+    className: "nav-button",
+    onClick: function onClick() {
+      return props.action('player');
+    }
+  }, "Player"), /*#__PURE__*/React.createElement("button", {
+    className: "nav-button",
+    onClick: function onClick() {
+      return props.action('recomender');
+    }
+  }, "Recomender"));
+};
+
+},{"react":22}],10:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -409,6 +581,7 @@ module.exports = function (props) {
     return /*#__PURE__*/_react["default"].createElement(Song, {
       key: songID,
       songID: songID,
+      location: props.location,
       mode: "remove",
       userID: props.userID,
       song: song,
@@ -433,19 +606,20 @@ module.exports = function (props) {
   (0, _react.useEffect)(function () {
     mounted = true;
     return function () {
+      timeoutValue = 0;
       mounted = false;
     };
   }, []);
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "browse-queue"
+    className: props.location + '-queue'
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "browse-queue-title"
+    className: props.location + '-queue-title'
   }, /*#__PURE__*/_react["default"].createElement("h3", null, "Queue")), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "browse-songs"
+    className: props.location + '-songs'
   }, songElements));
 };
 
-},{"../../utils/request":29,"./song":6,"react":22}],6:[function(require,module,exports){
+},{"../../utils/request":29,"./song":11,"react":22}],11:[function(require,module,exports){
 "use strict";
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -488,14 +662,14 @@ module.exports = function (props) {
 
   if (props.mode === "add") {
     button = /*#__PURE__*/React.createElement("button", {
-      className: "browse-song-cell-button",
+      className: props.location + "-song-cell-button",
       onClick: function onClick() {
         return addToQueue(props.userID, props.song);
       }
     }, "Add");
   } else {
     button = /*#__PURE__*/React.createElement("button", {
-      className: "browse-song-cell-button",
+      className: props.location + "-song-cell-button",
       onClick: function onClick() {
         return removeFromQueue(props.userID, props.songID, props.refreshSongs);
       }
@@ -503,159 +677,17 @@ module.exports = function (props) {
   }
 
   return /*#__PURE__*/React.createElement("div", {
-    className: "browse-song"
+    className: props.location + "-song"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "browse-song-cell"
+    className: props.location + "-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.title)), /*#__PURE__*/React.createElement("div", {
-    className: "browse-song-cell"
+    className: props.location + "-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.album)), /*#__PURE__*/React.createElement("div", {
-    className: "browse-song-cell"
+    className: props.location + "-song-cell"
   }, /*#__PURE__*/React.createElement("h4", null, props.song.artist)), /*#__PURE__*/React.createElement("div", null, button));
 };
 
-},{"../../utils/request":29,"react":22}],7:[function(require,module,exports){
-"use strict";
-
-var React = require('react');
-
-var Browse = require('./browse');
-
-var Fireplace = require('./fireplace');
-
-module.exports = function (props) {
-  switch (props.location) {
-    case 'browse':
-      return /*#__PURE__*/React.createElement(Browse, {
-        userID: props.userID
-      });
-      break;
-    // case 'fireplace': 
-    //   return <Fireplace userID={props.userID}></Fireplace>
-    //   break;
-
-    default:
-      return /*#__PURE__*/React.createElement("h2", null, props.location + "!");
-  }
-};
-
-},{"./browse":2,"./fireplace":8,"react":22}],8:[function(require,module,exports){
-"use strict";
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var _react = _interopRequireWildcard(require("react"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-//const Queue = require('./queue');
-module.exports = function (props) {
-  //const [playlistURI, setPlaylistURI] = useState('1');
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "fireplace"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, props.userID));
-};
-
-},{"react":22}],9:[function(require,module,exports){
-"use strict";
-
-var React = require('react');
-
-var request = require('../utils/request');
-
-module.exports = function (props) {
-  return /*#__PURE__*/React.createElement("div", {
-    className: "header"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "header-title"
-  }, /*#__PURE__*/React.createElement("h1", null, "fireplace")), /*#__PURE__*/React.createElement("div", {
-    className: "header-profile"
-  }, /*#__PURE__*/React.createElement("h1", null, props.userName), /*#__PURE__*/React.createElement("img", {
-    className: "header-profile-picture",
-    src: props.photoURL
-  })));
-};
-
-},{"../utils/request":29,"react":22}],10:[function(require,module,exports){
-"use strict";
-
-var React = require('react');
-
-var Header = require('./header');
-
-module.exports = function (props) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
-    userName: null
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "login"
-  }, /*#__PURE__*/React.createElement("form", {
-    action: "https://accounts.spotify.com/authorize",
-    method: "GET"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "client_id",
-    value: "bb0223ab795042bea7ba790b47c20a5c"
-  }), /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "response_type",
-    value: "code"
-  }), /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "scope",
-    value: "playlist-modify-public user-read-playback-state streaming user-read-email user-modify-playback-state user-read-private user-library-read user-top-read"
-  }), /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "state",
-    value: props.userID
-  }), /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "redirect_uri",
-    value: "http://localhost:8081/callback"
-  }), /*#__PURE__*/React.createElement("button", {
-    type: "submit",
-    id: "loginButton",
-    value: "Spotify Login"
-  }, "login"))));
-};
-
-},{"./header":9,"react":22}],11:[function(require,module,exports){
-"use strict";
-
-var React = require('react');
-
-module.exports = function (props) {
-  return /*#__PURE__*/React.createElement("div", {
-    className: "nav"
-  }, /*#__PURE__*/React.createElement("button", {
-    className: "nav-button",
-    onClick: function onClick() {
-      return props.action('browse');
-    }
-  }, "Browse"), /*#__PURE__*/React.createElement("button", {
-    className: "nav-button",
-    onClick: function onClick() {
-      return props.action('search');
-    }
-  }, "Search"), /*#__PURE__*/React.createElement("button", {
-    className: "nav-button",
-    onClick: function onClick() {
-      return props.action('fireplace');
-    }
-  }, "Fireplace"), /*#__PURE__*/React.createElement("button", {
-    className: "nav-button",
-    onClick: function onClick() {
-      return props.action('player');
-    }
-  }, "Player"), /*#__PURE__*/React.createElement("button", {
-    className: "nav-button",
-    onClick: function onClick() {
-      return props.action('recomender');
-    }
-  }, "Recomender"));
-};
-
-},{"react":22}],12:[function(require,module,exports){
+},{"../../utils/request":29,"react":22}],12:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -697,7 +729,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-},{"./components/app":1,"./components/login":10,"./utils/user":30,"react":22,"react-dom":19}],13:[function(require,module,exports){
+},{"./components/app":1,"./components/login":8,"./utils/user":30,"react":22,"react-dom":19}],13:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus

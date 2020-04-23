@@ -152,7 +152,6 @@
   color: #ad490a;
 }
 
-
 .browse-songs::-webkit-scrollbar {
   display: none;
 }
@@ -211,7 +210,74 @@
   justify-content: space-between;
 }
 
+.fireplace {
+  display: flex;
+  justify-content: left;
+}
 
+.fireplace-devices {
+  height: 87vh;
+  width: 15vw;
+  background-color: #dbc588;
+  display: flex;
+  flex-direction: column;
+  border-right: #ad480ac4 1px solid;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+}
+
+.fireplace-main {
+  width: 80vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.fireplace-queue {
+  height: 40vh;
+  width: 30vw;
+}
+
+.fireplace-queue-title {
+  text-align: center;
+}
+
+.fireplace-song {
+  border-bottom: #ba5a1e7e 1px solid;
+  display: flex;
+  justify-content: left;
+  margin-left: 3vh;
+  margin-right: 5vh;
+  transition: background-color 1s;
+  user-select: none;
+}
+
+.fireplace-song-cell {
+  width: 15vw;
+  display: flex;
+  justify-content: left;
+  margin: 2px;
+}
+
+.fireplace-song-cell-button {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1.8vh;
+  color: #ba591e;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  border: none;
+}
+
+.fireplace-song:hover {
+  background-color: #ad480a27
+}
 
 .login {
   height: 95vh;
@@ -222,16 +288,16 @@
 }
 
 #loginButton {
-  width: 35vh;
-  height: 15vh;
+  width: 15vh;
+  height: 7.5vh;
   font-family: 'Baloo Bhaina 2';
   font-weight: 600;
-  font-size: 25px;
+  font-size: 2.2vh;
   background-color: #ad490a;
   color: #e8d399;
   border: none;
   border-radius: 5px;
-  margin-bottom: 10vh;
+  margin-bottom: 20vh;
 }
 
 h2 {

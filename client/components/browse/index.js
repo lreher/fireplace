@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Playlists = require('./playlists');
 const Playlist = require('./playlist');
-const Queue = require('./queue');
+const Queue = require('../shared/queue');
 
 function changeCategory(state, uri, name) {
   state.setPlaylistName(name);
@@ -21,6 +21,6 @@ module.exports = function(props) {
   return <div className="browse">
     <Playlists userID={props.userID} action={changeCategory} state={state}></Playlists>
     <Playlist userID={props.userID} uri={playlistURI} name={playlistName}></Playlist>
-    <Queue userID={props.userID}></Queue>
+    <Queue userID={props.userID} location="browse"></Queue>
   </div>
 }

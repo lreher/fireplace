@@ -13,7 +13,7 @@ module.exports = function(props) {
   var songID = -1;
   var songElements = songs.map((song) => {
     songID++;
-    return <Song key={songID} songID={songID} mode='remove' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
+    return <Song key={songID} songID={songID} location={props.location} mode='remove' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
   })
 
   setTimeout(() => {
@@ -36,13 +36,14 @@ module.exports = function(props) {
   useEffect(() => {
     mounted = true;
     return () => {
+      timeoutValue = 0;
       mounted = false;
     }
   }, []);
 
-  return <div className='browse-queue'>
-    <div className='browse-queue-title'><h3>Queue</h3></div>
-    <div className='browse-songs'>
+  return <div className={props.location + '-queue'}>
+    <div className={props.location + '-queue-title'}><h3>Queue</h3></div>
+    <div className={props.location + '-songs'}>
       {songElements}
     </div>
   </div>

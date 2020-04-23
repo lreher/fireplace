@@ -9,9 +9,9 @@ module.exports = function(props) {
       return <Browse userID={props.userID}></Browse>
       break;
     
-    // case 'fireplace': 
-    //   return <Fireplace userID={props.userID}></Fireplace>
-    //   break;
+    case 'fireplace': 
+      return <Fireplace userID={props.userID}></Fireplace>
+      break;
     
     default:
       return <h2>{props.location + "!"}</h2>
