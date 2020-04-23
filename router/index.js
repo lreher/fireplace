@@ -167,7 +167,6 @@ module.exports = function(request, response) {
             response.writeHead(400);
             response.end("Bad User Request.");
             break;
-
         }
       });
 
@@ -179,7 +178,12 @@ module.exports = function(request, response) {
       response.end(JSON.stringify(queueController.getQueue()));
       
       break;
+    
+    case '/get_played': 
+      response.writeHead(200);
+      response.end(JSON.stringify(queueController.getPlayed()));
       
+      break;
 
     default:
       response.writeHead(400);

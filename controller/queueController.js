@@ -1,4 +1,5 @@
 var queue = [];
+var played = [];
 
 function addToQueue(song) {
   queue.push(song);
@@ -23,8 +24,13 @@ function removeFromQueue(songID, userID, callback) {
   }
 }
 
+function getPlayed() {
+  return played;
+}
+
 module.exports = {
   addToQueue,
   getQueue,
-  removeFromQueue
+  removeFromQueue,
+  getPlayed
 }
