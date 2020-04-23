@@ -111,13 +111,15 @@ module.exports = function(props) {
   //   })
   // }
 
+  var key = 0;
   return <div className="browse-playlist">
     <div className="browse-playlist-title">
       <h3>{props.name}</h3>
       <input id="search-songs" className="browse-songs-search" type="search" placeholder="Search.."></input>
     </div>
     <div className="browse-songs">{songs.map((song) => {
-      return <Song mode='add' userID={props.userID} song={song}></Song>
+      key += 1;
+      return <Song key={key} mode='add' userID={props.userID} song={song}></Song>
     })}</div>
   </div>
 }

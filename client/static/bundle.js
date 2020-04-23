@@ -260,6 +260,7 @@ module.exports = function (props) {
   //   })
   // }
 
+  var key = 0;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "browse-playlist"
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -272,7 +273,9 @@ module.exports = function (props) {
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "browse-songs"
   }, songs.map(function (song) {
+    key += 1;
     return /*#__PURE__*/_react["default"].createElement(Song, {
+      key: key,
       mode: "add",
       userID: props.userID,
       song: song
@@ -335,10 +338,13 @@ module.exports = function (props) {
     }]);
   }
 
+  var key = 0;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "browse-playlists"
   }, playlists.map(function (playlist) {
+    key += 1;
     return /*#__PURE__*/_react["default"].createElement("button", {
+      key: key,
       className: "browse-playlists-button",
       onClick: function onClick() {
         return props.action(props.state, playlist.uri, playlist.name);
