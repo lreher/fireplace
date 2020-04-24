@@ -227,6 +227,28 @@
   overflow-y: auto;
 }
 
+.fireplace-devices-button {
+  font-family: 'Baloo Bhaina 2';
+  background-color: transparent;
+  background-repeat:no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  border-bottom: #ad480ac5;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  font-size: 2vh;
+  color: #ad490a;
+  text-align: left;
+  padding-left: 1vw;
+  transition: background-color 1s;
+}
+
+.fireplace-devices-button:hover {
+  background-color: #ad480a33
+}
+
 .fireplace-main {
   width: 80vw;
   display: flex;

@@ -437,28 +437,54 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var request = require('../../utils/request');
 
+var mounted = false;
+var firstLoad = true;
+
 module.exports = function (props) {
-  var _useState = (0, _react.useState)('1'),
+  var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       devices = _useState2[0],
-      setDevices = _useState2[1]; // request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
-  //   if (error) {
-  //     return;
-  //   }
-  //   var responseObject = JSON.parse(response);
-  //   if (firstLoad) {
-  //     firstLoad = false;
-  //     setSongs(responseObject)
-  //     setTimeout(() => {
-  //       setSongs(responseObject)
-  //     }, 500)
-  //   }
-  // })
+      setDevices = _useState2[1];
 
+  console.log("oh whe");
+  request('GET', 'http://localhost:8081/get_devices?userID=' + props.userID, {}, function (error, response) {
+    if (error) {
+      return;
+    }
 
+    var responseObject = JSON.parse(response);
+
+    if (firstLoad) {
+      firstLoad = false;
+      setDevices(responseObject);
+    }
+
+    setTimeout(function () {
+      console.log("letsgo");
+      setDevices(responseObject);
+    }, 2000);
+  }); // Reset state on unmount
+
+  (0, _react.useEffect)(function () {
+    mounted = true;
+    return function () {
+      firstLoad = true;
+      mounted = false;
+    };
+  }, []);
+  var key = 0;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "fireplace-devices"
-  });
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Add a Device"), devices.map(function (device) {
+    key += 1;
+    return /*#__PURE__*/_react["default"].createElement("button", {
+      key: key,
+      className: "fireplace-devices-button",
+      onClick: function onClick() {
+        return console.log(device);
+      }
+    }, device.name);
+  }));
 };
 
 },{"../../utils/request":31,"react":24}],7:[function(require,module,exports){

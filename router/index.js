@@ -1,8 +1,11 @@
 var serveFile = require('./serveFile');
 
 var auth = require('../auth');
+
 var profileController = require('../controller/profileController')
 var queueController = require('../controller/queueController')
+var deviceController = require('../controller/deviceController')
+
 
 module.exports = function(request, response) {
   var url = request.url;
@@ -163,7 +166,7 @@ module.exports = function(request, response) {
             break;
           
           case '/get_devices': 
-            deviceController.getDevices(data.userID, (error, devices) => {
+            deviceController.getDevices(userID, (error, devices) => {
               if (error) {
                 response.writeHead(500);
                 response.end("Failed to get user devices from Spotify");
