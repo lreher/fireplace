@@ -18,6 +18,8 @@ function addToQueue(userID, song) {
       return;
     }
 
+    console.log(alterQueue)
+
     if (alterQueue) {
       alterQueue(JSON.parse(response))
     }
@@ -44,12 +46,15 @@ function removeFromQueue(userID, songID) {
 }
 
 module.exports = function(props) {
-  var button; 
+  var button;
+  
+  if (props.refreshSongs) {
+    alterQueue = props.refreshSongs;
+  }
   
   if (props.mode === "add") {
     button = <button className={props.location + "-song-cell-button"} onClick={() => addToQueue(props.userID, props.song)}>Add</button>
   } else {
-    alterQueue = props.refreshSongs;
     button = <button className={props.location + "-song-cell-button"} onClick={() => removeFromQueue(props.userID, props.songID)}>Remove</button>
   }
   

@@ -26,6 +26,12 @@ module.exports = function(props) {
     
     if (firstLoad) {
       firstLoad = false;
+
+      Song({
+        song: { title: "h", album: "a", artists: "h" },
+        refreshSongs: setSongs
+      })
+      
       setSongs(responseObject)
 
       setTimeout(() => {

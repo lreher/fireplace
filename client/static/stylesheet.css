@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   scrollbar-width: none;
+  user-select: none;
 }
 
 #root {
@@ -261,7 +262,6 @@
   margin-left: 3vh;
   margin-right: 5vh;
   transition: background-color 1s;
-  user-select: none;
 }
 
 .fireplace-song-cell {

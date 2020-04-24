@@ -11,7 +11,7 @@ function changeCategory(state, uri, name) {
 
 module.exports = function(props) {
   const [playlistURI, setPlaylistURI] = useState('1');
-  const [playlistName, setPlaylistName] = useState('Your Songs');
+  const [playlistName, setPlaylistName] = useState('Favorite Songs');
 
   const state = {
     setPlaylistURI,

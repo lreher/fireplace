@@ -151,15 +151,28 @@ module.exports = function(request, response) {
           case '/remove_from_queue':
             queueController.removeFromQueue(data.songID, data.userID, (error, newQueue) => {
               if (error) {
-                response.writeHead(403);
+                response.writeHead(500);
                 response.end(error);
-
                 return; 
               }
               
               response.writeHead(200);
               response.end(JSON.stringify(newQueue));
             });
+
+            break;
+          
+          case '/get_devices': 
+            deviceController.getDevices(data.userID, (error, devices) => {
+              if (error) {
+                response.writeHead(500);
+                response.end("Failed to get user devices from Spotify");
+                return;
+              }
+
+              response.writeHead(200);
+              response.end(JSON.stringify(devices));
+            })
 
             break;
           

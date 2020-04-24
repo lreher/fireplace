@@ -16,20 +16,20 @@ module.exports = function(props) {
 
       if (mounted) {
         setPlaylists([{
-          name: "Your Songs",
+          name: "Favorite Songs",
           uri: '1'
         }, {
-          name: "Favorite Songs",
+          name: "Your Songs",
           uri: '2'
         }].concat(JSON.parse(response)));
       }
     });
     
     setPlaylists([{
-      name: "Your Songs",
+      name: "Favorite Songs",
       uri: '1'
     }, {
-      name: "Favorite Songs",
+      name: "Your Songs",
       uri: '2'
     }]);
   }

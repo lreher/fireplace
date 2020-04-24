@@ -109,7 +109,7 @@ module.exports = function (props) {
       playlistURI = _useState2[0],
       setPlaylistURI = _useState2[1];
 
-  var _useState3 = (0, _react.useState)('Your Songs'),
+  var _useState3 = (0, _react.useState)('Favorite Songs'),
       _useState4 = _slicedToArray(_useState3, 2),
       playlistName = _useState4[0],
       setPlaylistName = _useState4[1];
@@ -225,12 +225,12 @@ module.exports = function (props) {
 
     switch (props.uri) {
       case '1':
-        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
+        url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
         data = {};
         break;
 
       case '2':
-        url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
+        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
         data = {};
         break;
 
@@ -345,19 +345,19 @@ module.exports = function (props) {
 
       if (mounted) {
         setPlaylists([{
-          name: "Your Songs",
+          name: "Favorite Songs",
           uri: '1'
         }, {
-          name: "Favorite Songs",
+          name: "Your Songs",
           uri: '2'
         }].concat(JSON.parse(response)));
       }
     });
     setPlaylists([{
-      name: "Your Songs",
+      name: "Favorite Songs",
       uri: '1'
     }, {
-      name: "Favorite Songs",
+      name: "Your Songs",
       uri: '2'
     }]);
   } // Reset state on unmount
@@ -435,18 +435,33 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var request = require('../../utils/request');
+
 module.exports = function (props) {
   var _useState = (0, _react.useState)('1'),
       _useState2 = _slicedToArray(_useState, 2),
       devices = _useState2[0],
-      setDevices = _useState2[1];
+      setDevices = _useState2[1]; // request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
+  //   if (error) {
+  //     return;
+  //   }
+  //   var responseObject = JSON.parse(response);
+  //   if (firstLoad) {
+  //     firstLoad = false;
+  //     setSongs(responseObject)
+  //     setTimeout(() => {
+  //       setSongs(responseObject)
+  //     }, 500)
+  //   }
+  // })
+
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "fireplace-devices"
   });
 };
 
-},{"react":24}],7:[function(require,module,exports){
+},{"../../utils/request":31,"react":24}],7:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -719,6 +734,14 @@ module.exports = function (props) {
 
     if (firstLoad) {
       firstLoad = false;
+      Song({
+        song: {
+          title: "h",
+          album: "a",
+          artists: "h"
+        },
+        refreshSongs: setSongs
+      });
       setSongs(responseObject);
       setTimeout(function () {
         setSongs(responseObject);
@@ -770,6 +793,8 @@ function addToQueue(userID, song) {
       return;
     }
 
+    console.log(alterQueue);
+
     if (alterQueue) {
       alterQueue(JSON.parse(response));
     }
@@ -796,6 +821,10 @@ function removeFromQueue(userID, songID) {
 module.exports = function (props) {
   var button;
 
+  if (props.refreshSongs) {
+    alterQueue = props.refreshSongs;
+  }
+
   if (props.mode === "add") {
     button = /*#__PURE__*/React.createElement("button", {
       className: props.location + "-song-cell-button",
@@ -804,7 +833,6 @@ module.exports = function (props) {
       }
     }, "Add");
   } else {
-    alterQueue = props.refreshSongs;
     button = /*#__PURE__*/React.createElement("button", {
       className: props.location + "-song-cell-button",
       onClick: function onClick() {

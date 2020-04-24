@@ -67,17 +67,17 @@ module.exports = function(props) {
 
     switch (props.uri) {
       case '1':
-        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
-        data = {};
-  
-        break;
-      
-      case '2':
         url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
         data = {};
 
         break;
 
+      case '2':
+        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
+        data = {};
+  
+        break;      
+    
       default: 
         url = "http://localhost:8081/playlist?userID=" + props.userID
         data = { uri: props.uri };
