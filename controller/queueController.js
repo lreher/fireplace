@@ -3,10 +3,10 @@ var played = [];
 
 function addToQueue(song) {
   queue.push(song);
-
   // if (playingIntermission) {
   //   play();
   // }
+  return queue;
 }
 
 function getQueue() {

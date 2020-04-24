@@ -141,10 +141,10 @@ module.exports = function(request, response) {
             break;
           
           case '/add_to_queue':
-            queueController.addToQueue(data.song);
+            const newQueue = queueController.addToQueue(data.song);
 
             response.writeHead(200);
-            response.end();
+            response.end(JSON.stringify(newQueue));
 
             break;
 

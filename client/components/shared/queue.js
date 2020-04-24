@@ -6,6 +6,7 @@ const request = require('../../utils/request');
 
 var timeoutValue = 0;
 var mounted = false;
+var firstLoad = true;
 
 module.exports = function(props) {
   const [songs, setSongs] = useState([]);
@@ -16,26 +17,28 @@ module.exports = function(props) {
     return <Song key={songID} songID={songID} location={props.location} mode='remove' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
   })
 
-  setTimeout(() => {
-    timeoutValue = 1000;
-    
-    request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
-      if (error) {
-        return;
-      }
+  request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
+    if (error) {
+      return;
+    }
 
-      var responseObect = JSON.parse(response);
-      
-      if (mounted) {
-        setSongs(responseObect);
-      }
-    })
-  }, timeoutValue) 
+    var responseObject = JSON.parse(response);
+    
+    if (firstLoad) {
+      firstLoad = false;
+      setSongs(responseObject)
+
+      setTimeout(() => {
+        setSongs(responseObject)
+      }, 500)
+    }
+  })
 
   // Reset state on unmount
   useEffect(() => {
     mounted = true;
     return () => {
+      firstLoad = true;
       timeoutValue = 0;
       mounted = false;
     }

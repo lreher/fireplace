@@ -2,6 +2,8 @@ const React = require('react');
 
 const request = require('../../utils/request');
 
+var alterQueue;
+
 function addToQueue(userID, song) {
   var addData = JSON.stringify({
     song: {
@@ -11,12 +13,19 @@ function addToQueue(userID, song) {
   });
 
   request('POST', 'http://localhost:8081/add_to_queue?userID=' + userID, addData, (error, response) => {
-    // handle animation success/fail
+    if (error) {
+      alert("Failed to add song to Queue")
+      return;
+    }
+
+    if (alterQueue) {
+      alterQueue(JSON.parse(response))
+    }
   });
 }
 
 
-function removeFromQueue(userID, songID, refreshSongs) {
+function removeFromQueue(userID, songID) {
   var removeData = JSON.stringify({
     songID: songID,
     userID: userID
@@ -28,7 +37,9 @@ function removeFromQueue(userID, songID, refreshSongs) {
       return;
     }
 
-    refreshSongs(JSON.parse(response));
+    if (alterQueue) {
+      alterQueue(JSON.parse(response))
+    }
   });
 }
 
@@ -38,7 +49,8 @@ module.exports = function(props) {
   if (props.mode === "add") {
     button = <button className={props.location + "-song-cell-button"} onClick={() => addToQueue(props.userID, props.song)}>Add</button>
   } else {
-    button = <button className={props.location + "-song-cell-button"} onClick={() => removeFromQueue(props.userID, props.songID, props.refreshSongs)}>Remove</button>
+    alterQueue = props.refreshSongs;
+    button = <button className={props.location + "-song-cell-button"} onClick={() => removeFromQueue(props.userID, props.songID)}>Remove</button>
   }
   
   return <div className={props.location + "-song"}>
