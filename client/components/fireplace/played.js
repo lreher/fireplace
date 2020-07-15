@@ -19,7 +19,7 @@ module.exports = function(props) {
   setTimeout(() => {
     timeoutValue = 1000;
     
-    request('POST', 'https://fireplace.onrender.com/get_played', {}, (error, response) => {
+    request('POST', 'http://localhost:8081/get_played', {}, (error, response) => {
       if (error) {
         return;
       }

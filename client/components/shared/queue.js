@@ -17,7 +17,7 @@ module.exports = function(props) {
     return <Song key={songID} songID={songID} location={props.location} mode='remove' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
   })
 
-  request('POST', 'https://fireplace.onrender.com/get_queue', {}, (error, response) => {
+  request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
     if (error) {
       return;
     }

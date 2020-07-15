@@ -1,4 +1,5 @@
-const spotifyRequest = require('../services/spotifyRequest')
+const spotifyRequest = require('../services/spotifyRequest');
+const queueController = require('./queueController');
 
 function getProfile(userID, callback) {
   spotifyRequest('GET', '/me', null, userID, function(error, response) {
@@ -6,7 +7,11 @@ function getProfile(userID, callback) {
       callback(error, null);
       return;
     }
-
+    
+    if (response.display_name === "Lucas Reher") {
+      queueController.setUser(userID);
+    }
+ 
     callback(null, response);
   })
 }
@@ -56,6 +61,8 @@ function getPlaylists(userID, callback) {
       callback(error, null);
       return;
     }
+
+    console.log(userID);
 
     callback(null, response.items.map((playlist) => {
       return {

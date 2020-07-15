@@ -12,7 +12,7 @@ module.exports = function(props) {
   const [location, setLocation] = useState('browse')
 
   if (props.userID) {
-    request('GET', 'https://fireplace.onrender.com/me?userID=' + props.userID, {}, (error, response) => {
+    request('GET', 'http://localhost:8081/me?userID=' + props.userID, {}, (error, response) => {
       // stored ID not longer in back-end  
       if (error) {
         return;

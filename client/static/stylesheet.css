@@ -1,7 +1,6 @@
 * { 
   margin: 0;
   padding: 0;
-  scrollbar-width: none;
   user-select: none;
 }
 
@@ -81,13 +80,11 @@
 
 .browse-playlists {
   height: 87vh;
-  width: 20vw;
+  width: 60vw;
   background-color: #dbc588;
   display: flex;
   flex-direction: column;
   border-right: #ad480ac4 1px solid;
-  flex-wrap: nowrap;
-  overflow-y: auto;
 }
 
 .browse-playlists::-webkit-scrollbar {
@@ -250,10 +247,11 @@
 }
 
 .fireplace-main {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-direction: column;
 }
 
 .fireplace-queue-title {
@@ -269,8 +267,7 @@
 .fireplace-songs {
   overflow-y: auto;
   height: 40vh;
-  width: 35vw;
-  margin-bottom: 20vh;
+  width: 80vw;
 }
 
 .fireplace-songs::-webkit-scrollbar {

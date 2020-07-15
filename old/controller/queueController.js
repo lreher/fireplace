@@ -11,7 +11,6 @@ canSkip = true;
 intermissionSong = 'spotify:track:2Q6TBFbl8dIQpOqXcLLsAR'
 playingIntermission = false;
 
-
 function start(callback) {
   setInterval(getPlayback, 5000)
   setInterval(logState, 20000)

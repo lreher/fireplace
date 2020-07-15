@@ -37,6 +37,7 @@ module.exports = function(request, response) {
 
       auth.authorize(code, userID, function(error, authorization) {
         if (error) {
+          console.log(error);
           response.writeHead(500);
           response.end("Failed to Authenticate to Spotify");
           return;
@@ -142,7 +143,7 @@ module.exports = function(request, response) {
             })  
 
             break;
-          
+
           case '/add_to_queue':
             const newQueue = queueController.addToQueue(data.song);
 
