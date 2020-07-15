@@ -13,13 +13,15 @@ module.exports = function(props) {
   var songID = -1;
   var songElements = songs.map((song) => {
     songID++;
-    return <Song key={songID} songID={songID} location={props.location} mode='remove' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
+    console.log(song)
+
+    return <Song key={songID} songID={songID} location='fireplace' mode='add' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
   })
 
   setTimeout(() => {
     timeoutValue = 1000;
     
-    request('POST', 'http://localhost:8081/get_played', {}, (error, response) => {
+    request('POST', 'https://fireplace.onrender.com/get_played', {}, (error, response) => {
       if (error) {
         return;
       }

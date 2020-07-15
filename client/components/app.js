@@ -9,10 +9,10 @@ const request = require('../utils/request');
 module.exports = function(props) {
   const [userName, setName] = useState('');
   const [photoURL, setPhotoURL] = useState('');
-  const [location, setLocation] = useState('browse')
+  const [location, setLocation] = useState('fireplace')
 
   if (props.userID) {
-    request('GET', 'http://localhost:8081/me?userID=' + props.userID, {}, (error, response) => {
+    request('GET', 'https://fireplace.onrender.com/me?userID=' + props.userID, {}, (error, response) => {
       // stored ID not longer in back-end  
       if (error) {
         return;

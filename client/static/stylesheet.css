@@ -249,7 +249,6 @@
 .fireplace-main {
   width: 100vw;
   display: flex;
-  justify-content: space-around;
   align-items: center;
   flex-direction: column;
 }
@@ -262,12 +261,13 @@
 .fireplace-played-title {
   text-align: center;
   margin-bottom: 1vh;
+  margin-top: 2vh;
 }
 
 .fireplace-songs {
   overflow-y: auto;
-  height: 40vh;
-  width: 80vw;
+  height: 30vh;
+  width: 100vw;
 }
 
 .fireplace-songs::-webkit-scrollbar {
@@ -277,14 +277,13 @@
 .fireplace-song {
   border-bottom: #ba5a1e7e 1px solid;
   display: flex;
-  justify-content: left;
-  margin-left: 3vh;
-  margin-right: 5vh;
+  justify-content: center;
+  width: 100vw;
   transition: background-color 1s;
 }
 
 .fireplace-song-cell {
-  width: 15vw;
+  width: 25vw;
   display: flex;
   justify-content: left;
   margin: 2px;

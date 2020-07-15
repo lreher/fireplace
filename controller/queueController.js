@@ -70,10 +70,7 @@ function play() {
 
 function addToQueue(song) {
   queue.push(song);
-  // if (playingIntermission) {
-  //   play();
-  // }
-
+ 
   return queue;
 }
 
@@ -100,10 +97,15 @@ function setUser(user) {
   userID = user;
 }
 
+function forcePlay() {
+  play();
+}
+
 module.exports = {
   addToQueue,
   getQueue,
   removeFromQueue,
   getPlayed,
-  setUser
+  setUser,
+  forcePlay
 }

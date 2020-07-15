@@ -28,6 +28,7 @@ module.exports = function(request, response) {
       serveFile(response, '../client/static/favicon.ico');
       break;
 
+
     // Spotify Redirect
     case (url.match(/callback/) || {}).input:
       url_parts = url.replace("/callback?code=", "").split("&state=")
@@ -47,6 +48,13 @@ module.exports = function(request, response) {
         response.end();
       })
 
+      break;
+
+    case '/force_play':
+      queueController.forcePlay();
+
+      response.writeHead(200);
+      response.end();
       break;
     
     // User Endpoints

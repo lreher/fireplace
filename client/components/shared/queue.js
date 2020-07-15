@@ -14,10 +14,11 @@ module.exports = function(props) {
   var songID = -1;
   var songElements = songs.map((song) => {
     songID++;
+    console.log(song)
     return <Song key={songID} songID={songID} location={props.location} mode='remove' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
   })
 
-  request('POST', 'http://localhost:8081/get_queue', {}, (error, response) => {
+  request('POST', 'https://fireplace.onrender.com/get_queue', {}, (error, response) => {
     if (error) {
       return;
     }

@@ -9,7 +9,7 @@ test('/', function(t) {
 
   var server = createServer(router);
 
-  axios.get('http://localhost:8081/')
+  axios.get('https://fireplace.onrender.com/')
     .then(function(response) {
       t.assert(response.status === 200);
       t.assert(response.data != '');
@@ -22,7 +22,7 @@ test('/stylesheet.css', function(t) {
 
   var server = createServer(router);
 
-  axios.get('http://localhost:8081/stylesheet.css')
+  axios.get('https://fireplace.onrender.com/stylesheet.css')
     .then(function(response) {
       t.assert(response.status === 200)
       server.close();
@@ -34,7 +34,7 @@ test('/bundle.js', function(t) {
 
   var server = createServer(router);
 
-  axios.get('http://localhost:8081/bundle.js')
+  axios.get('https://fireplace.onrender.com/bundle.js')
     .then(function(response) {
       t.assert(response.status === 200)
       server.close();
@@ -49,7 +49,7 @@ test('/callback', function(t) {
   mock_url = 'callback?code=AQCjC17GyNPaLjvdpV8quS-tYu1tekSsFZiOcjlI1nST79A6A7puG_wGyRev4iS8OBNWpE8B_KquC1oHZdCyDVwt0fTW2wKK9lpPFfquUS4V-adUTMmGNgzUTm5fhZDSkyrtY-HUkEt1TwPuZmHUOH9y-zXmV-jFhfAe8Ca24zVchi327SI3R9J6omu4-onhPttM7rSePKe1z2uFV22Ht5ZmRHc6hh359cEDmDsS79IG6rfM3phbWIEbC0JfmNZWUFYUuqNL_h2yBxF-2gTVTAjUXIBOKUYZg0lzs6MIEzofzgQ3m6rPM1pys2LAGK4iQJt28u10Ya5qh51W-Ra3TlKe5PgNtNKwJbURnRtwplvY&state=ya'
 
   // oof
-  axios.get('http://localhost:8081/callback?code=AQCjC17GyNPaLjvdpV8quS-tYu1tekSsFZiOcjlI1nST79A6A7puG_wGyRev4iS8OBNWpE8B_KquC1oHZdCyDVwt0fTW2wKK9lpPFfquUS4V-adUTMmGNgzUTm5fhZDSkyrtY-HUkEt1TwPuZmHUOH9y-zXmV-jFhfAe8Ca24zVchi327SI3R9J6omu4-onhPttM7rSePKe1z2uFV22Ht5ZmRHc6hh359cEDmDsS79IG6rfM3phbWIEbC0JfmNZWUFYUuqNL_h2yBxF-2gTVTAjUXIBOKUYZg0lzs6MIEzofzgQ3m6rPM1pys2LAGK4iQJt28u10Ya5qh51W-Ra3TlKe5PgNtNKwJbURnRtwplvY&state=ya')
+  axios.get('https://fireplace.onrender.com/callback?code=AQCjC17GyNPaLjvdpV8quS-tYu1tekSsFZiOcjlI1nST79A6A7puG_wGyRev4iS8OBNWpE8B_KquC1oHZdCyDVwt0fTW2wKK9lpPFfquUS4V-adUTMmGNgzUTm5fhZDSkyrtY-HUkEt1TwPuZmHUOH9y-zXmV-jFhfAe8Ca24zVchi327SI3R9J6omu4-onhPttM7rSePKe1z2uFV22Ht5ZmRHc6hh359cEDmDsS79IG6rfM3phbWIEbC0JfmNZWUFYUuqNL_h2yBxF-2gTVTAjUXIBOKUYZg0lzs6MIEzofzgQ3m6rPM1pys2LAGK4iQJt28u10Ya5qh51W-Ra3TlKe5PgNtNKwJbURnRtwplvY&state=ya')
     .then(function(response) {
       t.assert(response.status === 302)
       server.close();
@@ -68,7 +68,7 @@ test('/me?userID=', function(t) {
   mock_url = '/me?userID=dasdf-asdfasdf-asdfasdf';
 
   // oof
-  axios.get('http://localhost:8081/' + mock_url)
+  axios.get('https://fireplace.onrender.com/' + mock_url)
     .then(function(response) {
       t.assert(response.status === 200)
       server.close();
