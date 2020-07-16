@@ -12,7 +12,7 @@ module.exports = function(code, callback) {
   var data = {
     grant_type: 'authorization_code',
     code: code,
-    redirect_uri: 'https://fireplace.onrender.com/callback'
+    redirect_uri: 'http://localhost:8081/callback'
   }
 
   axios({

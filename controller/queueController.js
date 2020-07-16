@@ -81,12 +81,14 @@ function getQueue() {
 function removeFromQueue(songID, userID, callback) {
   var song = queue[songID];
 
-  if (song.userID === userID) {
-    queue.splice(songID, 1);
-    callback(null, queue);
-  } else {
-    callback("You did not add this song!", null);
-  }
+  queue.splice(songID, 1);
+
+  // if (song.userID === userID) {
+  //   queue.splice(songID, 1);
+  //   callback(null, queue);
+  // } else {
+  //   callback("You did not add this song!", null);
+  // }
 }
 
 function getPlayed() {

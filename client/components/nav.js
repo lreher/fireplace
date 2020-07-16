@@ -3,7 +3,7 @@ const request = require('../utils/request');
 
 function forcePlay() {
   console.log('hm')
-  request('GET', 'https://fireplace.onrender.com/force_play', {}, (error, response) => {
+  request('GET', 'http://localhost:8081/force_play', {}, (error, response) => {
     if (error) {
       return;
     }
