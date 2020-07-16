@@ -46,7 +46,7 @@ module.exports = function (props) {
       setLocation = _useState6[1];
 
   if (props.userID) {
-    request('GET', 'http://localhost:8081/me?userID=' + props.userID, {}, function (error, response) {
+    request('GET', 'https://fireplace.onrender.com/me?userID=' + props.userID, {}, function (error, response) {
       // stored ID not longer in back-end  
       if (error) {
         return;
@@ -222,17 +222,17 @@ module.exports = function (props) {
 
     switch (props.uri) {
       case '1':
-        url = "http://localhost:8081/favorite_songs?userID=" + props.userID;
+        url = "https://fireplace.onrender.com/favorite_songs?userID=" + props.userID;
         data = {};
         break;
 
       case '2':
-        url = "http://localhost:8081/saved_songs?userID=" + props.userID;
+        url = "https://fireplace.onrender.com/saved_songs?userID=" + props.userID;
         data = {};
         break;
 
       default:
-        url = "http://localhost:8081/playlist?userID=" + props.userID;
+        url = "https://fireplace.onrender.com/playlist?userID=" + props.userID;
         data = {
           uri: props.uri
         };
@@ -334,7 +334,7 @@ module.exports = function (props) {
       setPlaylists = _useState2[1];
 
   if (playlists.length == 0) {
-    request('GET', 'http://localhost:8081/playlists?userID=' + props.userID, {}, function (error, response) {
+    request('GET', 'https://fireplace.onrender.com/playlists?userID=' + props.userID, {}, function (error, response) {
       if (error) {
         // handle edgy case
         return;
@@ -451,7 +451,7 @@ module.exports = function (props) {
       devices = _useState2[0],
       setDevices = _useState2[1];
 
-  request('GET', 'http://localhost:8081/get_devices?userID=' + props.userID, {}, function (error, response) {
+  request('GET', 'https://fireplace.onrender.com/get_devices?userID=' + props.userID, {}, function (error, response) {
     if (error) {
       return;
     }
@@ -572,7 +572,7 @@ module.exports = function (props) {
   });
   setTimeout(function () {
     timeoutValue = 1000;
-    request('POST', 'http://localhost:8081/get_played', {}, function (error, response) {
+    request('POST', 'https://fireplace.onrender.com/get_played', {}, function (error, response) {
       if (error) {
         return;
       }
@@ -655,7 +655,7 @@ module.exports = function (props) {
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "redirect_uri",
-    value: "http://localhost:8081/callback"
+    value: "https://fireplace.onrender.com/callback"
   }), /*#__PURE__*/React.createElement("button", {
     type: "submit",
     id: "loginButton",
@@ -705,7 +705,7 @@ var Played = require('../fireplace/played');
 var request = require('../../utils/request');
 
 function forcePlay() {
-  request('GET', 'http://localhost:8081/force_play', {}, function (error, response) {
+  request('GET', 'https://fireplace.onrender.com/force_play', {}, function (error, response) {
     if (error) {
       return;
     }
@@ -715,7 +715,7 @@ function forcePlay() {
 }
 
 function skip() {
-  request('GET', 'http://localhost:8081/skip', {}, function (error, response) {
+  request('GET', 'https://fireplace.onrender.com/skip', {}, function (error, response) {
     if (error) {
       return;
     }
@@ -790,7 +790,7 @@ module.exports = function (props) {
       refreshSongs: setSongs
     });
   });
-  request('POST', 'http://localhost:8081/get_queue', {}, function (error, response) {
+  request('POST', 'https://fireplace.onrender.com/get_queue', {}, function (error, response) {
     if (error) {
       return;
     }
@@ -852,7 +852,7 @@ function addToQueue(userID, song) {
       userID: userID
     })
   });
-  request('POST', 'http://localhost:8081/add_to_queue?userID=' + userID, addData, function (error, response) {
+  request('POST', 'https://fireplace.onrender.com/add_to_queue?userID=' + userID, addData, function (error, response) {
     if (error) {
       alert("Failed to add song to Queue");
       return;
@@ -869,7 +869,7 @@ function removeFromQueue(userID, songID) {
     songID: songID,
     userID: userID
   });
-  request('POST', 'http://localhost:8081/remove_from_queue?userID=' + userID, removeData, function (error, response) {
+  request('POST', 'https://fireplace.onrender.com/remove_from_queue?userID=' + userID, removeData, function (error, response) {
     if (error) {
       alert(error.responseText);
       return;
@@ -29984,7 +29984,7 @@ function loggedIn(callback) {
   var userID = null;
 
   if (storedID != undefined && storedID != null) {
-    request('GET', 'http://localhost:8081/me?userID=' + storedID, {}, function (error, response) {
+    request('GET', 'https://fireplace.onrender.com/me?userID=' + storedID, {}, function (error, response) {
       // stored ID not longer in back-end  
       if (error) {
         callback(storedID, null);

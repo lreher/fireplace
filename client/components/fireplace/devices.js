@@ -8,7 +8,7 @@ var firstLoad = true;
 module.exports = function(props) {
   const [devices, setDevices] = useState([]);
 
-  request('GET', 'http://localhost:8081/get_devices?userID=' + props.userID, {}, (error, response) => {
+  request('GET', 'https://fireplace.onrender.com/get_devices?userID=' + props.userID, {}, (error, response) => {
     if (error) {
       return;
     }

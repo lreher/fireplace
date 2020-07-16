@@ -12,7 +12,7 @@ function addToQueue(userID, song) {
     }
   });
 
-  request('POST', 'http://localhost:8081/add_to_queue?userID=' + userID, addData, (error, response) => {
+  request('POST', 'https://fireplace.onrender.com/add_to_queue?userID=' + userID, addData, (error, response) => {
     if (error) {
       alert("Failed to add song to Queue")
       return;
@@ -31,7 +31,7 @@ function removeFromQueue(userID, songID) {
     userID: userID
   });
 
-  request('POST', 'http://localhost:8081/remove_from_queue?userID=' + userID, removeData, (error, response) => {
+  request('POST', 'https://fireplace.onrender.com/remove_from_queue?userID=' + userID, removeData, (error, response) => {
     if (error) {
       alert(error.responseText)
       return;

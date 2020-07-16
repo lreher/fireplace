@@ -4,7 +4,7 @@ const Played = require('../fireplace/played');
 const request = require('../../utils/request');
 
 function forcePlay() {
-  request('GET', 'http://localhost:8081/force_play', {}, (error, response) => {
+  request('GET', 'https://fireplace.onrender.com/force_play', {}, (error, response) => {
     if (error) {
       return;
     }
@@ -14,7 +14,7 @@ function forcePlay() {
 }
 
 function skip() {
-  request('GET', 'http://localhost:8081/skip', {}, (error, response) => {
+  request('GET', 'https://fireplace.onrender.com/skip', {}, (error, response) => {
     if (error) {
       return;
     }
