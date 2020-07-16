@@ -18,8 +18,6 @@ function addToQueue(userID, song) {
       return;
     }
 
-    console.log(alterQueue)
-
     if (alterQueue) {
       alterQueue(JSON.parse(response))
     }

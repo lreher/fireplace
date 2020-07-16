@@ -12,7 +12,6 @@ module.exports = function(props) {
     {/* <Devices userID={props.userID} location="fireplace"></Devices> */}
     <div className="fireplace-main">
       <Queue userID={props.userID} location="fireplace"></Queue>
-      <Played userID={props.userID}></Played>
     </div>
     <div className="fireplace-users"></div>
   </div>

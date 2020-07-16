@@ -56,6 +56,13 @@ module.exports = function(request, response) {
       response.writeHead(200);
       response.end();
       break;
+      
+    case '/skip':
+      queueController.skip();
+
+      response.writeHead(200);
+      response.end();
+      break;
     
     // User Endpoints
     case (url.match(/\?userID=/) || {}).input:

@@ -59,7 +59,7 @@ function save(callback) {
     name: "Fireplace: " + time.toUTCString()
   }
 
-  spotifyRequest('POST', "/users/" + deviceController.getUser()+ "/playlists", body, function(error, response) {
+  spotifyRequest('POST', "/users/" + deviceController.getUser() + "/playlists", body, function(error, response) {
     if (error) {
       callback(error, null)
       return

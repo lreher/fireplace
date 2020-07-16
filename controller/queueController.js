@@ -7,6 +7,8 @@ var userID;
 
 canSkip = true;
 
+var progress;
+
 setInterval(getPlayback, 5000);
 
 play();
@@ -26,21 +28,26 @@ function alterPlaybackState(playback) {
   if (playback.item.uri === queue[0].uri) {
     progress = playback.item.duration_ms - playback.progress_ms
 
-    console.log(progress);
-
     if (progress < 10000 && canSkip) {
       canSkip = false;
 
-      setTimeout(next, progress - 2000)
-      setTimeout(play, progress - 1500)
+      setTimeout(next, progress - 2000);
+      setTimeout(play, progress - 1500);
     }
   }
 }
 
 function next() {
   if (queue.length > 0) {
-    played.push(queue[0])
+    played.push(queue[0]);
+    queue.shift();
+  }
+}
+
+function skip() {
+  if (queue.length > 0) {
     queue.shift()
+    play();
   }
 }
 
@@ -66,7 +73,6 @@ function play() {
     console.log("Did do play.")
   })
 }
-
 
 function addToQueue(song) {
   queue.push(song);
@@ -109,5 +115,6 @@ module.exports = {
   removeFromQueue,
   getPlayed,
   setUser,
-  forcePlay
+  forcePlay,
+  skip
 }

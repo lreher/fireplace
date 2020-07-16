@@ -13,7 +13,6 @@ module.exports = function(props) {
   var songID = -1;
   var songElements = songs.map((song) => {
     songID++;
-    console.log(song)
 
     return <Song key={songID} songID={songID} location='fireplace' mode='add' userID={props.userID} song={song} refreshSongs={setSongs}></Song>
   })

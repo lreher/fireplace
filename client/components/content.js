@@ -2,6 +2,8 @@ const React = require('react');
 
 const Browse = require('./browse')
 const Fireplace = require('./fireplace')
+const Play = require('./play')
+
 
 module.exports = function(props) {
   switch(props.location) {
@@ -11,6 +13,10 @@ module.exports = function(props) {
     
     case 'fireplace': 
       return <Fireplace userID={props.userID}></Fireplace>
+      break;
+
+    case 'play': 
+      return <Play userID={props.userID}></Play>
       break;
     
     default:

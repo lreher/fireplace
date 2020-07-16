@@ -7,7 +7,6 @@ var firstLoad = true;
 
 module.exports = function(props) {
   const [devices, setDevices] = useState([]);
-  console.log("oh whe")
 
   request('GET', 'http://localhost:8081/get_devices?userID=' + props.userID, {}, (error, response) => {
     if (error) {
@@ -22,7 +21,6 @@ module.exports = function(props) {
     }
 
     setTimeout(() => {
-      console.log("letsgo")
       setDevices(responseObject)
     }, 2000)
   })
